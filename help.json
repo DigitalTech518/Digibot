@@ -7,7 +7,8 @@
 		},
 		"ban":{
 			"Description:": "Bans a user from the server.",
-			"Who can use it:": "@moderator"
+			"Who can use it:": "@moderator",
+			"Usage:": "ban <@user> [reason]"
 		},
 		"permamute":{
 			"Description:": "Permently mutes a user until unmuted.",
