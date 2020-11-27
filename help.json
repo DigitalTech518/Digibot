@@ -1,7 +1,7 @@
 {
 	"commands":{
 		"kick":{
-			"Description:": "Kick a user out of the server.",
+			"Description:": "Kicks a user out of the server.",
 			"Who can use it:": "@moderator",
 			"Usage:": "kick <@user> [reason]"
 		},
@@ -11,7 +11,7 @@
 			"Usage:": "ban <@user> [reason]"
 		},
 		"permamute":{
-			"Description:": "Permently mutes a user until unmuted.",
+			"Description:": "Permanently mute a user until manually unmuted.",
 			"Who can use it:": "@moderator",
 			"Usage:": "permamute <@user> [reason]"
 		},
