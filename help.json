@@ -12,19 +12,23 @@
 		},
 		"permamute":{
 			"Description:": "Permently mutes a user until unmuted.",
-			"Who can use it:": "@moderator"
+			"Who can use it:": "@moderator",
+			"Usage:": "permamute <@user> [reason]"
 		},
 		"unmute":{
 			"Description:": "Unmute a user that is muted.",
-			"Who can use it:": "@moderator"
+			"Who can use it:": "@moderator",
+			"Usage:": "unmute <@user> [reason]"
 		},
 		"mute":{
 			"Description:": "Mute a user for a specified amount of time.",
-			"Who can use it:": "@moderator"
+			"Who can use it:": "@moderator",
+			"Usage:": "mute <@user> [time (s,m,d,w)] [reason]"
 		},
 		"pfp":{
 			"Description:": "Pull up the profile picture of yourself or another user",
-			"Who can use it:": "@everyone"
+			"Who can use it:": "@everyone",
+			"Usage:": "pfp <@user>"
 		}
 	}
 }
