@@ -1,16 +1,28 @@
 {
 	"commands":{
 		"kick":{
-			"Description": "Kick a user out of the server.",
-			"Who can use it": "@moderator"
+			"Description:": "Kick a user out of the server.",
+			"Who can use it:": "@moderator"
 		},
 		"ban":{
-			"Description": "Bans a user from the server.",
-			"Who can use it": "@moderator"
+			"Description:": "Bans a user from the server.",
+			"Who can use it:": "@moderator"
 		},
 		"permamute":{
-			"Description": "Permently mutes a user until unmuted.",
-			"Who can use it": "@moderator"
+			"Description:": "Permently mutes a user until unmuted.",
+			"Who can use it:": "@moderator"
+		},
+		"unmute":{
+			"Description:": "Unmute a user that is muted.",
+			"Who can use it:": "@moderator"
+		},
+		"mute":{
+			"Description:": "Mute a user for a specified amount of time.",
+			"Who can use it:": "@moderator"
+		},
+		"pfp":{
+			"Description:": "Pull up the profile picture of yourself or another user",
+			"Who can use it:": "@everyone"
 		}
 	}
 }
