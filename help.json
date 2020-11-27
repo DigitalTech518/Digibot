@@ -29,6 +29,11 @@
 			"Description:": "Pull up the profile picture of yourself or another user",
 			"Who can use it:": "@everyone",
 			"Usage:": "pfp <@user>"
+		},
+		"profile":{
+			"Describtion:": "Look up your own profile or another's profile.",
+			"Who can use it:": "@everyone",
+			"Usage:": "profile <@user>"
 		}
 	}
 }
