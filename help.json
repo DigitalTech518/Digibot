@@ -39,6 +39,11 @@
 			"Describtion:": "Warn a user for breaking rules.",
 			"Who can use it:": "@moderator",
 			"Usage:": "warn <@user> [reason]"
+		},
+		"ping":{
+			"Describtion:": "Find out the latency.",
+			"Who can use it:": "@everyone",
+			"Usage:" "ping"
 		}
 	}
 }
