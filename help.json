@@ -2,27 +2,27 @@
 	"commands":{
 		"kick":{
 			"Description:": "Kicks a user out of the server.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "kick <@user> [reason]"
 		},
 		"ban":{
 			"Description:": "Bans a user from the server.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "ban <@user> [reason]"
 		},
 		"permamute":{
 			"Description:": "Permanently mute a user until manually unmuted.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "permamute <@user> [reason]"
 		},
 		"unmute":{
 			"Description:": "Unmute a user that is muted.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "unmute <@user> [reason]"
 		},
 		"mute":{
 			"Description:": "Mute a user for a specified amount of time.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "mute <@user> [time (s,m,d,w)] [reason]"
 		},
 		"pfp":{
@@ -37,13 +37,17 @@
 		},
 		"warn":{
 			"Describtion:": "Warn a user for breaking rules.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "warn <@user> [reason]"
 		},
 		"ping":{
 			"Describtion:": "Find out the latency.",
 			"Who can use it:": "@everyone",
 			"Usage:" "ping"
+		},
+		"prefix":{
+			"Describtion:": "Change the prefix of the bot for your server.",
+			"Who can use it:": "Permission: Administrator"
 		}
 	}
 }
