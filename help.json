@@ -47,7 +47,8 @@
 		},
 		"prefix":{
 			"Describtion:": "Change the prefix of the bot for your server.",
-			"Who can use it:": "Permission: Administrator"
+			"Who can use it:": "Permission: Administrator",
+			"Usage:": "prefix [prefix]"
 		}
 	}
 }
