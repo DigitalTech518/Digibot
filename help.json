@@ -43,7 +43,7 @@
 		"ping":{
 			"Describtion:": "Find out the latency.",
 			"Who can use it:": "@everyone",
-			"Usage:" "ping"
+			"Usage:": "ping"
 		},
 		"prefix":{
 			"Describtion:": "Change the prefix of the bot for your server.",
