@@ -49,6 +49,11 @@
 			"Describtion:": "Change the prefix of the bot for your server.",
 			"Who can use it:": "Permission: Administrator",
 			"Usage:": "prefix [prefix]"
+		},
+		"purge":{
+			"Describtion:": "Delete a mass amount of messages",
+			"Who can use it:": "Permission: Moderator",
+			"Usage:": "purge [number of messages]"
 		}
 	}
 }
