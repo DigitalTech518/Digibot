@@ -54,6 +54,11 @@
 			"Describtion:": "Delete a mass amount of messages",
 			"Who can use it:": "Permission: Moderator",
 			"Usage:": "purge [number of messages]"
+		},
+		"remindme":{
+			"Descirbtion:": "Set a dm reminder (or in channel of command if dms are off)",
+			"Who can use it:": "@everyone",
+			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
 		}
 	}
 }
