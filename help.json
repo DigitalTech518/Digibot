@@ -23,7 +23,7 @@
 		"mute":{
 			"Description:": "Mute a user for a specified amount of time.",
 			"Who can use it:": "Permission: Ban Member",
-			"Usage:": "mute <@user> [time (s,m,d,w)] [reason]"
+			"Usage:": "mute <@user> [time (s,m,h,d,w)] [reason]"
 		},
 		"pfp":{
 			"Description:": "Pull up the profile picture of yourself or another user",
