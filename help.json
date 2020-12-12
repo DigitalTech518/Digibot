@@ -62,18 +62,23 @@
 		},
 		"setlogs":{
 			"Descirbtion:": "Set a channel to a certin catigory for audit logs",
-			"Who can use it": "@admin",
+			"Who can use it:": "@admin",
 			"Usage:": "setlogs [general, moderation, voice, member, message, server] <#channel>"
 		},
 		"bean":{
 			"Descirbtion:": "Bean a user to bean them!",
-			"Who can use it": "@moderator",
+			"Who can use it:": "@moderator",
 			"Usage:": "bean <@user> [reason]"
 		},
 		"goddamn":{
 			"Descirbtion:": "Goddamn.",
-			"Who can use it": "@everyone",
+			"Who can use it:": "@everyone",
 			"Usage:": "goddamn"
+		},
+		"8ball":{
+			"Descirbtion:": "Ask the all mighty 8 ball a yes or no question!",
+			"Who can use it:": "@everyone",
+			"Usage:": "8ball [question]"
 		}
 	}
 }
