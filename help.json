@@ -79,6 +79,11 @@
 			"Descirbtion:": "Ask the all mighty 8 ball a yes or no question!",
 			"Who can use it:": "@everyone",
 			"Usage:": "8ball [question]"
+		},
+		"butterdog":{
+			"Descirbtion:": "Butterdog",
+			"Who can use it:": "@everyone",
+			"Usage:": "butterdog"
 		}
 	}
 }
