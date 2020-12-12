@@ -75,7 +75,7 @@
 			"Who can use it:": "@everyone",
 			"Usage:": "goddamn"
 		},
-		"8ball":{
+		"eightball":{
 			"Descirbtion:": "Ask the all mighty 8 ball a yes or no question!",
 			"Who can use it:": "@everyone",
 			"Usage:": "8ball [question]"
