@@ -84,6 +84,11 @@
 			"Descirbtion:": "Butterdog",
 			"Who can use it:": "@everyone",
 			"Usage:": "butterdog"
+		},
+		"shut":{
+			"Descirbtion:": "Shut",
+			"Who can use it:": "@everyone",
+			"Usage:": "shut"
 		}
 	}
 }
