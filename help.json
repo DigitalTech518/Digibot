@@ -59,6 +59,21 @@
 			"Descirbtion:": "Set a dm reminder (or in channel of command if dms are off)",
 			"Who can use it:": "@everyone",
 			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
+		},
+		"setlogs":{
+			"Descirbtion:": "Set a channel to a certin catigory for audit logs",
+			"Who can use it": "@admin",
+			"Usage:": "setlogs [general, moderation, voice, member, message, server] <#channel>"
+		},
+		"bean":{
+			"Descirbtion:": "Bean a user to bean them!",
+			"Who can use it": "@moderator",
+			"Usage:": "bean <@user> [reason]"
+		},
+		"goddamn":{
+			"Descirbtion:": "Goddamn.",
+			"Who can use it": "@everyone",
+			"Usage:": "goddamn"
 		}
 	}
 }
