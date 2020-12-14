@@ -1,34 +1,109 @@
 {
 	"commands":{
 		"kick":{
-			"Description:": "Kick a user out of the server.",
-			"Who can use it:": "@moderator",
+			"Description:": "Kicks a user out of the server.",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "kick <@user> [reason]"
 		},
 		"ban":{
 			"Description:": "Bans a user from the server.",
-			"Who can use it:": "@moderator",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "ban <@user> [reason]"
 		},
 		"permamute":{
-			"Description:": "Permently mutes a user until unmuted.",
-			"Who can use it:": "@moderator",
+			"Description:": "Permanently mute a user until manually unmuted.",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "permamute <@user> [reason]"
 		},
 		"unmute":{
-			"Description:": "Unmute a user that is muted.",
-			"Who can use it:": "@moderator",
+			"Description:": "Unmute a muted user.",
+			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "unmute <@user> [reason]"
 		},
 		"mute":{
 			"Description:": "Mute a user for a specified amount of time.",
-			"Who can use it:": "@moderator",
-			"Usage:": "mute <@user> [time (s,m,d,w)] [reason]"
+			"Who can use it:": "Permission: Ban Member",
+			"Usage:": "mute <@user> [time (s,m,h,d,w)] [reason]"
 		},
 		"pfp":{
 			"Description:": "Pull up the profile picture of yourself or another user",
 			"Who can use it:": "@everyone",
 			"Usage:": "pfp <@user>"
+		},
+		"profile":{
+			"Description:": "Look up your own profile or another's profile.",
+			"Who can use it:": "@everyone",
+			"Usage:": "profile <@user>"
+		},
+		"warn":{
+			"Description:": "Warn a user for breaking rules.",
+			"Who can use it:": "Permission: Ban Member",
+			"Usage:": "warn <@user> [reason]"
+		},
+		"ping":{
+			"Description:": "Find out the latency of the bot.",
+			"Who can use it:": "@everyone",
+			"Usage:": "ping"
+		},
+		"prefix":{
+			"Description:": "Change the prefix of the bot for your server.",
+			"Who can use it:": "Permission: Administrator",
+			"Usage:": "prefix [prefix]"
+		},
+		"purge":{
+			"Description:": "Delete a mass amount of messages",
+			"Who can use it:": "Permission: Moderator",
+			"Usage:": "purge [number of messages]"
+		},
+		"remindme":{
+			"Description:": "Set a dm reminder (or in channel of command if dms are off)",
+			"Who can use it:": "@everyone",
+			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
+		},
+		"setlogs":{
+			"Description:": "Set a channel to a certin category for audit logs",
+			"Who can use it:": "@admin",
+			"Usage:": "setlogs [general, moderation, voice, member, message, server] <#channel>"
+		},
+		"bean":{
+			"Description:": "Bean a user to bean them!",
+			"Who can use it:": "@moderator",
+			"Usage:": "bean <@user> [reason]"
+		},
+		"goddamn":{
+			"Description:": "Goddamn.",
+			"Who can use it:": "@everyone",
+			"Usage:": "goddamn"
+		},
+		"eightball":{
+			"Description:": "Ask the almighty 8 ball a yes or no question!",
+			"Who can use it:": "@everyone",
+			"Usage:": "8ball [question]"
+		},
+		"butterdog":{
+			"Description:": "Butterdog.",
+			"Who can use it:": "@everyone",
+			"Usage:": "butterdog"
+		},
+		"shut":{
+			"Description:": "Shut.",
+			"Who can use it:": "@everyone",
+			"Usage:": "shut"
+		},
+		"yikes":{
+			"Description:": "Yikes.",
+			"Who can use it:": "@everyone",
+			"Usage:": "yikes"
+		},
+		"lock":{
+			"Description:": "Prevent anyone from typing in a channel.",
+			"Who can use it:": "@admin",
+			"Usage:": "lock <channel>"
+		},
+		"unlock":{
+			"Description:": "Unlocks a previously locked channel.",
+			"Who can use it:": "@admin",
+			"Usage:": "unlock <channel>"
 		}
 	}
 }
