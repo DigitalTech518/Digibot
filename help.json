@@ -61,12 +61,12 @@
 			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
 		},
 		"setlogs":{
-			"Description:": "Set a channel to a certin category for audit logs",
+			"Description:": "Set a channel to a certain category for audit logs",
 			"Who can use it:": "@admin",
 			"Usage:": "setlogs [general, moderation, voice, member, message, server] <#channel>"
 		},
 		"bean":{
-			"Description:": "Bean a user to bean them!",
+			"Description:": "Use this command to bean a user!",
 			"Who can use it:": "@moderator",
 			"Usage:": "bean <@user> [reason]"
 		},
