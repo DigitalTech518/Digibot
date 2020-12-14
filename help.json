@@ -89,6 +89,21 @@
 			"Descirbtion:": "Shut",
 			"Who can use it:": "@everyone",
 			"Usage:": "shut"
+		},
+		"yikes":{
+			"Describtion:": "Yikes",
+			"Who can use it:": "@everyone",
+			"Usage:": "yikes"
+		},
+		"lock":{
+			"Describtion:": "Prevent anyone from typing in a channel",
+			"Who can use it:": "@admin",
+			"Usage:": "lock <channel>"
+		},
+		"unlock":{
+			"Describtion:": "Unlocks a perviously locked channel",
+			"Who can use it:": "@admin",
+			"Usage:": "unlock <channel>"
 		}
 	}
 }
