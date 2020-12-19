@@ -104,6 +104,16 @@
 			"Describtion:": "Unlocks a perviously locked channel",
 			"Who can use it:": "@admin",
 			"Usage:": "unlock <channel>"
+		},
+		"pong":{
+			"Descirption:": "Ping!",
+			"Who can use it:": "@everyone",
+			"Usage:": "pong"
+		},
+		"embed":{
+			"Description:": "Create an embed message with a title, description, and a thumbnail!",
+			"Who can use it:": "@everyone",
+			"Usage:": "embed ['Title']['Descirbtion'][Thumbnail URL]"
 		}
 	}
 }
