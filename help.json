@@ -31,82 +31,82 @@
 			"Usage:": "pfp <@user>"
 		},
 		"profile":{
-			"Describtion:": "Look up your own profile or another's profile.",
+			"Description:": "Look up your own profile or another's profile.",
 			"Who can use it:": "@everyone",
 			"Usage:": "profile <@user>"
 		},
 		"warn":{
-			"Describtion:": "Warn a user for breaking rules.",
+			"Description:": "Warn a user for breaking rules.",
 			"Who can use it:": "Permission: Ban Member",
 			"Usage:": "warn <@user> [reason]"
 		},
 		"ping":{
-			"Describtion:": "Find out the latency.",
+			"Description:": "Find out the latency.",
 			"Who can use it:": "@everyone",
 			"Usage:": "ping"
 		},
 		"prefix":{
-			"Describtion:": "Change the prefix of the bot for your server.",
+			"Description:": "Change the prefix of the bot for your server.",
 			"Who can use it:": "Permission: Administrator",
 			"Usage:": "prefix [prefix]"
 		},
 		"purge":{
-			"Describtion:": "Delete a mass amount of messages",
+			"Description:": "Delete a mass amount of messages",
 			"Who can use it:": "Permission: Moderator",
 			"Usage:": "purge [number of messages]"
 		},
 		"remindme":{
-			"Descirbtion:": "Set a dm reminder (or in channel of command if dms are off)",
+			"Description:": "Set a dm reminder (or in channel of command if dms are off)",
 			"Who can use it:": "@everyone",
 			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
 		},
 		"setlogs":{
-			"Descirbtion:": "Set a channel to a certin catigory for audit logs",
+			"Description:": "Set a channel to a certin catigory for audit logs",
 			"Who can use it:": "@admin",
 			"Usage:": "setlogs [general, moderation, voice, member, message, server] <#channel>"
 		},
 		"bean":{
-			"Descirbtion:": "Bean a user to bean them!",
+			"Description:": "Bean a user to bean them!",
 			"Who can use it:": "@moderator",
 			"Usage:": "bean <@user> [reason]"
 		},
 		"goddamn":{
-			"Descirbtion:": "Goddamn.",
+			"Description:": "Goddamn.",
 			"Who can use it:": "@everyone",
 			"Usage:": "goddamn"
 		},
 		"eightball":{
-			"Descirbtion:": "Ask the all mighty 8 ball a yes or no question!",
+			"Description:": "Ask the all mighty 8 ball a yes or no question!",
 			"Who can use it:": "@everyone",
 			"Usage:": "8ball [question]"
 		},
 		"butterdog":{
-			"Descirbtion:": "Butterdog",
+			"Description:": "Butterdog",
 			"Who can use it:": "@everyone",
 			"Usage:": "butterdog"
 		},
 		"shut":{
-			"Descirbtion:": "Shut",
+			"Description:": "Shut",
 			"Who can use it:": "@everyone",
 			"Usage:": "shut"
 		},
 		"yikes":{
-			"Describtion:": "Yikes",
+			"Description:": "Yikes",
 			"Who can use it:": "@everyone",
 			"Usage:": "yikes"
 		},
 		"lock":{
-			"Describtion:": "Prevent anyone from typing in a channel",
+			"Description:": "Prevent anyone from typing in a channel",
 			"Who can use it:": "@admin",
 			"Usage:": "lock <channel>"
 		},
 		"unlock":{
-			"Describtion:": "Unlocks a perviously locked channel",
+			"Description:": "Unlocks a perviously locked channel",
 			"Who can use it:": "@admin",
 			"Usage:": "unlock <channel>"
 		},
 		"pong":{
-			"Descirption:": "Ping!",
+			"Description:": "Ping!",
 			"Who can use it:": "@everyone",
 			"Usage:": "pong"
 		},
