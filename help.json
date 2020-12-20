@@ -117,7 +117,7 @@
 		},
                 "warnlist":{
                         "Description:": "Look at the warns of a user.",
-                        "Who can use it:": "@moderator"
+                        "Who can use it:": "@moderator",
                         "Usage:": "warnlist <user>
                 }
 	}
