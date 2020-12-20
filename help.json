@@ -114,6 +114,11 @@
 			"Description:": "Create an embed message with a title, description, and a thumbnail!",
 			"Who can use it:": "@everyone",
 			"Usage:": "embed ['Title']['Description']['Thumbnail URL'] (single quotes need to be double quotes)"
-		}
+		},
+                "warnlist":{
+                        "Description:": "Look at the warns of a user.",
+                        "Who can use it:": "@moderator"
+                        "Usage:": "warnlist <user>
+                }
 	}
 }
