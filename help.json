@@ -37,7 +37,7 @@
 		},
 		"warn":{
 			"Description:": "Warn a user for breaking rules.",
-			"Who can use it:": "Permission: Ban Member",
+			"Who can use it:": "manage_messages = True",
 			"Usage:": "warn <@user> [reason]"
 		},
 		"ping":{
@@ -115,15 +115,10 @@
 			"Who can use it:": "@everyone",
 			"Usage:": "embed ['Title']['Description']['Thumbnail URL'] (single quotes need to be double quotes)"
 		},
-                "warnlist":{
-                        "Description:": "Look at the warns of a user.",
-                        "Who can use it:": "@moderator",
-                        "Usage:": "warnlist <user>"
-        },
-        "banword":{
-        	"Description:": "Ban a word from the server",
-        	"Who can use it:": "administrator = True",
-        	"Usage:": "banword [word]"
+        "warnlist":{
+                "Description:": "Look at the warns of a user.",
+                "Who can use it:": "@moderator",
+                "Usage:": "warnlist <user>"
         }
 	}
 }
