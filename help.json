@@ -119,6 +119,16 @@
                 "Description:": "Look at the warns of a user.",
                 "Who can use it:": "@moderator",
                 "Usage:": "warnlist <user>"
+        },
+        "botinfo":{
+        	"Description:": "Show information about the bot.",
+        	"Who can use it:": "@everyone",
+        	"Usage:": "botinfo"
+        },
+     	"botinfo":{
+        	"Description:": "Show information about the server.",
+        	"Who can use it:": "@everyone",
+        	"Usage:": "serverinfo"
         }
 	}
 }
