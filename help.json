@@ -128,7 +128,7 @@
      	"botinfo":{
         	"Description:": "Show information about the server.",
         	"Who can use it:": "@everyone",
-        	"Usage:": "serverinfo"
+        	"Usage:": "botinfo"
         }
 	}
 }
