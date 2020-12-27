@@ -63,7 +63,7 @@
 		"setlogs":{
 			"Description:": "Set a channel to a certin catigory for audit logs",
 			"Who can use it:": "@admin",
-			"Usage:": "setlogs [general, moderation, voice, member, message, server] <#channel>"
+			"Usage:": "setlogs <#channel> [general, moderation, voice, member, message, server]"
 		},
 		"bean":{
 			"Description:": "Bean a user to bean them!",
@@ -125,10 +125,20 @@
         	"Who can use it:": "@everyone",
         	"Usage:": "botinfo"
         },
-     	"botinfo":{
+     	"serverinfo":{
         	"Description:": "Show information about the server.",
         	"Who can use it:": "@everyone",
-        	"Usage:": "botinfo"
+        	"Usage:": "serverinfo"
+        },
+        "contact":{
+        	"Description:": "Shows how to contact Digi",
+        	"Who can use it:": "@everyone",
+        	"Usage:": "contact"
+        },
+        "unfunny":{
+        	"Description:": "Unfunny dude",
+        	"Who can use it:": "@everyone",
+        	"Usage:": "unfunny"
         }
 	}
 }
