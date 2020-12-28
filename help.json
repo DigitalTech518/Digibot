@@ -2,152 +2,152 @@
 	"commands":{
 		"kick":{
 			"Description:": "Kicks a user out of the server.",
-			"Who can use it:": "Permission: Ban Member",
+			"Permission Required:": "Permission: Ban Member",
 			"Usage:": "kick <@user> [reason]"
 		},
 		"ban":{
 			"Description:": "Bans a user from the server.",
-			"Who can use it:": "Permission: Ban Member",
+			"Permission Required:": "Permission: Ban Member",
 			"Usage:": "ban <@user> [reason]"
 		},
 		"permamute":{
 			"Description:": "Permanently mute a user until manually unmuted.",
-			"Who can use it:": "Permission: Ban Member",
+			"Permission Required:": "Permission: Ban Member",
 			"Usage:": "permamute <@user> [reason]"
 		},
 		"unmute":{
 			"Description:": "Unmute a user that is muted.",
-			"Who can use it:": "Permission: Ban Member",
+			"Permission Required:": "Permission: Ban Member",
 			"Usage:": "unmute <@user> [reason]"
 		},
 		"mute":{
 			"Description:": "Mute a user for a specified amount of time.",
-			"Who can use it:": "Permission: Ban Member",
+			"Permission Required:": "Permission: Ban Member",
 			"Usage:": "mute <@user> [time (s,m,h,d,w)] [reason]"
 		},
 		"pfp":{
 			"Description:": "Pull up the profile picture of yourself or another user",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "pfp <@user>"
 		},
 		"profile":{
 			"Description:": "Look up your own profile or another's profile.",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "profile <@user>"
 		},
 		"warn":{
 			"Description:": "Warn a user for breaking rules.",
-			"Who can use it:": "manage_messages = True",
+			"Permission Required:": "manage_messages",
 			"Usage:": "warn <@user> [reason]"
 		},
 		"ping":{
 			"Description:": "Find out the latency.",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "ping"
 		},
 		"prefix":{
 			"Description:": "Change the prefix of the bot for your server.",
-			"Who can use it:": "Permission: Administrator",
+			"Permission Required:": "administratorn",
 			"Usage:": "prefix [prefix]"
 		},
 		"purge":{
 			"Description:": "Delete a mass amount of messages",
-			"Who can use it:": "Permission: Moderator",
+			"Permission Required:": "manage_messages",
 			"Usage:": "purge [number of messages]"
 		},
 		"remindme":{
 			"Description:": "Set a dm reminder (or in channel of command if dms are off)",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
 		},
 		"setlogs":{
 			"Description:": "Set a channel to a certin catigory for audit logs",
-			"Who can use it:": "@admin",
+			"Permission Required:": "administrator",
 			"Usage:": "setlogs <#channel> [general, moderation, voice, member, message, server]"
 		},
 		"bean":{
 			"Description:": "Bean a user to bean them!",
-			"Who can use it:": "@moderator",
+			"Permission Required:": "manage_messages",
 			"Usage:": "bean <@user> [reason]"
 		},
 		"goddamn":{
 			"Description:": "Goddamn.",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "goddamn"
 		},
 		"eightball":{
 			"Description:": "Ask the all mighty 8 ball a yes or no question!",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "8ball [question]"
 		},
 		"butterdog":{
 			"Description:": "Butterdog",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "butterdog"
 		},
 		"shut":{
 			"Description:": "Shut",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "shut"
 		},
 		"yikes":{
 			"Description:": "Yikes",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "yikes"
 		},
 		"lock":{
 			"Description:": "Prevent anyone from typing in a channel",
-			"Who can use it:": "@admin",
+			"Permission Required:": "administrator",
 			"Usage:": "lock <channel>"
 		},
 		"unlock":{
 			"Description:": "Unlocks a perviously locked channel",
-			"Who can use it:": "@admin",
+			"Permission Required:": "administrator",
 			"Usage:": "unlock <channel>"
 		},
 		"pong":{
 			"Description:": "Ping!",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "pong"
 		},
 		"embed":{
 			"Description:": "Create an embed message with a title, description, and a thumbnail!",
-			"Who can use it:": "@everyone",
+			"Permission Required:": "None",
 			"Usage:": "embed ['Title']['Description']['Thumbnail URL'] (single quotes need to be double quotes)"
 		},
         "warnlist":{
-                "Description:": "Look at the warns of a user.",
-                "Who can use it:": "@moderator",
-                "Usage:": "warnlist <user>"
+            "Description:": "Look at the warns of a user.",
+            "Permission Required:": "manage_messages",
+            "Usage:": "warnlist <user>"
         },
         "botinfo":{
         	"Description:": "Show information about the bot.",
-        	"Who can use it:": "@everyone",
+        	"Permission Required:": "None",
         	"Usage:": "botinfo"
         },
      	"serverinfo":{
         	"Description:": "Show information about the server.",
-        	"Who can use it:": "@everyone",
+        	"Permission Required:": "None",
         	"Usage:": "serverinfo"
         },
         "contact":{
         	"Description:": "Shows how to contact Digi",
-        	"Who can use it:": "@everyone",
+        	"Permission Required:": "None",
         	"Usage:": "contact"
         },
         "unfunny":{
         	"Description:": "Unfunny dude",
-        	"Who can use it:": "@everyone",
+        	"Permission Required:": "None",
         	"Usage:": "unfunny"
         },
         "pardonwarn":{
         	"Description:": "Remove a warning from a member. Warning is the warning you see in the command d!warnlist, the numbers go up to down (the top warning is the 1st warning).",
-        	"Who can use it:": "@moderator",
+        	"Permission Required:": "manage_messages",
         	"Usage:": "pardonwarn <@user> [warning]"
         },
         "slowmode":{
         	"Description:": "Set the slowmode of a channel",
-        	"Who can use it:": "@administrator",
+        	"Permission Required:": "administrator",
         	"Usage:": "slowmode [time in s,m,or h]"
         }
 	}
