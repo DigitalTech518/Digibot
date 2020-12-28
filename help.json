@@ -144,6 +144,11 @@
         	"Description:": "Remove a warning from a member. Warning is the warning you see in the command d!warnlist, the numbers go up to down (the top warning is the 1st warning).",
         	"Who can use it:": "@moderator",
         	"Usage:": "pardonwarn <@user> [warning]"
+        },
+        "slowmode":{
+        	"Description:": "Set the slowmode of a channel",
+        	"Who can use it:": "@administrator",
+        	"Usage:": "slowmode [time in s,m,or h]"
         }
 	}
 }
