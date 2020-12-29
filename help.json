@@ -149,6 +149,11 @@
         	"Description:": "Set the slowmode of a channel",
         	"Permission Required:": "administrator",
         	"Usage:": "slowmode [time in s,m,or h]"
+        },
+        "mutedrole":{
+        	"Description:": "Make a 'Muted' role.",
+        	"Permission Required:": "manage_roles",
+        	"Usage:": "mutedrole"
         }
 	}
 }
