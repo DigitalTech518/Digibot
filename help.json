@@ -61,7 +61,7 @@
 			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
 		},
 		"setlogs":{
-			"Description:": "Set a channel to a certin catigory for audit logs",
+			"Description:": "Set a channel to a certin catigory for audit logs. (General is a catigory that will get all audit catigories)",
 			"Permission Required:": "administrator",
 			"Usage:": "setlogs <#channel> [general, moderation, voice, member, message, server]"
 		},
