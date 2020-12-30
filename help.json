@@ -28,7 +28,8 @@
 		"pfp":{
 			"Description:": "Pull up the profile picture of yourself or another user",
 			"Permission Required:": "None",
-			"Usage:": "pfp <@user>"
+			"Usage:": "pfp <@user>",
+			"Aliases:": "avatar, profile_picture"
 		},
 		"profile":{
 			"Description:": "Look up your own profile or another's profile.",
@@ -43,7 +44,8 @@
 		"ping":{
 			"Description:": "Find out the latency.",
 			"Permission Required:": "None",
-			"Usage:": "ping"
+			"Usage:": "ping",
+			"Aliases:": "latency"
 		},
 		"prefix":{
 			"Description:": "Change the prefix of the bot for your server.",
@@ -53,12 +55,14 @@
 		"purge":{
 			"Description:": "Delete a mass amount of messages",
 			"Permission Required:": "manage_messages",
-			"Usage:": "purge [number of messages]"
+			"Usage:": "purge [number of messages]",
+			"Aliases:": "delete, begone"
 		},
 		"remindme":{
 			"Description:": "Set a dm reminder (or in channel of command if dms are off)",
 			"Permission Required:": "None",
-			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]"
+			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]",
+			"Aliases:": "reminder, remind"
 		},
 		"setlogs":{
 			"Description:": "Set a channel to a certin catigory for audit logs. (General is a catigory that will get all audit catigories)",
@@ -78,7 +82,8 @@
 		"eightball":{
 			"Description:": "Ask the all mighty 8 ball a yes or no question!",
 			"Permission Required:": "None",
-			"Usage:": "8ball [question]"
+			"Usage:": "8ball [question]",
+			"Aliases:": "8ball"
 		},
 		"butterdog":{
 			"Description:": "Butterdog",
@@ -123,12 +128,14 @@
         "botinfo":{
         	"Description:": "Show information about the bot.",
         	"Permission Required:": "None",
-        	"Usage:": "botinfo"
+        	"Usage:": "botinfo",
+        	"Aliases:": "info"
         },
      	"serverinfo":{
         	"Description:": "Show information about the server.",
         	"Permission Required:": "None",
-        	"Usage:": "serverinfo"
+        	"Usage:": "serverinfo",
+        	"Aliases:": "sinfo"
         },
         "contact":{
         	"Description:": "Shows how to contact Digi",
@@ -148,12 +155,14 @@
         "slowmode":{
         	"Description:": "Set the slowmode of a channel",
         	"Permission Required:": "administrator",
-        	"Usage:": "slowmode [time in s,m,or h]"
+        	"Usage:": "slowmode [time in s,m,or h]",
+        	"Aliases:": "slow"
         },
         "mutedrole":{
         	"Description:": "Make a 'Muted' role.",
         	"Permission Required:": "manage_roles",
-        	"Usage:": "mutedrole"
+        	"Usage:": "mutedrole",
+        	"Aliases:": "mrole"
         }
 	}
 }
