@@ -163,6 +163,24 @@
         	"Permission Required:": "manage_roles",
         	"Usage:": "mutedrole",
         	"Aliases:": "mrole"
+        },
+        "invite":{
+        	"Description:": "Invite the bot to your own server!",
+        	"Permission Required:": "None",
+        	"Usage:": "invite"
+        },
+        "temperature":{
+        	"Description:": "Convert the temperature from F or C.",
+        	"Permission Required:": "None",
+        	"Usage:": "temperature [current temp] [type of temp (f or c)]"
+        },
+        "botded":{
+        	"Description:": "Good luck with trying this >:)"
+        },
+        "stats": {
+        	"Description": "See the stats of a command, or just see top commands used.",
+        	"Permission Required:": "None",
+        	"Usage:": "stats [command name]"
         }
 	}
 }
