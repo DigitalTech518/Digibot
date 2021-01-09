@@ -181,6 +181,12 @@
         	"Description": "See the stats of a command, or just see top commands used.",
         	"Permission Required:": "None",
         	"Usage:": "stats [command name]"
+        },
+        "removereminder":{
+        	"Description:": "Remove a on-going reminder.",
+        	"Permission Required:": "None",
+        	"Usage:": "removereminder [which reminder (1 is the first remidner on list)]",
+        	"Aliases:": "Rreminder"
         }
 	}
 }
