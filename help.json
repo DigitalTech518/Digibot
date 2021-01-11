@@ -192,6 +192,16 @@
         	"Description:": "Remove an all ready set log.",
         	"Permission Required:": "administrator",
         	"Usage:": "removelogs <channel> [category]"
+        },
+        "disablecommand":{
+        	"Description:": "Disable a command serverwide.",
+        	"Permission Required:": "administrator",
+        	"Usage:": "disablecommand [command]"
+        },
+        "enablecommand": {
+        	"Description:": "Re-enable a command that was previously disabled.",
+        	"Permission Required:": "administrator",
+        	"Usage:": "enablecommand [command]"
         }
 	}
 }
