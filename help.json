@@ -202,6 +202,11 @@
         	"Description:": "Re-enable a command that was previously disabled.",
         	"Permission Required:": "administrator",
         	"Usage:": "enablecommand [command]"
+        },
+        "support":{
+        	"Description:": "Contact the owner of the bot for support!",
+        	"Permission Required:": "None",
+        	"Usage:": "support [message]"
         }
 	}
 }
