@@ -207,6 +207,16 @@
         	"Description:": "Contact the owner of the bot for support!",
         	"Permission Required:": "None",
         	"Usage:": "support [message]"
+        },
+        "settime":{
+        	"Description:": "Set your UTC offset",
+        	"Permission Required:": "None",
+        	"Usage:": "settime [UTC offset]"
+        },
+        "time": {
+        	"Description:": "See your or another users time if they have used settime.",
+        	"Permission Required:": "None",
+        	"Usage:": "time <member>"
         }
 	}
 }
