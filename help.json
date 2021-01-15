@@ -1,4 +1,93 @@
 {
+	"help": [
+		"**- Bot -**",
+		"**- Restricted -**",
+		"**- Fun -**",
+		"**- Moderation -**",
+		"**- Server -**",
+		"**- Utility -**"
+		"**- User -**",
+		"**- Other -**"
+	],
+	"categories": {
+		"utility":{
+			"commands":[
+				"purge               [amount]",
+				"remindme            [duration][reminder]",
+				"removereminder      [number]",
+				"temperature         [temperature][type]",
+				"settime             [UTC offset]",
+				"time                <user>"
+			]
+		},
+		"moderation":{
+			"commands": [
+				"ban                 <member>[reason]",
+				"kick                <member>[reason]",
+				"unban               [userID]",
+				"mute                <member>[time][reason]",
+				"permamute           <member>[reason]",
+				"mutedrole           [n/a]",
+				"unmute              <member>",
+				"warn                <member>[reason]",
+				"pardonwarn          <member>[number]",
+				"warnlist            <member>"
+			]
+		},
+		"server": {
+			"commands": [
+				"lock                <channel>",
+				"unlock              <channel>",
+				"setlogs             <channel>[general, moderation, voice, member, message, server]",
+				"removelogs          <channel>[category]",
+				"serverinfo          [N/A]",
+				"slowmode            [time (s,m,h)]"
+			]
+		},
+		"bot": {
+			"commands": [
+				"disablecommand      [command]",
+				"enablecommand       [command]",
+				"help                [command]",
+				"info                [n/a]",
+				"invite              [n/a]",
+				"ping                [n/a]",
+				"prefix              [prefix]",
+				"support             [message]",
+				"stats               [command]"
+			]
+		},
+		"restricted": {
+			"commands": [
+				"dm                  [memberID][message]",
+				"botded              [n/a]",
+				"say                 <channelID>[message]"
+			]
+		},
+		"user": {
+			"commands": [
+				"pfp                 <member>",
+				"profile             <member>"
+			]
+		},
+		"fun": {
+			"commands": [
+				"8ball               [question]",
+				"goddamn             [N/A]",
+				"butterdog           [N/A]",
+				"shut                [N/A]",
+				"yikes               [N/A]",
+				"pong                [N/A]",
+				"unfunny             [N/A]",
+				"bean                <user>[reason]"
+			]
+		},
+		"other": {
+			"commands": [
+				"embed               [title][description][thumbnailURL]"
+			]
+		}
+	},
 	"commands":{
 		"kick":{
 			"Description:": "Kicks a user out of the server.",
@@ -125,22 +214,17 @@
             "Permission Required:": "manage_messages",
             "Usage:": "warnlist <user>"
         },
-        "botinfo":{
+        "info":{
         	"Description:": "Show information about the bot.",
         	"Permission Required:": "None",
         	"Usage:": "botinfo",
-        	"Aliases:": "info"
+        	"Aliases:": "botinfo"
         },
      	"serverinfo":{
         	"Description:": "Show information about the server.",
         	"Permission Required:": "None",
         	"Usage:": "serverinfo",
         	"Aliases:": "sinfo"
-        },
-        "contact":{
-        	"Description:": "Shows how to contact Digi",
-        	"Permission Required:": "None",
-        	"Usage:": "contact"
         },
         "unfunny":{
         	"Description:": "Unfunny dude",
