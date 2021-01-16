@@ -27,7 +27,7 @@
 				"unban               [userID]",
 				"mute                <member>[time][reason]",
 				"permamute           <member>[reason]",
-				"mutedrole           [n/a]",
+				"mutedrole           [N/A]",
 				"unmute              <member>",
 				"warn                <member>[reason]",
 				"pardonwarn          <member>[number]",
@@ -49,18 +49,19 @@
 				"disablecommand      [command]",
 				"enablecommand       [command]",
 				"help                [command]",
-				"info                [n/a]",
-				"invite              [n/a]",
-				"ping                [n/a]",
+				"info                [N/A]",
+				"invite              [N/A]",
+				"ping                [N/A]",
 				"prefix              [prefix]",
 				"support             [message]",
-				"stats               [command]"
+				"stats               [command]",
+				"privacy             [N/A]"
 			]
 		},
 		"restricted": {
 			"commands": [
 				"dm                  [memberID][message]",
-				"botded              [n/a]",
+				"botded              [N/A]",
 				"say                 <channelID>[message]"
 			]
 		},
@@ -89,6 +90,11 @@
 		}
 	},
 	"commands":{
+		"privacy":{
+			"Description:": "Look at my privacy policy",
+			"Permission Required:": "None",
+			"Usage:": "privacy"
+		},
 		"kick":{
 			"Description:": "Kicks a user out of the server.",
 			"Permission Required:": "Permission: Ban Member",
