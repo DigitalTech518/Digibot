@@ -15,7 +15,7 @@
 				"purge               [amount]",
 				"remindme            [duration][reminder]",
 				"removereminder      [number]",
-				"temperature         [temperature][type]",
+				"temperature         [temperature][temp type][conv type]",
 				"settime             [UTC offset]",
 				"time                <user>"
 			]
@@ -31,7 +31,11 @@
 				"unmute              <member>",
 				"warn                <member>[reason]",
 				"pardonwarn          <member>[number]",
-				"warnlist            <member>"
+				"warnlist            <member>",
+				"modnote             <user>[note]",
+				"viewnotes           <user>",
+				"pardonnote          <user>[note number (see order on list)]",
+				"records             <user>"
 			]
 		},
 		"server": {
@@ -41,7 +45,10 @@
 				"setlogs             <channel>[general, moderation, voice, member, message, server]",
 				"removelogs          <channel>[category]",
 				"serverinfo          [N/A]",
-				"slowmode            [time (s,m,h)]"
+				"slowmode            [time (s,m,h)]",
+				"setjoinrole         [role]",
+				"viewjoinroles       [N/A]",
+				"removejoinrole      [role number (see order on list)]"
 			]
 		},
 		"bot": {
@@ -90,6 +97,41 @@
 		}
 	},
 	"commands":{
+		"records":{
+			"Description:": "Look at the warns, mutes, and notes of a user.",
+			"Permission Required:": "manage_messages",
+			"Usage:": "records <user>"
+		},
+		"setjoinrole":{
+			"Description:": "Set a role for when a member joins the server!",
+			"Permission Required:": "manage_roles",
+			"Usage:": "setjoinrole [role]"
+		},
+		"viewjoinroles":{
+			"Description:": "View your currently set join roles for your guild!",
+			"Permission Required:": "manage_roles",
+			"Usage:": "viewjoinroles"
+		},
+		"removejoinrole":{
+			"Description:": "Remove a join role from your guild.",
+			"Permission Required:": "manage_roles",
+			"Usage:": "removejoinrole [role number (see order on list)]"
+		},
+		"modnote":{
+			"Description:": "Add a note to any user, for any reason!",
+			"Permission Required:": "manage_messages",
+			"Usage:": "modnote <user> [note]" 
+		},
+		"viewnotes":{
+			"Description:": "View notes that have been set for a user.",
+			"Permission Required:": "manage_messages",
+			"Usage:": "viewnotes <user>"
+		},
+		"pardonnote":{
+			"Description:": "Pardon a set note for a user.",
+			"Permission Required:": "manage_messages",
+			"Usage:": "pardonnote <user> [note number (see order on list)]"
+		},
 		"privacy":{
 			"Description:": "Look at my privacy policy",
 			"Permission Required:": "None",
@@ -144,7 +186,7 @@
 		},
 		"prefix":{
 			"Description:": "Change the prefix of the bot for your server.",
-			"Permission Required:": "administratorn",
+			"Permission Required:": "administrator",
 			"Usage:": "prefix [prefix]"
 		},
 		"purge":{
