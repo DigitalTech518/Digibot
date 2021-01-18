@@ -260,9 +260,9 @@
         	"Usage:": "invite"
         },
         "temperature":{
-        	"Description:": "Convert the temperature from F or C.",
+        	"Description:": "Convert the temperature.",
         	"Permission Required:": "None",
-        	"Usage:": "temperature [current temp] [type of temp (f or c)]"
+        	"Usage:": "temperature [current temp] [type of temp (f or c or k)] [convert type (f or c or k)]"
         },
         "botded":{
         	"Description:": "Good luck with trying this >:)"
