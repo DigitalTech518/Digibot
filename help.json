@@ -31,9 +31,7 @@
 				"unmute              <member>",
 				"warn                <member>[reason]",
 				"pardonwarn          <member>[number]",
-				"warnlist            <member>",
 				"modnote             <user>[note]",
-				"viewnotes           <user>",
 				"pardonnote          <user>[note number (see order on list)]",
 				"records             <user>"
 			]
@@ -122,15 +120,10 @@
 			"Permission Required:": "manage_messages",
 			"Usage:": "modnote <user> [note]" 
 		},
-		"viewnotes":{
-			"Description:": "View notes that have been set for a user.",
-			"Permission Required:": "manage_messages",
-			"Usage:": "viewnotes <user>"
-		},
 		"pardonnote":{
 			"Description:": "Pardon a set note for a user.",
 			"Permission Required:": "manage_messages",
-			"Usage:": "pardonnote <user> [note number (see order on list)]"
+			"Usage:": "pardonnote <user> [note number (see order on records command)]"
 		},
 		"privacy":{
 			"Description:": "Look at my privacy policy",
@@ -257,11 +250,6 @@
 			"Permission Required:": "None",
 			"Usage:": "embed ['Title']['Description']['Thumbnail URL'] (single quotes need to be double quotes)"
 		},
-        "warnlist":{
-            "Description:": "Look at the warns of a user.",
-            "Permission Required:": "manage_messages",
-            "Usage:": "warnlist <user>"
-        },
         "info":{
         	"Description:": "Show information about the bot.",
         	"Permission Required:": "None",
