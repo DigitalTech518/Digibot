@@ -15,9 +15,12 @@
 				"purge               [amount]",
 				"remindme            [duration][reminder]",
 				"removereminder      [number]",
+				"reminders           [N/A]",
 				"temperature         [temperature][temp type][conv type]",
 				"settime             [UTC offset]",
-				"time                <user>"
+				"time                <user>",
+				"addreactionrole     <message> <emoji> [role name]",
+				"removereactionrole  <message>"  
 			]
 		},
 		"moderation":{
@@ -53,7 +56,7 @@
 			"commands": [
 				"disablecommand      [command]",
 				"enablecommand       [command]",
-				"help                [command]",
+				"help                [category/command]",
 				"info                [N/A]",
 				"invite              [N/A]",
 				"ping                [N/A]",
@@ -95,6 +98,27 @@
 		}
 	},
 	"commands":{
+		"removereactionrole":{
+			"Description:": "Remove a previously set reaction role message.",
+			"Permission:": "manage_roles",
+			"Usage:": "removereactionrole <message>"
+		},
+		"addreactionrole":{
+			"Description:": "Add a reaction roles to a message!",
+			"Permission:": "manage_roles",
+			"Usage:": "addreactionrole <message> <emoji> [role name]"
+		},
+		"help":{
+			"Description:": "Get help about a category or command!",
+			"Permission:": "None",
+			"Usage:": "help [category/command]",
+			"Aliases:": "list"
+		},
+		"reminders":{
+			"Description:": "View your current reminders!",
+			"Permission Required:": "None",
+			"Usage:": "reminders"
+		},
 		"records":{
 			"Description:": "Look at the warns, mutes, and notes of a user.",
 			"Permission Required:": "manage_messages",
