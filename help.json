@@ -20,7 +20,7 @@
 				"settime             [UTC offset]",
 				"time                <user>",
 				"addreactionrole     <message> <emoji> [role name]",
-				"removereactionrole  <message>"  
+				"removereactionrole  <message>"
 			]
 		},
 		"moderation":{
@@ -88,6 +88,8 @@
 				"yikes               [N/A]",
 				"pong                [N/A]",
 				"unfunny             [N/A]",
+				"hmm                 [N/A]",
+				"google              [N/A]",
 				"bean                <user>[reason]"
 			]
 		},
