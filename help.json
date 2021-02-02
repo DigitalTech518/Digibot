@@ -148,7 +148,7 @@
 		"queue":{
 			"Description:": "See the songs currently in the queue",
 			"Permission:": "None",
-			"Usage:": "queue",
+			"Usage:": "queue"
 		},
 		"clearqueue":{
 			"Description": "Clear the current queue.",
