@@ -160,6 +160,11 @@
 			"Permission:": "Manage_messages",
 			"Usage:": "forceskip"
 		},
+		"google":{
+			"Description:": "Google be like.",
+			"Permission:": "None",
+			"Usage:": "google"
+		},
 		"removereactionrole":{
 			"Description:": "Remove a previously set reaction role message.",
 			"Permission:": "manage_roles",
