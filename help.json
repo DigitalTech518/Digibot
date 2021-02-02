@@ -7,9 +7,23 @@
 		"**- Server -**",
 		"**- Utility -**",
 		"**- User -**",
+		"**- Music -**",
 		"**- Other -**"
 	],
 	"categories": {
+		"music":{
+			"commands":[
+				"play                [song name]",
+				"leave               [N/A]",
+				"skip                [N/A]",
+				"stop                [N/A]",
+				"pause               [N/A]",
+				"resume              [N/A]",
+				"queue               [N/A]",
+				"clearqueue          [N/A]",
+				"forceskip           [N/A]"
+			]
+		},
 		"utility":{
 			"commands":[
 				"purge               [amount]",
@@ -100,6 +114,52 @@
 		}
 	},
 	"commands":{
+		"play":{
+			"Description:": "Play a song from youtube!",
+			"Permission:": "None",
+			"Usage:": "play [song name]"
+		},
+		"leave":{
+			"Description:": "Have the bot leave the voice channel.",
+			"Permission:": "None",
+			"Usage:": "leave",
+			"Aliases:": "||f*ckoff||"
+		},
+		"skip":{
+			"Description:": "Skip to the next song!",
+			"Permission:": "None",
+			"Usage:": "skip"
+		},
+		"stop":{
+			"Description:": "Stop the music.",
+			"Permission:": "None",
+			"Usage:": "stop"
+		},
+		"pause":{
+			"Description:": "Pause the current song!",
+			"Permission:": "None",
+			"Usage:": "pause"
+		},
+		"resume":{
+			"Description:": "Resume a previously paused song!",
+			"Permission:": "None",
+			"Usage:": "resume"
+		},
+		"queue":{
+			"Description:": "See the songs currently in the queue",
+			"Permission:": "None",
+			"Usage:": "queue",
+		},
+		"clearqueue":{
+			"Description": "Clear the current queue.",
+			"Permission:": "Manage_messages",
+			"Usage:": "clearqueue"
+		},
+		"forceskip":{
+			"Description:": "Skip the current song without vote.",
+			"Permission:": "Manage_messages",
+			"Usage:": "forceskip"
+		},
 		"removereactionrole":{
 			"Description:": "Remove a previously set reaction role message.",
 			"Permission:": "manage_roles",
