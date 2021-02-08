@@ -33,8 +33,11 @@
 				"temperature         [temperature][temp type][conv type]",
 				"settime             [UTC offset]",
 				"time                <user>",
-				"addreactionrole     <message> <emoji> [role name]",
-				"removereactionrole  <message>"
+				"addreactionrole     <message><emoji>[role name]",
+				"removereactionrole  <message>",
+				"notepad             [Note Name][entry]",
+				"notes               [Note Name]",
+				"removenote          [Note Name][entry number]"
 			]
 		},
 		"moderation":{
@@ -114,6 +117,21 @@
 		}
 	},
 	"commands":{
+		"notepad":{
+			"Description:": "Make a note on an existing or new note!",
+			"Permission:": "None",
+			"Usage:": "notepad [note name] [entry]"
+		},
+		"notes":{
+			"Description:": "View your notes!",
+			"Permission:": "None",
+			"Usage:": "notes [name]"
+		},
+		"removenote":{
+			"Description:": "Remove an entire note, or a specific entry in a existing note.",
+			"Permission:": "None",
+			"Usage:": "removenote [note name] [entry number]"
+		},
 		"play":{
 			"Description:": "Play a song from youtube!",
 			"Permission:": "None",
