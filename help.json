@@ -307,7 +307,7 @@
 		"remindme":{
 			"Description:": "Set a dm reminder (or in channel of command if dms are off)",
 			"Permission Required:": "None",
-			"Usage:": "remindme [time(s,m,h,d,w)] [reminder]",
+			"Usage:": "remindme [time(s,m,h,d,w, y)] [reminder]",
 			"Aliases:": "reminder, remind"
 		},
 		"setlogs":{
