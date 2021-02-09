@@ -1,3 +1,3 @@
 # Digibot
-### Discord bot coding project, help.json is refered to by the bot, and can be edited from here.
+### Open source discord bot project! Using the project to learn python, and coding as a whole!
 ##### Leave suggestions for commands as a issue! (avoid duplicates please)
