@@ -22,6 +22,12 @@ class BOT(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command(aliases = ["suggest"])
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def github(self, ctx):
+		await ctx.trigger_typing()
+		await sendMessage(ctx, "Want to contribute, or let me know about an error?", "Click [here](https://github.com/DigitalTech518/Digibo) to go to my github!")
+
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def vote(self, ctx):
