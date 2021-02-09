@@ -80,7 +80,8 @@
 				"prefix              [prefix]",
 				"support             [message]",
 				"stats               [command]",
-				"privacy             [N/A]"
+				"privacy             [N/A]",
+				"github              [N/A]"
 			]
 		},
 		"restricted": {
@@ -117,6 +118,12 @@
 		}
 	},
 	"commands":{
+		"github":{
+			"Description:": "Make a suggestion, report an error, or just see the code that runs Digibot!",
+			"Permission:": "None",
+			"Usage:": "github",
+			"Aliases:": "suggest"
+		},
 		"notepad":{
 			"Description:": "Make a note on an existing or new note!",
 			"Permission:": "None",
