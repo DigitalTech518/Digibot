@@ -118,9 +118,9 @@ class BOT(commands.Cog):
 			userCount = userCount + Int 
 		embed.add_field(name = "Amount of Users", value = userCount)
 		embed.add_field(name = "Launches", value = ctx.bot.launches)
-		embed.add_field(name = "Discord", value = "Join my server! https://discord.gg/9G9vf6qvdH")
+		embed.add_field(name = "Discord", value = "Join my [server](https://discord.gg/9G9vf6qvdH)!")
 		embed.set_footer(text = "Bot made by Digital_Tech")
-		await ctx.message.reply(embed = embed)
+		await ctx.message.reply(mention_author = False, embed = embed)
 
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)

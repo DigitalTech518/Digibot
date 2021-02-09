@@ -144,7 +144,7 @@ class Server(commands.Cog):
 		time = str(datetime.now()).split(".")[0]
 		time = str(time).split(" ")[1]
 		embed.set_footer(text = f"{ctx.author.name} requested command at {time}")
-		await ctx.message.reply(embed = embed)
+		await ctx.message.reply(mention_author = False, embed = embed)
 
 
 	@commands.command()

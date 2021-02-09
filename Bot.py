@@ -371,7 +371,7 @@ async def on_message_edit(before, after):
 	if after.embeds:
 		return
 	avatar = member.avatar_url_as(static_format = "png")
-	embed = discord.Embed(color = embedColor, description = f"**Message sent by {member.mention} edited in {before.channel.mention}**\n\n**Before**:\n`{before.content}`\n\n**After:**\n`{after.content}`")
+	embed = discord.Embed(color = embedColor, description = f"**Message sent by {member.mention} edited in {before.channel.mention}**\n\n**Before**:\n{before.content}\n\n**After:**\n{after.content}")
 	embed.set_author(name = f"{member}", icon_url = f"{avatar}")
 	embed.set_footer(text = f"ID: {member.id} | Message ID: {before.id}")
 	await sendLog(before.guild.id, "message", embed)
@@ -484,26 +484,26 @@ async def on_guild_remove(guild):
 @client.event
 async def on_guild_channel_update(before, after):
 	if not before.name == after.name:
-		embed = discord.Embed(color = embedColor, description = f"**Channel Name Edited**\n\n**Before**:\n`{before.name}`\n\n**After:**\n**`{after.name}`**")
+		embed = discord.Embed(color = embedColor, description = f"**Channel Name Edited**\n\n**Before**:\n{before.name}\n\n**After:**\n**{after.name}**")
 		embed.set_footer(text = f"Channel ID: {before.id}")
 		await sendLog(before.guild.id, "server", embed)
 	try:
 		if not before.topic == after.topic:
-			embed = discord.Embed(color = embedColor, description = f"**Channel Topic Edited**\n\n**Before**:\n`{before.topic}`\n\n**After:**\n**`{after.topic}`**")
+			embed = discord.Embed(color = embedColor, description = f"**Channel Topic Edited**\n\n**Before**:\n{before.topic}\n\n**After:**\n**{after.topic}**")
 			embed.set_footer(text = f"Channel ID: {before.id}")
 			await sendLog(before.guild.id, "server", embed)
 	except:
 		return
 	if not before.slowmode_delay == after.slowmode_delay:
-		embed = discord.Embed(color = embedColor, description = f"**Channel slowmode Edited**\n\n**Before**:\n`{before.slowmode_delay}`\n\n**After:**\n**`{after.slowmode_delay}`**")
+		embed = discord.Embed(color = embedColor, description = f"**Channel slowmode Edited**\n\n**Before**:\n{before.slowmode_delay}\n\n**After:**\n**{after.slowmode_delay}**")
 		embed.set_footer(text = f"Channel ID: {before.id}")
 		await sendLog(before.guild.id, "server", embed)		
 	if not before.nsfw == after.nsfw:
-		embed = discord.Embed(color = embedColor, description = f"**Channel NSFW Edited**\n\n**Before**:\n`{before.nsfw}`\n\n**After:**\n**`{after.nsfw}`**")
+		embed = discord.Embed(color = embedColor, description = f"**Channel NSFW Edited**\n\n**Before**:\n{before.nsfw}\n\n**After:**\n**{after.nsfw}**")
 		embed.set_footer(text = f"Channel ID: {before.id}")
 		await sendLog(before.guild.id, "server", embed)
 	#if not before.pins == after.pins:
-	#	embed = discord.Embed(color = embedColor, description = f"**Channel Pins Edited**\n\n**Before**:\n`{before.pins}`\n\n**After:**\n**`{after.pins}`**")
+	#	embed = discord.Embed(color = embedColor, description = f"**Channel Pins Edited**\n\n**Before**:\n{before.pins}\n\n**After:**\n**{after.pins}**")
 	#	embed.set_footer(text = f"Channel ID: {before.id}")
 	#	await sendLog(before.guild.id, "server", embed)
 
@@ -511,15 +511,15 @@ async def on_guild_channel_update(before, after):
 async def on_member_update(before, after):
 	member = before.name
 	if not before.name == after.name:
-		embed = discord.Embed(color = embedColor, description = f"**{member}'s name was edited**\n\n**Before**:\n`{before.name}`\n\n**After:**\n**`{after.name}`**")
+		embed = discord.Embed(color = embedColor, description = f"**{member}'s name was edited**\n\n**Before**:\n{before.name}\n\n**After:**\n**{after.name}**")
 		embed.set_footer(text = f"ID: {before.id}")
 		await sendLog(before.guild.id, "member", embed)
 	if not before.nick == after.nick:
-		embed = discord.Embed(color = embedColor, description = f"**{member}'s nickname was edited**\n\n**Before**:\n`{before.nick}`\n\n**After:**\n**`{after.nick}`**")
+		embed = discord.Embed(color = embedColor, description = f"**{member}'s nickname was edited**\n\n**Before**:\n{before.nick}\n\n**After:**\n**{after.nick}**")
 		embed.set_footer(text = f"ID: {before.id}")
 		await sendLog(before.guild.id, "member", embed)	
 	#if not before.discriminator == after.discriminator:
-	#	embed = discord.Embed(color = embedColor, description = f"**{member}'s discriminator was edited**\n\n**Before**:\n`{before.discriminator}`\n\n**After:**\n**`{after.discriminator}`**")
+	#	embed = discord.Embed(color = embedColor, description = f"**{member}'s discriminator was edited**\n\n**Before**:\n{before.discriminator}\n\n**After:**\n**{after.discriminator}**")
 	#	embed.set_footer(text = f"ID: {before.id}")
 	#	await sendLog(before.guild.id, "member", embed) #not working
 	#if not before.avatar_url_as(static_format = "png") == after.avatar_url_as(static_format = "png"):
@@ -531,11 +531,11 @@ async def on_member_update(before, after):
 async def on_guild_role_update(before, after):
 	role = before.name
 	if not before.name == after.name:
-		embed = discord.Embed(color = embedColor, description = f"**{role} name was edited**\n\n**Before**:\n`{before.name}`\n\n**After:**\n**`{after.name}`**")
+		embed = discord.Embed(color = embedColor, description = f"**{role} name was edited**\n\n**Before**:\n{before.name}\n\n**After:**\n**{after.name}**")
 		embed.set_footer(text = f"Role ID: {before.id}")
 		await sendLog(before.guild.id, "server", embed)
 	if not before.colour == after.colour:
-		embed = discord.Embed(color = embedColor, description = f"**{role} colour was edited**\n\n**Before**:\n`{before.colour}`\n\n**After:**\n**`{after.colour}`**")
+		embed = discord.Embed(color = embedColor, description = f"**{role} colour was edited**\n\n**Before**:\n{before.colour}\n\n**After:**\n**{after.colour}**")
 		embed.set_footer(text = f"Role ID: {before.id}")
 		await sendLog(before.guild.id, "server", embed)		
 
@@ -550,7 +550,7 @@ async def on_voice_state_update(member, before, after):
 	except:
 		vcAfter = "Left Voice Channel"
 	if not vcBefore == vcAfter:
-		embed = discord.Embed(color = embedColor, description = f"**{member} changed voice channel.**\n\n**Before**:\n`{vcBefore}`\n\n**After:**\n**`{vcAfter}`**")
+		embed = discord.Embed(color = embedColor, description = f"**{member} changed voice channel.**\n\n**Before**:\n{vcBefore}\n\n**After:**\n**{vcAfter}**")
 		embed.set_footer(text = f"ID: {member.id}")
 		try:
 			await sendLog(member.guild.id, "voice", embed)	
