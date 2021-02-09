@@ -93,6 +93,9 @@ class Utility(commands.Cog):
 		if not "notes" in doc:
 			await sendMessage(ctx, "You do not have any notes!")
 			return
+		if len(doc["notes"]) < 1:
+			await sendMessage(ctx, "You do not have any notes!")
+			return
 		List = []
 		x = -1
 		a = False
