@@ -476,6 +476,10 @@ async def on_guild_remove(guild):
 		data.pop(guildID)
 	outFile = await writeFile("files/joinroles", data)
 	####################################################
+	cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+	Guilds = cluster["bot"]["Guilds"]
+	await Guilds.find_one_and_delete({"_id": guildID})
+	####################################################
 
 @client.event
 async def on_guild_channel_update(before, after):
