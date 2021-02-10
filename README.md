@@ -2,8 +2,6 @@
 ### Open source discord bot project! Using the project to learn python, and coding as a whole!
 ##### Leave suggestions for commands as a issue! (avoid duplicates please)
 
-[!(https://voidbots.net/api/embed/781296717244399617?theme=dark)](https://voidbots.net/bot/781296717244399617)
-
 Digibot is a utility, logging, multipurpose bot that has commands that allow for all sorts of things! From reminders, to time, to even just simple warnings!
 
 Utility: There is only a few of these commands at the moment, but aiming for a lot more in the future! These range from commands like time, which lets you find out another user’s time if they have set their time, reminders, which let you set a reminder for later, and you’ll receive a dm with the reminder or a ping from the channel if dms are closed, join roles, which lets you set a role for when someone joins, and reaction roles, which lets you set certain reactions to give users a role! You can also have a notepad!! Using commands like notepad, notes, and deletenote, you can view, delete, and add new notes and add to existing notes!
