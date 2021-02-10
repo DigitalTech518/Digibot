@@ -1,7 +1,8 @@
-# Digibot
+# Digibot 
 ### Open source discord bot project! Using the project to learn python, and coding as a whole!
 ##### Leave suggestions for commands as a issue! (avoid duplicates please)
 
+[!(https://voidbots.net/api/embed/781296717244399617?theme=dark)](https://voidbots.net/bot/781296717244399617)
 
 Digibot is a utility, logging, multipurpose bot that has commands that allow for all sorts of things! From reminders, to time, to even just simple warnings!
 
