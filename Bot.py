@@ -350,6 +350,55 @@ async def on_message(message):
 						return	
 			except:
 				pass
+	cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+	Users = cluster["bot"]["Users"]
+	for user in message.mentions:
+		memberID = str(user.id)
+		doc = await Users.find_one({"_id": memberID})
+		if doc:
+			if "afk" in doc:
+				afkReason = doc["afk"]
+				if not "pings" in doc:
+					await Users.find_one_and_update({"_id": memberID}, {"$set": {
+							"pings": []
+							}})
+					doc = await Users.find_one({"_id": memberID})
+				if not f"{message.author.name} pinged you" in str(doc["pings"]):
+					doc = await Users.find_one({"_id": memberID})
+					doc["pings"].append(f"{message.author.name} pinged you")
+					await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
+					doc = await Users.find_one({"_id": memberID})
+					if not "afkCount" in doc:
+						await Users.find_one_and_update({"_id": memberID}, {"$set": {
+							"afkCount": 0
+							}})
+						doc = await Users.find_one({"_id": memberID})
+					if "afkCount" in doc:
+						await Users.find_one_and_update({"_id": memberID}, {"$set": {
+							"afkCount": doc["afkCount"] + 1
+							}})
+						doc = await Users.find_one({"_id": memberID})
+				embed = discord.Embed(title = f"{user.name} is afk!", description = f"Reason:\n{afkReason}", color = embedColor)
+				afkMessage = await message.channel.send(embed = embed)
+				await sleep(2.5)
+				await afkMessage.delete()
+	memberID = str(message.author.id)
+	doc = await Users.find_one({"_id": memberID})
+	if doc:
+		if "afk" in doc:
+			doc.pop("afk")
+			try:
+				Pinglist = "\n".join(doc["pings"])
+				pingCount = int(doc["afkCount"])
+				doc.pop("afkCount")
+				doc.pop("pings")
+			except:
+				pingCount = 0
+				Pinglist = "None"
+			await Users.find_one_and_delete({"_id": memberID})
+			await Users.insert_one(doc)
+			await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", Pinglist, message = "You have been set to not AFK!")
+			return
 	await client.process_commands(message)
 
 #########################################################################################################################

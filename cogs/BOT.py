@@ -164,7 +164,8 @@ class BOT(commands.Cog):
 			guild = ctx.guild
 		except:
 			guild = ctx
-		command = self.bot.get_command(command)
+		if not command == "mVoting":
+			command = self.bot.get_command(command)
 		guildID = str(guild.id)
 		if command == None:
 			try:
@@ -210,14 +211,12 @@ class BOT(commands.Cog):
 			pass
 		data = await openFile("files/disabledCommands")
 		guildID = str(ctx.guild.id)
-		if command != "invalidCommand":
-			commandName = ctx.bot.get_command(command)
-		if command == "invalidCommand":
-			commandName = "invalidCommand"
-		if not str(commandName) in data[guildID]["commands"]:
+		if not command == "mVoting":
+			command = self.bot.get_command(command)
+		if not str(command) in data[guildID]["commands"]:
 			await sendMessage(ctx, "This command isn't disabled!")
 			return
-		data[guildID]["commands"].remove(str(commandName))
+		data[guildID]["commands"].remove(str(command))
 		await sendMessage(ctx, f"{command} has been enabled.")
 		outFile = await writeFile("files/disabledCommands", data)
 

@@ -18,6 +18,39 @@ class Utility(commands.Cog):
 
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def afk(self, ctx, *, reason = None):
+		await ctx.trigger_typing()
+		if reason == None:
+			reason = "None"
+		memberID = str(ctx.author.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Users = cluster["bot"]["Users"]
+		doc = await Users.find_one({"_id": memberID})
+		if not doc:
+			Users.insert_one({
+				"_id": memberID,
+				"afk": reason
+				})
+			doc = await Users.find_one({"_id": memberID})
+			await sendMessage(ctx, "You have been set to AFK")
+			return
+		if not "afk" in doc:
+			await Users.find_one_and_update({"_id": memberID}, {"$set": {
+				"afk" : reason
+				}})
+			doc = await Users.find_one({"_id": memberID})
+			await sendMessage(ctx, "You have been set to AFK")
+			return
+		if "afk" in doc:
+			doc.pop("afk")
+			await Users.find_one_and_delete({"_id": memberID})
+			await Users.insert_one(doc)
+			await sendMessage(ctx, "You have been set to not AFK!")
+			return
+
+
+	@commands.command()
+	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def removenote(self, ctx, name, entry = None):
 		if not entry == None:
 			try:

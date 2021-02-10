@@ -101,6 +101,8 @@ class Music(commands.Cog):
 	@commands.command(aliases = ["fuckoff"])
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def leave(self, ctx):
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/disabledCommands")
 		global voteCount
 		vc = ctx.guild.voice_client
 		moderator = False
@@ -116,28 +118,36 @@ class Music(commands.Cog):
 				if not member.bot:
 					members.append(member.id)
 			if len(members) > 1 and moderator == False:
-				await ctx.trigger_typing()
-				voteCount = 0
-				y = len(members)
-				vote = y//2
-				if len(members) == 2:
-					vote = 2
-				embed = discord.Embed(title = f"Needs {vote} votes to leave!", color = ctx.bot.embedColor)
-				voteMessage = await ctx.send(embed = embed)
-				await voteMessage.add_reaction("⬆️")
-				def check(reaction, user):
-					global voteCount
-					if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
-						voteCount += 1
-						return voteCount == vote
-				try:
-					await self.bot.wait_for("reaction_add", check = check, timeout = 60)
-				except:
-					await sendMessage(ctx, "Vote has timed out")
-					return
-				await vc.disconnect()
-				await ctx.message.add_reaction("👋")
-				await voteMessage.delete()
+				if not "mVoting" in data[guildID]["commands"]: 
+					await ctx.trigger_typing()
+					voteCount = 0
+					y = len(members)
+					vote = y//2
+					if len(members) == 2:
+						vote = 2
+					embed = discord.Embed(title = f"Needs {vote} votes to leave!", color = ctx.bot.embedColor)
+					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
+					voteMessage = await ctx.send(embed = embed)
+					await voteMessage.add_reaction("⬆️")
+					def check(reaction, user):
+						global voteCount
+						if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
+							voteCount += 1
+							return voteCount == vote
+					try:
+						await self.bot.wait_for("reaction_add", check = check, timeout = 60)
+					except:
+						await sendMessage(ctx, "Vote has timed out")
+						return
+					await vc.disconnect()
+					await ctx.message.add_reaction("👋")
+					await voteMessage.delete()
+				else:
+					try:
+						await vc.disconnect()
+						await ctx.message.add_reaction("👋")
+					except:
+						await sendMessage(ctx, "Cannot leave voice channel.")
 			else:
 				try:
 					await vc.disconnect()
@@ -148,6 +158,8 @@ class Music(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def skip(self, ctx):
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/disabledCommands")
 		vc = ctx.guild.voice_client
 		if ctx.message.author.voice == None:
 			await sendMessage(ctx, "You are not in a voice channel!")
@@ -166,28 +178,36 @@ class Music(commands.Cog):
 				if not member.bot:
 					members.append(member.id)
 			if len(members) > 1 and moderator == False:
-				await ctx.trigger_typing()
-				voteCount = 0
-				y = len(members)
-				vote = y//2
-				if len(members) == 2:
-					vote = 2
-				embed = discord.Embed(title = f"Needs {vote} votes to skip!", color = ctx.bot.embedColor)
-				voteMessage = await ctx.send(embed = embed)
-				await voteMessage.add_reaction("⬆️")
-				def check(reaction, user):
-					global voteCount
-					if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
-						voteCount += 1
-						return voteCount == vote
-				try:
-					await self.bot.wait_for("reaction_add", check = check, timeout = 60)
-				except:
-					await sendMessage(ctx, "Vote has timed out")
-					return
-				vc.stop()
-				await ctx.message.add_reaction("⏩")
-				await voteMessage.delete()
+				if not "mVoting" in data[guildID]["commands"]:
+					await ctx.trigger_typing()
+					voteCount = 0
+					y = len(members)
+					vote = y//2
+					if len(members) == 2:
+						vote = 2
+					embed = discord.Embed(title = f"Needs {vote} votes to skip!", color = ctx.bot.embedColor)
+					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
+					voteMessage = await ctx.send(embed = embed)
+					await voteMessage.add_reaction("⬆️")
+					def check(reaction, user):
+						global voteCount
+						if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
+							voteCount += 1
+							return voteCount == vote
+					try:
+						await self.bot.wait_for("reaction_add", check = check, timeout = 60)
+					except:
+						await sendMessage(ctx, "Vote has timed out")
+						return
+					vc.stop()
+					await ctx.message.add_reaction("⏩")
+					await voteMessage.delete()
+				else:
+					try:
+						vc.stop()
+						await ctx.message.add_reaction("⏩")
+					except:
+						await sendMessage(ctx, "Cannot skip music")
 			else:
 				try:
 					vc.stop()
@@ -198,6 +218,8 @@ class Music(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def stop(self, ctx):
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/disabledCommands")
 		vc = ctx.guild.voice_client
 		if ctx.message.author.voice == None:
 			await sendMessage(ctx, "You are not in a voice channel!")
@@ -213,29 +235,38 @@ class Music(commands.Cog):
 				if not member.bot:
 					members.append(member.id)
 			if len(members) > 1 and moderator == False:
-				await ctx.trigger_typing()
-				voteCount = 0
-				y = len(members)
-				vote = y//2
-				if len(members) == 2:
-					vote = 2
-				embed = discord.Embed(title = f"Needs {vote} votes to stop!", color = ctx.bot.embedColor)
-				voteMessage = await ctx.send(embed = embed)
-				await voteMessage.add_reaction("⬆️")
-				def check(reaction, user):
-					global voteCount
-					if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
-						voteCount += 1
-						return voteCount == vote
-				try:
-					await self.bot.wait_for("reaction_add", check = check, timeout = 60)
-				except:
-					await sendMessage(ctx, "Vote has timed out")
-					return
-				ctx.bot.songQueue[str(ctx.guild.id)] = []
-				vc.stop()
-				await ctx.message.add_reaction("🛑")
-				await voteMessage.delete()
+				if not "mVoting" in data[guildID]["commands"]:
+					await ctx.trigger_typing()
+					voteCount = 0
+					y = len(members)
+					vote = y//2
+					if len(members) == 2:
+						vote = 2
+					embed = discord.Embed(title = f"Needs {vote} votes to stop!", color = ctx.bot.embedColor)
+					voteMessage = await ctx.send(embed = embed)
+					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
+					await voteMessage.add_reaction("⬆️")
+					def check(reaction, user):
+						global voteCount
+						if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
+							voteCount += 1
+							return voteCount == vote
+					try:
+						await self.bot.wait_for("reaction_add", check = check, timeout = 60)
+					except:
+						await sendMessage(ctx, "Vote has timed out")
+						return
+					ctx.bot.songQueue[str(ctx.guild.id)] = []
+					vc.stop()
+					await ctx.message.add_reaction("🛑")
+					await voteMessage.delete()
+				else:
+					try:
+						ctx.bot.songQueue[str(ctx.guild.id)] = []
+						vc.stop()
+						await ctx.message.add_reaction("🛑")
+					except:
+						await sendMessage(ctx, "Cannot stop music")
 			else:
 				try:
 					ctx.bot.songQueue[str(ctx.guild.id)] = []
@@ -247,6 +278,8 @@ class Music(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def pause(self, ctx):
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/disabledCommands")
 		vc = ctx.guild.voice_client
 		if ctx.message.author.voice == None:
 			await sendMessage(ctx, "You are not in a voice channel!")
@@ -262,28 +295,36 @@ class Music(commands.Cog):
 				if not member.bot:
 					members.append(member.id)
 			if len(members) > 1 and moderator == False:
-				await ctx.trigger_typing()
-				voteCount = 0
-				y = len(members)
-				vote = y//2
-				if len(members) == 2:
-					vote = 2
-				embed = discord.Embed(title = f"Needs {vote} votes to pause!", color = ctx.bot.embedColor)
-				voteMessage = await ctx.send(embed = embed)
-				await voteMessage.add_reaction("⬆️")
-				def check(reaction, user):
-					global voteCount
-					if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
-						voteCount += 1
-						return voteCount == vote
-				try:
-					await self.bot.wait_for("reaction_add", check = check, timeout = 60)
-				except:
-					await sendMessage(ctx, "Vote has timed out")
-					return
-				vc.pause()
-				await ctx.message.add_reaction("⏸️")
-				await voteMessage.delete()
+				if not "mVoting" in data[guildID]["commands"]:
+					await ctx.trigger_typing()
+					voteCount = 0
+					y = len(members)
+					vote = y//2
+					if len(members) == 2:
+						vote = 2
+					embed = discord.Embed(title = f"Needs {vote} votes to pause!", color = ctx.bot.embedColor)
+					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
+					voteMessage = await ctx.send(embed = embed)
+					await voteMessage.add_reaction("⬆️")
+					def check(reaction, user):
+						global voteCount
+						if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
+							voteCount += 1
+							return voteCount == vote
+					try:
+						await self.bot.wait_for("reaction_add", check = check, timeout = 60)
+					except:
+						await sendMessage(ctx, "Vote has timed out")
+						return
+					vc.pause()
+					await ctx.message.add_reaction("⏸️")
+					await voteMessage.delete()
+				else:
+					try:
+						vc.pause()
+						await ctx.message.add_reaction("⏸️")
+					except:
+						await sendMessage(ctx, "Cannot pause music")
 			else:
 				try:
 					vc.pause()
@@ -294,6 +335,8 @@ class Music(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def resume(self, ctx):
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/disabledCommands")
 		vc = ctx.guild.voice_client
 		if ctx.message.author.voice == None:
 			await sendMessage(ctx, "You are not in a voice channel!")
@@ -309,28 +352,36 @@ class Music(commands.Cog):
 				if not member.bot:
 					members.append(member.id)
 			if len(members) > 1 and moderator == False:
-				await ctx.trigger_typing()
-				voteCount = 0
-				y = len(members)
-				vote = y//2
-				if len(members) == 2:
-					vote = 2
-				embed = discord.Embed(title = f"Needs {vote} votes to resume!", color = ctx.bot.embedColor)
-				voteMessage = await ctx.send(embed = embed)
-				await voteMessage.add_reaction("⬆️")
-				def check(reaction, user):
-					global voteCount
-					if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
-						voteCount += 1
-						return voteCount == vote
-				try:
-					await self.bot.wait_for("reaction_add", check = check, timeout = 60)
-				except:
-					await sendMessage(ctx, "Vote has timed out")
-					return
-				vc.resume()
-				await ctx.message.add_reaction("⏯️")
-				await voteMessage.delete()
+				if not "mVoting" in data[guildID]["commands"]:
+					await ctx.trigger_typing()
+					voteCount = 0
+					y = len(members)
+					vote = y//2
+					if len(members) == 2:
+						vote = 2
+					embed = discord.Embed(title = f"Needs {vote} votes to resume!", color = ctx.bot.embedColor)
+					voteMessage = await ctx.send(embed = embed)
+					await voteMessage.add_reaction("⬆️")
+					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
+					def check(reaction, user):
+						global voteCount
+						if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
+							voteCount += 1
+							return voteCount == vote
+					try:
+						await self.bot.wait_for("reaction_add", check = check, timeout = 60)
+					except:
+						await sendMessage(ctx, "Vote has timed out")
+						return
+					vc.resume()
+					await ctx.message.add_reaction("⏯️")
+					await voteMessage.delete()
+				else:
+					try:
+						vc.resume()
+						await ctx.message.add_reaction("⏯️")
+					except:
+						await sendMessage(ctx, "Cannot pause music")
 			else:
 				try:
 					vc.resume()
