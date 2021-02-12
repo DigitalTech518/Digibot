@@ -397,7 +397,7 @@ async def on_message(message):
 				Pinglist = "None"
 			await Users.find_one_and_delete({"_id": memberID})
 			await Users.insert_one(doc)
-			await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", Pinglist, message = "You have been set to not AFK!")
+			await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", Pinglist, message = "You are no longer afk!")
 			return
 	await client.process_commands(message)
 
@@ -719,6 +719,12 @@ async def on_command_error(ctx, error):
 	elif "Command raised an exception: Forbidden: 403 Forbidden (error code: 50013): Missing Permissions" in str(error):
 		title = "I do not have permission to do that!"
 		description = "You are trying to have me do something that my role doesn't allow me to do! Either move my role up on the list, above the muted role, or allow my role to allow me to preform this action."
+	elif "Command raised an exception: OverflowError: Python int too large to convert to C int" in str(error):
+		title = "That number is too big!"
+		description = "Please use a smaller number."
+	elif isinstance(error, commands.NotOwner):
+		title = "Only the owner can use this command!"
+		description = "If you think this is a mistake contact the owner using `d!support`!"
 	if not title == None:
 		await sendMessage(ctx, title, description)	
 		return

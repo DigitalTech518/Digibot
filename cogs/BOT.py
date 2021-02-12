@@ -49,6 +49,7 @@ class BOT(commands.Cog):
 		await ctx.trigger_typing()
 		data = requests.get("https://raw.githubusercontent.com/DigitalTech518/Digibot/main/help.json")
 		if category == None:
+			print("1")
 			categories = []
 			for categoryy in data.json()["help"]:
 				categories.append(str(categoryy))
@@ -58,12 +59,18 @@ class BOT(commands.Cog):
 		category = category.lower()
 		categoryName = []
 		if str(category) in data.json()["categories"]:
+			print("2")
 			for commandName in data.json()["categories"][category]["commands"]:
 				categoryName.append(commandName)
 			categoryName = "\n".join(categoryName)
 			await sendMessage(ctx, category, f"**```{str(categoryName)}```**")
 		if not str(category) in data.json()["categories"]:
-			commandName = data.json()["commands"][category]
+			print("3")
+			try:
+				category = self.bot.get_command(f"{category}")
+				category = str(category.name)
+			except:
+				category = data.json()["commands"][category]
 			embed = discord.Embed(title = category, color = ctx.bot.embedColor)
 			for key in data.json()["commands"][category]:
 				embed.add_field(name = key, value = data.json()["commands"][category][key], inline = False)

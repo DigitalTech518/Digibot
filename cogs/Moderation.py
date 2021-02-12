@@ -3,6 +3,7 @@ from discord.ext import commands
 from json import load, dumps
 from asyncio import sleep
 import requests
+import random
 import discord
 from discord.utils import get
 from re import search
@@ -15,6 +16,182 @@ except:
 class Moderation(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+
+	@commands.command()
+	@commands.guild_only()
+	async def modping(self, ctx, *, reason = None):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await sendMessage(ctx, "There is no moderation role to ping!")
+			return
+		if not "modrole" in doc:
+			await sendMessage(ctx, "There is no moderation role to ping!")
+			return
+		firstModpingMods = []
+		firstTemp = []
+		secondModpingMods = []
+		secondTemp = []
+		thirdModpingMods = []
+		thirdTemp = []
+		allMods = []
+		modRoles = doc["modrole"]
+		###################
+		for modRole in modRoles:
+			role = ctx.guild.get_role(int(modRole))
+			for member in role.members:
+				if not member.mention in firstTemp:
+					if str(member.status) == "online":
+						firstTemp.append(member.mention)
+		if len(firstTemp) < 1:
+			for modRole in modRoles:
+				role = ctx.guild.get_role(int(modRole))
+				for member in role.members:
+					if not member.mention in firstTemp:
+						if len(firstTemp) < 1:
+							firstTemp.append(member.mention)
+		if len(firstModpingMods) < 1:
+			firstModpingMods.append(random.choice(firstTemp))
+		###################
+		for modRole in modRoles:
+			role = ctx.guild.get_role(int(modRole))
+			for member in role.members:
+				if not member.mention in secondTemp:
+					if not member.mention in firstModpingMods:
+						if str(member.status) == "online":
+							secondTemp.append(member.mention)
+		if len(secondTemp) < 3:
+			for modRole in modRoles:
+				role = ctx.guild.get_role(int(modRole))
+				for member in role.members:
+					if not member.mention in secondTemp:
+						if not member.mention in firstModpingMods:
+							if len(secondTemp) < 3:
+								secondTemp.append(member.mention)
+		while True:
+			mod = random.choice(secondTemp)
+			if not mod in secondModpingMods:
+				secondModpingMods.append(mod)
+			if len(secondModpingMods) == 3:
+				break
+		###################
+		for modRole in modRoles:
+			role = ctx.guild.get_role(int(modRole))
+			for member in role.members:
+				if not member.mention in thirdModpingMods:
+					if not member.mention in firstModpingMods:
+						if not member.mention in secondModpingMods:
+							thirdModpingMods.append(member.mention)
+		###################
+		for modRole in modRoles:
+			role = ctx.guild.get_role(int(modRole))
+			for member in role.members:
+				if not member.id in allMods:
+					allMods.append(member.id)
+		###################
+		firstPings = "".join(firstModpingMods)
+		secondPings = "".join(secondModpingMods)
+		thirdPings = "".join(thirdModpingMods)
+		edit = discord.Embed(title = "Issue has been resolved", color = ctx.bot.embedColor)
+		embed1 = discord.Embed(title = f"{ctx.author.name}, a moderator will be with you as soon as possible!", color = ctx.bot.embedColor)
+		embed2 = discord.Embed(title = "Hmm, seems they were busy. Pinging more moderators...", color = ctx.bot.embedColor)
+		embed3 = discord.Embed(title = "Seems like they were busy as well. Pinging all moderators")
+		firstModpingMessage = await ctx.send(firstPings, embed = embed1)
+		await firstModpingMessage.add_reaction("✅")
+		def check(reaction, user):
+			if user.id in allMods and str(reaction.emoji) == "✅" and reaction.message == firstModpingMessage: 
+				return True
+		try:
+			await self.bot.wait_for("reaction_add", check = check, timeout = 90)
+			await firstModpingMessage.edit(embed = edit)
+		except:
+			await ctx.send(secondPings, embed = embed2)
+			try:
+				await self.bot.wait_for("reaction_add", check = check, timeout = 120)
+				await firstModpingMessage.edit(embed = edit)
+			except:
+				await ctx.send(thirdPings, embed = embed3)
+				try:
+					await self.bot.wait_for("reaction_add", check = check, timeout = 500)
+					await firstModpingMessage.edit(embed = edit)
+				except:
+					pass
+
+	@commands.command()
+	@commands.has_permissions(kick_members = True)
+	@commands.guild_only()
+	async def setmodrole(self, ctx, role: discord.Role):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await Guilds.insert_one({
+				"_id": guildID,
+				"modrole": [str(role.id)]
+				})
+			doc = await Guilds.find_one({"_id": guildID})
+		if doc:
+			if "modrole" in doc:
+				doc["modrole"].append(str(role.id))
+				await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+				doc = await Guilds.find_one({"_id": guildID})
+			else:
+				await Guilds.find_one_and_update({"_id": guildID}, {"$set": {
+					"modrole": [str(role.id)]
+					}})
+				doc = await Guilds.find_one({"_id": guildID})
+		await sendMessage(ctx, "Moderation role has been set!", f"{role.name} has been set as the moderation role!")
+
+	@commands.command()
+	@commands.has_permissions(kick_members = True)
+	@commands.guild_only()
+	async def viewmodroles(self, ctx):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await sendMessage(ctx, "You do not have a moderation role set!")
+			return
+		if doc:
+			if not "modrole" in doc:
+				await sendMessage(ctx, "You do not have a moderation role set!")
+				return
+			else:
+				roleList = []
+				for role in doc["modrole"]:
+					modrole = ctx.guild.get_role(int(role))
+					roleList.append(modrole.name)
+				roleList = " ".join(roleList)
+		await sendMessage(ctx, f"{roleList} are the current moderation roles!")
+
+	@commands.command()
+	@commands.has_permissions(kick_members = True)
+	@commands.guild_only()
+	async def removemodroles(self, ctx):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await sendMessage(ctx, "You do not have a moderation role set!")
+			return
+		if doc:
+			if not "modrole" in doc:
+				await sendMessage(ctx, "You do not have a moderation role set!")
+				return
+			else:
+				doc.pop("modrole")
+				await Guilds.find_one_and_delete({"_id": guildID})
+				await Guilds.insert_one(doc)
+		await sendMessage(ctx, f"Modrole has been deleted!")
 
 	@commands.command()
 	@commands.has_permissions(kick_members = True)
@@ -86,7 +263,7 @@ class Moderation(commands.Cog):
 			await sendMessage(await getLog(ctx.guild.id, "moderation"), "Member was unmuted", f"{member.mention} was unmuted. ({reason})", None, f"Moderator Responsible: {ctx.author.id}")
 		except:
 			pass
-
+			
 	@commands.command()
 	@commands.has_permissions(manage_messages = True)
 	@commands.guild_only()
