@@ -121,7 +121,7 @@ class Moderation(commands.Cog):
 					pass
 
 	@commands.command()
-	@commands.has_permissions(kick_members = True)
+	@commands.has_permissions(ban_members = True)
 	@commands.guild_only()
 	async def setmodrole(self, ctx, role: discord.Role):
 		await ctx.trigger_typing()
@@ -148,7 +148,7 @@ class Moderation(commands.Cog):
 		await sendMessage(ctx, "Moderation role has been set!", f"{role.name} has been set as the moderation role!")
 
 	@commands.command()
-	@commands.has_permissions(kick_members = True)
+	@commands.has_permissions(ban_members = True)
 	@commands.guild_only()
 	async def viewmodroles(self, ctx):
 		await ctx.trigger_typing()
@@ -172,7 +172,7 @@ class Moderation(commands.Cog):
 		await sendMessage(ctx, f"{roleList} are the current moderation roles!")
 
 	@commands.command()
-	@commands.has_permissions(kick_members = True)
+	@commands.has_permissions(ban_members = True)
 	@commands.guild_only()
 	async def removemodroles(self, ctx):
 		await ctx.trigger_typing()

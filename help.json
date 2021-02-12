@@ -53,7 +53,11 @@
 				"pardonwarn          <member>[number]",
 				"modnote             <user>[note]",
 				"pardonnote          <user>[note number (see order on list)]",
-				"records             <user>"
+				"records             <user>",
+				"setmodrole          <role>",
+				"viewmodrole         [N/A]",
+				"removemodroles      [N/A]",
+				"modping             [N/A]"
 			]
 		},
 		"server": {
@@ -118,6 +122,26 @@
 		}
 	},
 	"commands":{
+		"setmodrole":{
+			"Description:": "Set what role is your moderation role.",
+			"Permission:": "ban_members",
+			"Usage:": "setmodrole <role>"
+		},
+		"viewmodrole":{
+			"Description:": "View what roles are currently set up to be moderation roles.",
+			"Permission:": "ban_members",
+			"Usage:": "viewmodrole"
+		},
+		"removemodroles":{
+			"Description:": "remove currently set mod roles.",
+			"Permission:": "ban_members",
+			"Usage:": "removemodroles"
+		},
+		"modping":{
+			"Description:": "Ping a moderation for help or to report someone breaking the rules! (Servers may have diffrent rules for the usage of this command, follow those rules!",
+			"Permission:": "None",
+			"Usage:": "modping"
+		},
 		"github":{
 			"Description:": "Make a suggestion, report an error, or just see the code that runs Digibot!",
 			"Permission:": "None",
