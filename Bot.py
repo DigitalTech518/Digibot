@@ -699,14 +699,14 @@ async def on_raw_reaction_remove(payload):
 	
 @client.event
 async def on_command_error(ctx, error):
-	await ctx.trigger_typing()
 	title = None
 	description = None
 	if isinstance(error, commands.CommandNotFound):
 		return
 	elif isinstance(error, commands.MissingPermissions):
 		title = "Missing Permissions"
-		description = "You do not have permission to run this command"
+		missingPerms = " ".join(error.missing_perms)
+		description = f"You do not have `{missingPerms}` permission to run this command"
 	elif isinstance(error, commands.MissingRequiredArgument):
 		title = "Missing required parameter"
 		description = f"Please enter: `{error.param.name}`"

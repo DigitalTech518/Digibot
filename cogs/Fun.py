@@ -78,6 +78,8 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def bean(self, ctx, member, *, reason):
 		await ctx.trigger_typing()
+		if reason == None:
+			reason = "No reason given"
 		await sendMessage(ctx, "User has been beaned!", f"{member} was beaned for reason: {reason}")
 	
 	@commands.command(aliases = ["8ball"])
