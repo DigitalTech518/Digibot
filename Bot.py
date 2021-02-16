@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, time
 from discord.ext import commands, tasks
 from json import load, dumps
-from asyncio import sleep, get_event_loop
+from asyncio import sleep, get_event_loop, TimeoutError
 import requests
 from re import search
 import discord
@@ -11,6 +11,13 @@ from os import listdir
 from platform import system
 import ibl
 import motor.motor_asyncio
+from threading import Thread
+from functools import partial
+from flask import Flask, render_template
+app = Flask( 
+    __name__,
+    template_folder='templates'
+)
 
 global muteLoopRunning
 muteLoopRunning = False
@@ -33,6 +40,8 @@ client.spaceToken = spaceToken
 client.botPrefix = data["prefix"]
 client.embedColor = int(data["colors"]["embedColor"], 16)
 embedColor = int(data["colors"]["embedColor"], 16)
+client.strColor = data["colors"]["embedColor"]
+strColor = client.strColor
 client.mutedColor = int(data["colors"]["mutedColor"], 16)
 mutedColor = int(data["colors"]["mutedColor"], 16)
 data["launches"] = data["launches"] + 1
@@ -73,6 +82,74 @@ async def sendMessage(ctx, title = None, description = None, colour = None, foot
 			await ctx.send(message, embed = embed)
 			return
 		await ctx.send(embed = embed)	
+
+async def pagination(message, messages, showpages):
+	if showpages == True:
+		for demessage in messages:
+			demessage.set_footer(text=f"{messages.index(demessage)+1}/{len(messages)}")
+	page = 0
+	pages = messages
+	reactions = ["⏪", "◀️","⏹️", "▶️", "⏩"] if len(messages) > 1 else ["⏹️"]
+	mainMessage = await message.channel.send(embed=pages[page])
+	for emoji in reactions:
+		await mainMessage.add_reaction(emoji)
+	incol = True
+	while incol == True:
+		try:
+			collector = await client.wait_for(
+						'raw_reaction_add',
+						check=(
+							lambda x: x.message_id == mainMessage.id
+							and x.user_id == message.author.id
+							and x.emoji.name in reactions
+						),
+						timeout=60
+					)
+			if collector.emoji.name == "⏪":
+				page = 0
+				try:
+					await mainMessage.remove_reaction("⏪", message.author)
+				except:
+					pass
+			elif collector.emoji.name == "◀️":
+				if page == 0:
+					page = len(messages) - 1
+				else: page -= 1
+				try:
+					await mainMessage.remove_reaction("◀️", message.author)
+				except:
+					pass
+			elif collector.emoji.name == "▶️":
+				if page == len(messages) - 1:
+					page = 0
+				else: page += 1
+				try:
+					await mainMessage.remove_reaction("▶️", message.author)
+				except:
+					pass
+			elif collector.emoji.name == "⏩":
+				page = len(messages)-1
+				try:
+					await mainMessage.remove_reaction("⏩", message.author)
+				except:
+					pass
+			elif collector.emoji.name == "⏹️":
+				incol = False
+				try:
+					await mainMessage.remove_reaction("⏹️", message.author)
+				except:
+					pass
+				for emoji in reactions:
+					await mainMessage.remove_reaction(emoji, client.user)
+			await mainMessage.edit(embed=pages[page])
+		except TimeoutError:
+			incol = False
+			for emoji in reactions:
+				try:
+					await mainMessage.remove_reaction(emoji, client.user)
+					await mainMessage.remove_reaction(emoji, message.author)
+				except:
+					pass
 
 async def sendLog(guildID, category, embed):
 	with open("files/auditlog.json") as jsonFile:
@@ -258,6 +335,26 @@ async def on_ready():
 	await removeRemind()
 	await remindLoop()
 
+partial_run = partial(app.run, host="0.0.0.0", debug=True, use_reloader=False)
+@app.route("/")
+def base_page():
+	userCount = 0
+	for guild in client.guilds:
+		userCount += len(guild.members)
+	guildCount = len(client.guilds)
+	current_time = datetime.now()
+	difference = current_time - client.start_time
+	uptime = str(difference).split(".")[0]
+	return render_template("index.html",
+		Users = userCount,
+		Guilds = guildCount,
+		Uptime = uptime,
+		Launches = client.launches,
+		Color = strColor,
+		CommandCount = len(client.commands)
+		)
+
+
 for filename in listdir('./cogs'):
 	if filename.endswith('.py'):
 		client.load_extension(f'cogs.{filename[:-3]}')
@@ -394,11 +491,13 @@ async def on_message(message):
 				doc.pop("pings")
 			except:
 				pingCount = 0
-				Pinglist = "None"
+				Pinglist = None
 			await Users.find_one_and_delete({"_id": memberID})
 			await Users.insert_one(doc)
-			await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", Pinglist, message = "You are no longer afk!")
-			return
+			if Pinglist == None:
+				await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", message = "You are no longer afk!")
+			else:
+				await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", Pinglist, message = "You are no longer afk!")
 	await client.process_commands(message)
 
 #########################################################################################################################
@@ -662,7 +761,7 @@ async def reload(ctx, category):
 @client.event
 async def on_raw_reaction_add(payload):
 	if payload.member.bot:
-		return
+		return	
 	data = await openFile("files/reactionRoles")
 	guild = client.get_guild(payload.guild_id)
 	messageID = str(payload.message_id)
@@ -725,6 +824,9 @@ async def on_command_error(ctx, error):
 	elif isinstance(error, commands.NotOwner):
 		title = "Only the owner can use this command!"
 		description = "If you think this is a mistake contact the owner using `d!support`!"
+	elif "Command raised an exception: ValueError: invalid literal for int() with base 10:" in str(error):
+		title = "That is not a number!"
+		description = "Please input a valid number!"
 	if not title == None:
 		await sendMessage(ctx, title, description)	
 		return
@@ -737,4 +839,6 @@ async def on_command_error(ctx, error):
 		if not "discord.ext.commands.errors.CommandNotFound" in str(error):
 			print(error)
 
+t = Thread(target=partial_run)
+t.start()
 client.run(token)

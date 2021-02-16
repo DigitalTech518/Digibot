@@ -10,9 +10,9 @@ from discord.utils import get
 from os import listdir
 from platform import system 
 try:
-	from Bot import sendMessage, sendLog, writeFile, openFile
+	from Bot import sendMessage, sendLog, writeFile, openFile, pagination
 except:
-	from Bot1 import sendMessage, sendLog, writeFile, openFile
+	from Bot1 import sendMessage, sendLog, writeFile, openFile, pagination
 
 with open("config.json") as jsonFile:
 	data = load(jsonFile)
@@ -117,7 +117,7 @@ class BOT(commands.Cog):
 		difference = current_time - ctx.bot.start_time
 		uptime = str(difference).split(".")[0]
 		embed.add_field(name = "Uptime", value = uptime)
-		embed.add_field(name = "Color", value = ctx.bot.embedColor)
+		embed.add_field(name = "Color", value = f"#{ctx.bot.strColor}")
 		embed.add_field(name = "Server Count", value = len(ctx.bot.guilds))
 		userCount = 0
 		for guild in ctx.bot.guilds:

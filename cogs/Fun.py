@@ -76,7 +76,7 @@ class fun(commands.Cog):
 	@commands.has_permissions(manage_messages = True)
 	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
-	async def bean(self, ctx, member, *, reason):
+	async def bean(self, ctx, member, *, reason = None):
 		await ctx.trigger_typing()
 		if reason == None:
 			reason = "No reason given"
