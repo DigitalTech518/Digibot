@@ -16,6 +16,57 @@ class Utility(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	#@commands.command()
+	#@commands.has_permissions(manage_guild = True)
+	#@commands.cooldown(1, 5, commands.BucketType.user)
+	#async def vcstats(self, ctx, Type, stat, nameOfChannel):
+	#	guildID = str(ctx.guild.id)
+	#	if not str(Type) in ["add", "rem", "remove"]:
+	#		await sendMessage(ctx, "You must specify if you want to add or remove a VC stat.")
+	#		return
+	#	try:
+	#		if int(nameOfChannel):
+	#			await sendMessage(ctx, "You cannot make the name a number!")
+	#			return
+	#	except:
+	#		pass
+	#	data = await openFile("files/voice_stats")
+	#	if stat in data["categories"]:
+	#		if str(Type) == "add":
+	#			if not guildID in data:
+	#				data[guildID] = {}
+	#			if not "stats" in data[guildID]:
+	#				data[guildID]["stats"] = []
+	#			print(data)
+	#			if len(data[guildID]["stats"]) >= 1:
+	#				for s in data[guildID]["stats"]:
+	#					s = str(s).split("'")[1]
+	#					print(s)
+	#					print(stat)
+	#					if str(stat) == str(s):
+	#						await sendMessage(ctx, "You already have that stat!")
+	#						return
+	#			if stat == "botCount":
+	#				vcStat = 0
+	#				for member in ctx.guild.members: 
+	#					if member.bot:	
+	#						vcStat += 1
+	#			elif stat == "channelCount":
+	#				vcStat = len(ctx.guild.channels)
+	#			elif stat == "roleCount":
+	#				vcStat = len(ctx.guild.roles) - 1
+	#			elif stat == "memberCount":
+	#				vcStat = len(ctx.guild.members)
+	#			vc = await ctx.guild.create_voice_channel(name = f"{nameOfChannel} {str(vcStat)}", overrides = {ctx.guild.default_role: discord.PermissionOverwrite(connect=False)})
+	#			data[guildID]["stats"].append({
+	#				stat: str(vc.id)
+	#				})
+	#			outfile = await writeFile("files/voice_stats", data)
+	#	else:
+	#		message = "\n".join(data["categories"])
+	#		await sendMessage(ctx, "Please enter a valid stat!", f"**Available cateogories:**\n{message}")
+	#		return
+
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def afk(self, ctx, *, reason = None):

@@ -92,7 +92,8 @@
 			"commands": [
 				"dm                  [memberID][message]",
 				"botded              [N/A]",
-				"say                 <channelID>[message]"
+				"say                 <channelID>[message]",
+				"blacklist           <user>[reason]"
 			]
 		},
 		"user": {
@@ -122,6 +123,10 @@
 		}
 	},
 	"commands":{
+		"blacklist":{
+			"Description:": "Ban a user from usage of the bot.",
+			"Usage:": "blacklist <user> [reason]"
+		},
 		"setmodrole":{
 			"Description:": "Set what role is your moderation role.",
 			"Permission:": "ban_members",

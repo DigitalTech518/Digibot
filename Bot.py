@@ -350,8 +350,7 @@ def base_page():
 		Guilds = guildCount,
 		Uptime = uptime,
 		Launches = client.launches,
-		Color = strColor,
-		CommandCount = len(client.commands)
+		Color = strColor
 		)
 
 
@@ -410,6 +409,17 @@ async def on_message(message):
 			commandName = None
 	if commandName == None:
 		commandName = client.get_command(message.content.replace(botPrefix, "").split(" ")[0])
+	cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+	Users = cluster["bot"]["Users"]
+	memberID = str(message.author.id)
+	doc = await Users.find_one({"_id": memberID})
+	if doc:
+		if not commandName == None:
+			if "blacklisted" in doc:
+				if not doc["blacklisted"] == "no":
+					reason = doc["blacklisted"]
+					await sendMessage(message.channel, "You are blacklisted!", f"**Reason:**\n{reason}\n\nJoin [here](https://discord.gg/9G9vf6qvdH) and dm Digital_Tech#0001 to appeal a ban.")
+					return
 	data = await openFile("files/customprefix")
 	parent = None
 	for botCommand in client.commands:

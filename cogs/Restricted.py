@@ -16,6 +16,39 @@ class Restricted(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command(aliases = ["bl"])
+	@commands.is_owner()
+	async def blacklist(self, ctx, user: discord.User, reason = None):
+		await ctx.trigger_typing()
+		if reason == None:
+			reason = "No reason provided"
+		userID = str(user.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Users = cluster["bot"]["Users"]
+		doc = await Users.find_one({"_id": userID})
+		if not doc:
+			await Users.insert_one({
+				"_id": str(userID),
+				"blacklisted": "no"
+				})
+			doc = await Users.find_one({"_id": userID})
+		if not "blacklisted" in doc:
+			await Users.find_one_and_update({"_id": userID}, {"$set":{
+				"blacklisted": reason
+				}})
+			await sendMessage(ctx, f"{user.name} has been blacklisted")
+		if "blacklisted" in doc:
+			if str(doc["blacklisted"]) == "no":
+				doc["blacklisted"] = reason
+				await sendMessage(ctx, f"{user.name} has been blacklisted")
+				await Users.find_one_and_update({"_id": userID}, {"$set": doc})
+				return
+			else:
+				doc["blacklisted"] = "no"
+				await sendMessage(ctx, f"{user.name} has been removed from blacklist.")
+				await Users.find_one_and_update({"_id": userID}, {"$set": doc})
+				return
+
 	@commands.command()
 	@commands.is_owner()
 	async def botded(self, ctx):

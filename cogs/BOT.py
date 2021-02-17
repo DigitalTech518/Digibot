@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, time
+import time as theRealTime
 from discord.ext import commands
 from json import load, dumps
 from asyncio import sleep
@@ -81,7 +82,11 @@ class BOT(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def ping(self, ctx):
 		await ctx.trigger_typing()
-		await sendMessage(ctx, f"Pong! The latency is {round(ctx.bot.latency * 1000)}ms")
+		m = await ctx.send("Ping?")
+		before = theRealTime.monotonic()
+		await  m.delete()
+		after=(theRealTime.monotonic() - before) * 1000
+		await sendMessage(ctx, f"Pong!\nThe bot latency is {round(ctx.bot.latency * 1000)}ms\nRoundtrip: {round(after)}ms")
 	
 	@commands.command()
 	@commands.has_permissions(manage_roles = True)
@@ -125,6 +130,7 @@ class BOT(commands.Cog):
 			userCount = userCount + Int 
 		embed.add_field(name = "Amount of Users", value = userCount)
 		embed.add_field(name = "Launches", value = ctx.bot.launches)
+		embed.add_field(name = "Amount of commands", value = len(ctx.bot.commands))
 		embed.add_field(name = "Discord", value = "Join my [server](https://discord.gg/9G9vf6qvdH)!")
 		embed.set_footer(text = "Bot made by Digital_Tech")
 		await ctx.message.reply(mention_author = False, embed = embed)
