@@ -121,9 +121,9 @@ class BOT(commands.Cog):
 			if str(ctx.guild.id) in data:
 				color = int(data[str(ctx.guild.id)]["color"], 16)
 			else:
-				color = embedColor
+				color = ctx.bot.embedColor
 		except:
-			color = embedColor
+			color = ctx.bot.embedColor
 		embed = discord.Embed(color = color, title = "Bot info")
 		try:
 			test = await openFile("files/customprefix")
@@ -135,7 +135,10 @@ class BOT(commands.Cog):
 		difference = current_time - ctx.bot.start_time
 		uptime = str(difference).split(".")[0]
 		embed.add_field(name = "Uptime", value = uptime)
-		embed.add_field(name = "Color", value = f"#{ctx.bot.strColor}")
+		try:
+			embed.add_field(name = "Set color", value = f"#{data[str(ctx.guild.id)]['color']}")
+		except:
+			embed.add_field(name = "Set color", value = f"#{ctx.bot.strColor}")
 		embed.add_field(name = "Server Count", value = len(ctx.bot.guilds))
 		userCount = 0
 		for guild in ctx.bot.guilds:
