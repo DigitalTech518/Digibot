@@ -61,7 +61,14 @@ client.remove_command("help")
 
 async def sendMessage(ctx, title = None, description = None, colour = None, footer = None, message = None):
 	if colour == None:
-		colour = embedColor
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				colour = int(data[str(ctx.guild.id)]["color"], 16)
+			else:
+				colour = embedColor
+		except:
+			colour = embedColor
 	embed = discord.Embed(title = title, color = colour, description = description)
 	if not footer == None:
 		embed.set_footer(text = footer)

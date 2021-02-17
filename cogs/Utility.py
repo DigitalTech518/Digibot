@@ -16,10 +16,59 @@ class Utility(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command()
+	@commands.has_permissions(manage_guild = True)
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def customcolor(self, ctx, color):
+		await ctx.trigger_typing()
+		match = search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color)
+		if match:
+			try:
+				newColorr = color.split("#")[1]
+			except:
+				pass
+			newColor = int(newColorr, 16)
+			guildID = str(ctx.guild.id)
+			data = await openFile("files/colors")
+			if not guildID in data:
+				data[guildID] = {}
+			data[guildID]["color"] = newColorr
+		else:
+			await sendMessage(ctx, "That isn't a valid hex color!")
+			return
+		outFile = await writeFile("files/colors", data)
+		await sendMessage(ctx, f"{newColorr} has been set as the embed color!")
+
+	@commands.command()
+	@commands.has_permissions(manage_guild = True)
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def removecolor(self, ctx):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/colors")
+		if guildID in data:
+			del data[guildID]
+		else:
+			await sendMessage(ctx, "You don't have a color set!")
+		outFile = await writeFile("files/colors", data)
+		await sendMessage(ctx, f"Color has been reset!")
+
+	@commands.command()
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def viewcolor(self, ctx):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		data = await openFile("files/colors")
+		if guildID in data:
+			await sendMessage(ctx, f"The current set color is #{data[guildID]['color']}")
+		else:
+			await sendMessage(ctx, "You don't have a color set!")
+
 	#@commands.command()
 	#@commands.has_permissions(manage_guild = True)
 	#@commands.cooldown(1, 5, commands.BucketType.user)
 	#async def vcstats(self, ctx, Type, stat, nameOfChannel):
+	#	await ctx.trigger_typing()
 	#	guildID = str(ctx.guild.id)
 	#	if not str(Type) in ["add", "rem", "remove"]:
 	#		await sendMessage(ctx, "You must specify if you want to add or remove a VC stat.")
@@ -261,7 +310,15 @@ class Utility(commands.Cog):
 		await ctx.trigger_typing()
 		try:
 			await ctx.channel.purge(limit = int(amount)+1)
-			embed = discord.Embed(title = f"Purged {amount} messages from chat", color = ctx.bot.embedColor)
+			try:
+				data = await openFile("files/colors")
+				if str(ctx.guild.id) in data:
+					color = data[str(ctx.guild.id)]["color"]
+				else:
+					color = ctx.bot.embedColor
+			except:
+				color = ctx.bot.embedColor
+			embed = discord.Embed(title = f"Purged {amount} messages from chat", color = color)
 			message = await ctx.send(embed = embed)
 			await sleep(1)
 			await message.delete()

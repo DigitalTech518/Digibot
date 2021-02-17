@@ -23,7 +23,15 @@ def playNext(ctx):
 		del ctx.bot.songQueue[guildID][0]
 		info = ctx.bot.songQueue[guildID][0]
 		beforeArgs = "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
-		embed = discord.Embed(title = f"Now playing `{info['title']}`", color = ctx.bot.embedColor)
+		try:
+			data = run_coroutine_threadsafe(openFile("files/colors"))
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = f"Now playing `{info['title']}`", color = color)
 		embed.set_thumbnail(url = f"https://img.youtube.com/vi/{info['id']}/maxresdefault.jpg")
 		embed.set_author(name = "Click here to open online", url = f"https://youtu.be/{info['id']}")
 		run_coroutine_threadsafe(ctx.send(embed = embed), ctx.bot.eventLoop)
@@ -125,7 +133,15 @@ class Music(commands.Cog):
 					vote = y//2
 					if len(members) == 2:
 						vote = 2
-					embed = discord.Embed(title = f"Needs {vote} votes to leave!", color = ctx.bot.embedColor)
+					try:
+						data = await openFile("files/colors")
+						if str(ctx.guild.id) in data:
+							color = data[str(ctx.guild.id)]["color"]
+						else:
+							color = ctx.bot.embedColor
+					except:
+						color = ctx.bot.embedColor
+					embed = discord.Embed(title = f"Needs {vote} votes to leave!", color = color)
 					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
 					voteMessage = await ctx.send(embed = embed)
 					await voteMessage.add_reaction("⬆️")
@@ -185,7 +201,15 @@ class Music(commands.Cog):
 					vote = y//2
 					if len(members) == 2:
 						vote = 2
-					embed = discord.Embed(title = f"Needs {vote} votes to skip!", color = ctx.bot.embedColor)
+					try:
+						data = await openFile("files/colors")
+						if str(ctx.guild.id) in data:
+							color = data[str(ctx.guild.id)]["color"]
+						else:
+							color = ctx.bot.embedColor
+					except:
+						color = ctx.bot.embedColor
+					embed = discord.Embed(title = f"Needs {vote} votes to skip!", color = color)
 					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
 					voteMessage = await ctx.send(embed = embed)
 					await voteMessage.add_reaction("⬆️")
@@ -242,7 +266,15 @@ class Music(commands.Cog):
 					vote = y//2
 					if len(members) == 2:
 						vote = 2
-					embed = discord.Embed(title = f"Needs {vote} votes to stop!", color = ctx.bot.embedColor)
+					try:
+						data = await openFile("files/colors")
+						if str(ctx.guild.id) in data:
+							color = data[str(ctx.guild.id)]["color"]
+						else:
+							color = ctx.bot.embedColor
+					except:
+						color = ctx.bot.embedColor
+					embed = discord.Embed(title = f"Needs {vote} votes to stop!", color = color)
 					voteMessage = await ctx.send(embed = embed)
 					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
 					await voteMessage.add_reaction("⬆️")
@@ -302,7 +334,15 @@ class Music(commands.Cog):
 					vote = y//2
 					if len(members) == 2:
 						vote = 2
-					embed = discord.Embed(title = f"Needs {vote} votes to pause!", color = ctx.bot.embedColor)
+					try:
+						data = await openFile("files/colors")
+						if str(ctx.guild.id) in data:
+							color = data[str(ctx.guild.id)]["color"]
+						else:
+							color = ctx.bot.embedColor
+					except:
+						color = ctx.bot.embedColor
+					embed = discord.Embed(title = f"Needs {vote} votes to pause!", color = color)
 					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
 					voteMessage = await ctx.send(embed = embed)
 					await voteMessage.add_reaction("⬆️")
@@ -359,7 +399,15 @@ class Music(commands.Cog):
 					vote = y//2
 					if len(members) == 2:
 						vote = 2
-					embed = discord.Embed(title = f"Needs {vote} votes to resume!", color = ctx.bot.embedColor)
+					try:
+						data = await openFile("files/colors")
+						if str(ctx.guild.id) in data:
+							color = data[str(ctx.guild.id)]["color"]
+						else:
+							color = ctx.bot.embedColor
+					except:
+						color = ctx.bot.embedColor
+					embed = discord.Embed(title = f"Needs {vote} votes to resume!", color = color)
 					voteMessage = await ctx.send(embed = embed)
 					await voteMessage.add_reaction("⬆️")
 					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")

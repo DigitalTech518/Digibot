@@ -24,7 +24,15 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def goddamn(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(title = "Damn... :tired_face:", color = ctx.bot.embedColor)
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = "Damn... :tired_face:", color = color)
 		embed.set_image(url = "https://media.discordapp.net/attachments/736965208076976188/764828263507820544/image0.gif")
 		await ctx.message.reply(embed = embed)
 	
@@ -32,7 +40,15 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def butterdog(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(title = "ButterDog", color = ctx.bot.embedColor)
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = "ButterDog", color = ccolor)
 		embed.set_image(url = "https://cdn.discordapp.com/attachments/753738964216709280/787159035866382346/butterdog.gif")
 		await ctx.message.reply(embed = embed)
 	
@@ -40,7 +56,15 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def shut(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(title = "Shut", color = ctx.bot.embedColor)
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = "Shut", color = color)
 		embed.set_image(url = "https://cdn.discordapp.com/attachments/787182274504294400/787187354430996520/tenor_1.gif")
 		await ctx.message.reply(embed = embed)
 	
@@ -54,7 +78,15 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def unfunny(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(title = "Where is the funny?", color = ctx.bot.embedColor)
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = "Where is the funny?", color = color)
 		embed.set_image(url = "https://cdn.discordapp.com/attachments/791469412002824255/792532800549027841/tenor_2.gif")
 		await ctx.message.reply(embed = embed)
 
@@ -62,7 +94,15 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def hmm(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(title = "Hmmmmm...", color = ctx.bot.embedColor)
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = "Hmmmmm...", color = color)
 		embed.set_image(url = "https://cdn.discordapp.com/attachments/733418529671610493/802668344754700308/unknown.gif")
 		await ctx.message.reply(embed = embed)
 

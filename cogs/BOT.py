@@ -50,7 +50,6 @@ class BOT(commands.Cog):
 		await ctx.trigger_typing()
 		data = requests.get("https://raw.githubusercontent.com/DigitalTech518/Digibot/main/help.json")
 		if category == None:
-			print("1")
 			categories = []
 			for categoryy in data.json()["help"]:
 				categories.append(str(categoryy))
@@ -60,19 +59,25 @@ class BOT(commands.Cog):
 		category = category.lower()
 		categoryName = []
 		if str(category) in data.json()["categories"]:
-			print("2")
 			for commandName in data.json()["categories"][category]["commands"]:
 				categoryName.append(commandName)
 			categoryName = "\n".join(categoryName)
 			await sendMessage(ctx, category, f"**```{str(categoryName)}```**")
 		if not str(category) in data.json()["categories"]:
-			print("3")
 			try:
 				category = self.bot.get_command(f"{category}")
 				category = str(category.name)
 			except:
 				category = data.json()["commands"][category]
-			embed = discord.Embed(title = category, color = ctx.bot.embedColor)
+			try:
+				data = await openFile("files/colors")
+				if str(ctx.guild.id) in data:
+					color = data[str(ctx.guild.id)]["color"]
+				else:
+					color = ctx.bot.embedColor
+			except:
+				color = ctx.bot.embedColor
+			embed = discord.Embed(title = category, color = color)
 			for key in data.json()["commands"][category]:
 				embed.add_field(name = key, value = data.json()["commands"][category][key], inline = False)
 			embed.set_footer(text = "Do d!help [category] to look at categories or d!help [command] for more info on a command!")
@@ -111,7 +116,15 @@ class BOT(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def info(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(color = ctx.bot.embedColor, title = "Bot info")
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = int(data[str(ctx.guild.id)]["color"], 16)
+			else:
+				color = embedColor
+		except:
+			color = embedColor
+		embed = discord.Embed(color = color, title = "Bot info")
 		try:
 			test = await openFile("files/customprefix")
 			embed.add_field(name = "**Server** Prefix", value = test[str(ctx.guild.id)])
@@ -238,7 +251,15 @@ class BOT(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def privacy(self, ctx):
 		await ctx.trigger_typing()
-		embed = discord.Embed(title = "Privacy Policy", color = ctx.bot.embedColor)
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		embed = discord.Embed(title = "Privacy Policy", color = color)
 		embed.add_field(name = "What data do we store?", value = "The only data the bot stores is guild IDs and member IDs. This is used for guild specific commands like prefix, or member specific commands like time or reminder. I also store some simple guild info when you invite the bot to your server. This info is shown to no one execpt myself.")
 		embed.add_field(name = "How long do we keep it?", value = "The guild ID data is stored untill you kick the bot out of the server. Member ID data is stored, in some cases permanently.")
 		embed.add_field(name = "How can I remove it?", value = "Use the command d!support to contact me or even directly dm me if possible, and I will remove it manually. Use this command to contact me with any concerns as well.")

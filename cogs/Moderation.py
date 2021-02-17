@@ -92,12 +92,21 @@ class Moderation(commands.Cog):
 				if not member.id in allMods:
 					allMods.append(member.id)
 		###################
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = data[str(ctx.guild.id)]["color"]
+			else:
+				color = ctx.bot.embedColor
+		except:
+			color = ctx.bot.embedColor
+		##################
 		firstPings = "".join(firstModpingMods)
 		secondPings = "".join(secondModpingMods)
 		thirdPings = "".join(thirdModpingMods)
-		edit = discord.Embed(title = "Issue has been resolved", color = ctx.bot.embedColor)
-		embed1 = discord.Embed(title = f"{ctx.author.name}, a moderator will be with you as soon as possible!", color = ctx.bot.embedColor)
-		embed2 = discord.Embed(title = "Hmm, seems they were busy. Pinging more moderators...", color = ctx.bot.embedColor)
+		edit = discord.Embed(title = "Issue has been resolved", color = color)
+		embed1 = discord.Embed(title = f"{ctx.author.name}, a moderator will be with you as soon as possible!", color = color)
+		embed2 = discord.Embed(title = "Hmm, seems they were busy. Pinging more moderators...", color = color)
 		embed3 = discord.Embed(title = "Seems like they were busy as well. Pinging all moderators")
 		firstModpingMessage = await ctx.send(firstPings, embed = embed1)
 		await firstModpingMessage.add_reaction("✅")

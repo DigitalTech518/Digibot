@@ -37,7 +37,10 @@
 				"removereactionrole  <message>",
 				"notepad             [Note Name][entry]",
 				"notes               [Note Name]",
-				"removenote          [Note Name][entry number]"
+				"removenote          [Note Name][entry number]",
+				"customcolor         [hex color]",
+				"removecolor         [N/A]",
+				"viewcolor           [N/A]"
 			]
 		},
 		"moderation":{
@@ -123,6 +126,21 @@
 		}
 	},
 	"commands":{
+		"customcolor":{
+			"Description:": "Set a custom hex color for embeds!",
+			"Permission:": "manage_guild",
+			"Usage:": "customcolor [hex color]"
+		},
+		"viewcolor":{
+			"Description:": "View the current set custom color.",
+			"Permission:": "None",
+			"Usage:": "viewcolor"
+		},
+		"removecolor":{
+			"Description:": "Remove the currently set custom color",
+			"Permission:": "manage_guild",
+			"Usage:": "removecolor"
+		},
 		"blacklist":{
 			"Description:": "Ban a user from usage of the bot.",
 			"Usage:": "blacklist <user> [reason]"
