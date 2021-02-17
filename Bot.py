@@ -52,6 +52,7 @@ client.songQueue = {}
 client.playedSongs = {}
 client.eventLoop = get_event_loop()
 client.test = {}
+client.Playloop = {}
 with open("config.json", "w") as outFile:
 	outFile.write(dumps(data, indent = 2))
 
@@ -822,7 +823,7 @@ async def on_command_error(ctx, error):
 	elif isinstance(error, commands.MissingPermissions):
 		title = "Missing Permissions"
 		missingPerms = " ".join(error.missing_perms)
-		description = f"You do not have `{missingPerms}` permission to run this command"
+		description = f"You do not have `{missingPerms}`."
 	elif isinstance(error, commands.MissingRequiredArgument):
 		title = "Missing required parameter"
 		description = f"Please enter: `{error.param.name}`"

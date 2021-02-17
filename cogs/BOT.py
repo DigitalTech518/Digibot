@@ -27,7 +27,7 @@ class BOT(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def github(self, ctx):
 		await ctx.trigger_typing()
-		await sendMessage(ctx, "Want to contribute, or let me know about an error?", "Click [here](https://github.com/DigitalTech518/Digibot) to go to my github!")
+		await sendMessage(ctx, "Want to contribute, leave a suggestion, or let me know about an error?", "Click [here](https://github.com/DigitalTech518/Digibot) to go to my github!")
 
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)

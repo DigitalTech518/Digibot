@@ -24,9 +24,10 @@ def playNext(ctx):
 		info = ctx.bot.songQueue[guildID][0]
 		beforeArgs = "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
 		try:
-			data = run_coroutine_threadsafe(openFile("files/colors"))
+			with open(f"files/colors.json") as jsonFile:
+				data = load(jsonFile)
 			if str(ctx.guild.id) in data:
-				color = data[str(ctx.guild.id)]["color"]
+				color = int(data[str(ctx.guild.id)]["color"], 16)
 			else:
 				color = ctx.bot.embedColor
 		except:
@@ -45,6 +46,14 @@ class Music(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def play(self, ctx, *, song):
 		await ctx.trigger_typing()
+		try:
+			data = await openFile("files/colors")
+			if str(ctx.guild.id) in data:
+				color = int(data[str(ctx.guild.id)]["color"], 16)
+			else:
+				color = embedColor
+		except:
+			color = ctx.bot.embedColor
 		if ctx.message.author.voice == None:
 			await sendMessage(ctx, "You aren't in a voice channel!")
 			return
@@ -92,7 +101,7 @@ class Music(commands.Cog):
 		ctx.bot.playedSongs[str(ctx.guild.id)].append(songJson)
 		if not vc.is_playing():
 			beforeArgs = "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
-			embed = discord.Embed(title = f"Now playing `{info['title']}`", color = ctx.bot.embedColor)
+			embed = discord.Embed(title = f"Now playing `{info['title']}`", color = color)
 			embed.set_thumbnail(url = f"https://img.youtube.com/vi/{info['id']}/maxresdefault.jpg")
 			embed.set_author(name = "Click here to open online", url = url)
 			await ctx.message.reply(mention_author = False, embed = embed)
@@ -101,7 +110,7 @@ class Music(commands.Cog):
 			except:
 				pass
 		else:
-			embed = discord.Embed(title = f"Queued `{info['title']}`", color = ctx.bot.embedColor)
+			embed = discord.Embed(title = f"Queued `{info['title']}`", color = color)
 			embed.set_thumbnail(url = f"https://img.youtube.com/vi/{info['id']}/maxresdefault.jpg")
 			embed.set_author(name = "Click here to open online", url = url)
 			await ctx.message.reply(mention_author = False, embed = embed)	

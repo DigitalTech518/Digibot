@@ -15,7 +15,7 @@ class User(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def pfp(self, ctx, member: discord.Member = None):
 		def createSizes(member, extension):
-  			sizes = [128, 256, 512, 1024, 2048, 4096]
+  			sizes = [128, 256, 512, 1024]
   			string = ""
   			for size in sizes:
   			  string += f"[{size}x]({member.avatar_url_as(format=(extension), size=size)}) "
