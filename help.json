@@ -96,7 +96,8 @@
 				"dm                  [memberID][message]",
 				"botded              [N/A]",
 				"say                 <channelID>[message]",
-				"blacklist           <user>[reason]"
+				"blacklist           <user>[reason]",
+				"isblacklisted       <user>"
 			]
 		},
 		"user": {
@@ -144,6 +145,11 @@
 		"blacklist":{
 			"Description:": "Ban a user from usage of the bot.",
 			"Usage:": "blacklist <user> [reason]"
+		},
+		"isblacklisted":{
+			"Description:": "View if a user is blacklisted, and why they are if they are.",
+			"Usage:": "isblacklisted <user>",
+			"Aliases:": "bl?"
 		},
 		"setmodrole":{
 			"Description:": "Set what role is your moderation role.",
