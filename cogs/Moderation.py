@@ -265,6 +265,8 @@ class Moderation(commands.Cog):
 		if "Mutes" in doc:
 			if memberID in doc["Mutes"]["activeMutes"]:
 				doc["Mutes"]["activeMutes"].pop(memberID, None)
+				if len(doc["Mutes"]["activeMutes"]) < 1:
+					doc["Mutes"].pop("activeMutes")
 				await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 		await member.remove_roles(role)
 		await sendMessage(ctx, "Member was unmuted.", f"{member.mention} was unmuted. ({reason})")

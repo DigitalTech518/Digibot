@@ -200,25 +200,27 @@ async def removeMutes():
 	cursor = Guilds.find({})
 	async for doc in cursor:
 		guildID = doc["_id"]
-		memberID = None
-		if not "Mutes" in doc:
-				return
-		for memberID in doc["Mutes"]["activeMutes"]:
-			if memberID == None:
-				return
-			if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
-				return
-			mute = doc["Mutes"]["activeMutes"][memberID]
-			endTime = datetime.strptime(mute["time"],"%Y-%m-%d %H:%M:%S")
-			if datetime.now() > endTime:
-				channelID = mute["channelID"]
-				channel = client.get_channel(int(channelID))
-				guild = client.get_guild(int(guildID))
-				muteRole = get(guild.roles, name = "Muted")
-				member = guild.get_member(int(memberID))
-				await channel.send(f"{member.mention} has been unmuted.")
-				await member.remove_roles(muteRole)
-				doc["Mutes"]["activeMutes"][memberID] = {}
+		if "Mutes" in doc:
+			if "activeMutes" in doc["Mutes"]:
+				for memberID in doc["Mutes"]["activeMutes"]:
+					if not len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+						mute = doc["Mutes"]["activeMutes"][memberID]
+						endTime = datetime.strptime(mute["time"],"%Y-%m-%d %H:%M:%S")
+						if datetime.now() > endTime:
+							channelID = mute["channelID"]
+							channel = client.get_channel(int(channelID))
+							guild = client.get_guild(int(guildID))
+							muteRole = get(guild.roles, name = "Muted")
+							member = guild.get_member(int(memberID))
+							await channel.send(f"{member.mention} has been unmuted.")
+							await member.remove_roles(muteRole)
+							doc["Mutes"]["activeMutes"][memberID] = {}
+							await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+				if "acitveMutes" in doc["Mutes"]:
+					if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+						doc["Mutes"]["activeMutes"].pop(memberID)
+					if len(doc["Mutes"]["activeMutes"]) < 1:
+						doc["Mutes"].pop("activeMutes")
 				await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 
 async def muteLoopStart():
@@ -237,16 +239,15 @@ async def muteLoop():
 		cursor = Guilds.find({})
 		closestTime = None
 		async for doc in cursor:
-			if not "Mutes" in doc:
-				return
-			if "activeMutes" in doc["Mutes"]:
-				for memberID in doc["Mutes"]["activeMutes"]:
-					if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
-						pass
-					else:
-						time = datetime.strptime(doc["Mutes"]["activeMutes"][memberID]["time"],"%Y-%m-%d %H:%M:%S")
-						if closestTime is None or time < closestTime:
-							closestTime = time
+			if "Mutes" in doc:
+				if "activeMutes" in doc["Mutes"]:
+					for memberID in doc["Mutes"]["activeMutes"]:
+						if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+							pass
+						else:
+							time = datetime.strptime(doc["Mutes"]["activeMutes"][memberID]["time"],"%Y-%m-%d %H:%M:%S")
+							if closestTime is None or time < closestTime:
+								closestTime = time
 		if closestTime == None:
 			muteLoopRunning = False
 			return
@@ -358,9 +359,9 @@ def base_page():
 		Guilds = guildCount,
 		Uptime = uptime,
 		Launches = client.launches,
-		Color = strColor
+		Color = strColor,
+		CommandCount = len(client.commands)
 		)
-
 
 for filename in listdir('./cogs'):
 	if filename.endswith('.py'):
@@ -401,7 +402,6 @@ async def on_message(message):
 	commandList = message.content.split(" ", 1)
 	botPing = f"<@!{client.user.id}>"
 	if message.content.startswith(botPrefix):
-		print(commandList)
 		try:
 			message.content = f"{botPrefix}{commandList[0].replace(botPrefix, '').lower()} {commandList[1]}"
 		except:
