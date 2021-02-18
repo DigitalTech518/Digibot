@@ -16,6 +16,28 @@ class Restricted(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command(aliases = ["bl?"])
+	@commands.is_owner()
+	async def isblacklisted(self, ctx, user: discord.User):
+		await ctx.trigger_typing()
+		userID = str(user.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Users = cluster["bot"]["Users"]
+		doc = await Users.find_one({"_id": userID})
+		if not doc:
+			await sendMessage(ctx, f"{user.name} is not blacklisted!")
+			return
+		if not "blacklisted" in doc:
+			await sendMessage(ctx, f"{user.name} is not blacklisted!")
+			return
+		if "blacklisted" in doc:
+			if doc["blacklisted"] == "no":
+				await sendMessage(ctx, f"{user.name} is not blacklisted!")
+				return
+			else:
+				reason = doc["blacklisted"]
+				await sendMessage(ctx, f"{user.name} is blacklisted", f"Reason: `{reason}`")
+
 	@commands.command(aliases = ["bl"])
 	@commands.is_owner()
 	async def blacklist(self, ctx, user: discord.User, reason = None):
