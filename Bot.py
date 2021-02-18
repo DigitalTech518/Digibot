@@ -399,22 +399,28 @@ async def on_message(message):
 				await message.add_reaction("🎷")
 				await message.add_reaction("🎤")
 	commandList = message.content.split(" ", 1)
+	botPing = f"<@!{client.user.id}>"
 	if message.content.startswith(botPrefix):
+		print(commandList)
 		try:
 			message.content = f"{botPrefix}{commandList[0].replace(botPrefix, '').lower()} {commandList[1]}"
 		except:
 			message.content = f"{botPrefix}{commandList[0].replace(botPrefix, '').lower()}"
+	if message.content.startswith(botPing):
+		commandList.pop(0)
+		try:
+			try:
+				message.content = f"{botPrefix}{commandList[0].lower()} {commandList[1]}"
+			except:
+				message.content = f"{botPrefix}{commandList[0].lower()}"
+		except:
+			pass
 	commandName = None
-	if "<@!791756099052240936>" in str(message.content):
+	if botPing in str(message.content):
 		try:
-			commandName = client.get_command(message.content.replace("<@!791756099052240936>", "").split(" ")[1])
+			commandName = client.get_command(message.content.replace(botPing, "").split(" ")[1])
 		except:
-			commandName = None
-	elif "<@!781296717244399617>" in str(message.content):
-		try:
-			commandName = client.get_command(message.content.replace("<@!781296717244399617>", "").split(" ")[1])
-		except:
-			commandName = None
+			pass
 	if commandName == None:
 		commandName = client.get_command(message.content.replace(botPrefix, "").split(" ")[0])
 	cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
@@ -423,11 +429,12 @@ async def on_message(message):
 	doc = await Users.find_one({"_id": memberID})
 	if doc:
 		if not commandName == None:
-			if "blacklisted" in doc:
-				if not doc["blacklisted"] == "no":
-					reason = doc["blacklisted"]
-					await sendMessage(message.channel, "You are blacklisted!", f"**Reason:**\n{reason}\n\nJoin [here](https://discord.gg/9G9vf6qvdH) and dm Digital_Tech#0001 to appeal a ban.")
-					return
+			if f"{botPrefix}{commandName}" in message.content or f"<@!{client.user.id}> {commandName}" in message.content:
+				if "blacklisted" in doc:
+					if not doc["blacklisted"] == "no":
+						reason = doc["blacklisted"]
+						await sendMessage(message.channel, "You are blacklisted!", f"**Reason:**\n{reason}\n\nJoin [here](https://discord.gg/9G9vf6qvdH) and dm Digital_Tech#0001 to appeal a ban.")
+						return
 	data = await openFile("files/customprefix")
 	parent = None
 	for botCommand in client.commands:
