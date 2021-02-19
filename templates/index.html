@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>Meep</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/argon.css') }}">
+<style>
+.bg-dark
+	{
+    background-color: #212529 !important;
+	}
+</style>
+</head>
+<body style="background-color:#212529;">
+<div class="container">
+	<div class="card">
+		<div class="card-header text-center bg-dark">
+			<h1 class="bg-dark" style="color:#4ecef5;">Digibot Stats</h1>
+		</div>
+		<div class="card-body text-center bg-dark" style="color:#4ecef5;">
+			<h2 style="color:#4ecef5;">Amount of Users:<h2>
+				<p class="bg-dark" style="color:#4ecef5;">{{Users}}</p>
+			<h2 style="color:#4ecef5;">Amount of Servers:<h2>
+				<p class="bg-dark" style="color:#4ecef5;">{{Guilds}}</p>
+			<h2 style="color:#4ecef5;">Current Digibot Uptime:<h2>
+				<p class="bg-dark" style="color:#4ecef5;">{{Uptime}}</p>
+			<h2 style="color:#4ecef5;">Amount of times Digibot Launched</h2>
+				<p class="bg-dark" style="color:#4ecef5;">{{Launches}}</p>
+			<h2 style="color:#4ecef5;">Color of Embed</h2>
+				<p class="bg-dark" style="color:#4ecef5;">#{{Color}}</p>
+			<h2 style="color:#4ecef5;">Amount of Commands</h2>
+				<p class="bg-dark" style="color:#4ecef5;">{{CommandCount}}</p>
+		</div>
+	</div>
+</div>
+</body>
+</html>
