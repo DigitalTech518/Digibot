@@ -72,11 +72,12 @@ class BOT(commands.Cog):
 			try:
 				data = await openFile("files/colors")
 				if str(ctx.guild.id) in data:
-					color = data[str(ctx.guild.id)]["color"]
+					color = int(data[str(ctx.guild.id)]["color"], 16)
 				else:
 					color = ctx.bot.embedColor
 			except:
 				color = ctx.bot.embedColor
+			data = requests.get("https://raw.githubusercontent.com/DigitalTech518/Digibot/main/help.json")
 			embed = discord.Embed(title = category, color = color)
 			for key in data.json()["commands"][category]:
 				embed.add_field(name = key, value = data.json()["commands"][category][key], inline = False)
