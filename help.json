@@ -28,6 +28,7 @@
 			"commands":[
 				"purge               [amount]",
 				"remindme            [duration][reminder]",
+				"repeatreminder      [duration][reminder]",
 				"removereminder      [number]",
 				"reminders           [N/A]",
 				"temperature         [temperature][temp type][conv type]",
@@ -122,11 +123,16 @@
 		},
 		"other": {
 			"commands": [
-				"embed               [title][description][thumbnailURL]"
+				"embed               [title][description]"
 			]
 		}
 	},
 	"commands":{
+		"repeatreminder":{
+			"Description:": "Set a repeating reminder, just like a reminder!",
+			"Permission:": "None",
+			"Usage:": "repeatreminder [time] [reminder]"
+		},
 		"customcolor":{
 			"Description:": "Set a custom hex color for embeds!",
 			"Permission:": "manage_guild",
@@ -415,9 +421,9 @@
 			"Usage:": "pong"
 		},
 		"embed":{
-			"Description:": "Create an embed message with a title, description, and a thumbnail!",
+			"Description:": "Create an embed message with a title and a description",
 			"Permission Required:": "None",
-			"Usage:": "embed ['Title']['Description']['Thumbnail URL'] (single quotes need to be double quotes)"
+			"Usage:": "embed ['Title']['Description'](single quotes need to be double quotes)"
 		},
         "info":{
         	"Description:": "Show information about the bot.",

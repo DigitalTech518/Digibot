@@ -10,6 +10,7 @@ from discord.utils import get
 from os import listdir
 from platform import system
 import ibl
+import logging
 import motor.motor_asyncio
 from threading import Thread
 from functools import partial
@@ -273,21 +274,41 @@ async def removeRemind():
 		if "reminders" in doc:
 			for reminder in doc["reminders"]:
 				x = x + 1
-				reason = reminder["reason"]
+				reason = reminder["reason"]	
 				endTime = datetime.strptime(reminder["time"],"%Y-%m-%d %H:%M:%S")
 				if datetime.now() > endTime:
-					try:
+					if "finaltime" in reminder:
 						channelID = reminder["channelID"]
 						channel = client.get_channel(int(channelID))
 						member = client.get_user(int(memberID))
+						finaltime = reminder["finaltime"]
+						doc["reminders"].remove(doc["reminders"][int(x)])
+						await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
 						try:
-							await sendMessage(member, "Reminder", reason)
+							await sendMessage(member, "Repeating Reminder", reason, footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 						except:
-							await sendMessage(channel, "Reminder", reason, message = member.mention)
-					except:
-						pass
-					doc["reminders"].remove(doc["reminders"][int(x)])
-					await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
+							await sendMessage(channel, "Reminder", reason, footer = "Use d!reminders to view reminder, and d!removereminder to remove it", message = member.mention)
+						await Users.find_one_and_update({"_id": memberID},{
+							"$addToSet":{
+								"reminders":{
+									"time": str(datetime.now()  + timedelta(seconds = finaltime)).split(".")[0],
+									"channelID": channel.id,
+									"reason": reason,
+									"finaltime": finaltime
+							}}})
+					else:
+						try:
+							channelID = reminder["channelID"]
+							channel = client.get_channel(int(channelID))
+							member = client.get_user(int(memberID))
+							try:
+								await sendMessage(member, "Reminder", reason)
+							except:
+								await sendMessage(channel, "Reminder", reason, message = member.mention)
+						except:
+							pass
+						doc["reminders"].remove(doc["reminders"][int(x)])
+						await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
 
 async def remindLoopStart():
 	global remindLoopRunning
@@ -339,12 +360,14 @@ async def writeFile(file, fileData):
 async def on_ready():
 	print('Digibot Ready')
 	await client.change_presence(activity = discord.Activity(name = f"to {len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
-	await removeMutes()
-	await muteLoop()
-	await removeRemind()
-	await remindLoop()
+	#await removeMutes()
+	#await muteLoop()
+	await remindLoopStart()
+	#await removeRemind()
+	#await remindLoop()
+	await muteLoopStart()
 
-partial_run = partial(app.run, host="0.0.0.0", debug=True, use_reloader=False)
+partial_run = partial(app.run, host="0.0.0.0", debug=False, use_reloader=False)
 @app.route("/")
 def base_page():
 	userCount = 0
@@ -754,23 +777,12 @@ async def on_member_ban(guild, user):
 
 @client.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
-async def embed(ctx, title, description = None, thumbnailURL = None):
+async def embed(ctx, title, *, description = None):
 	await ctx.trigger_typing()
 	if description == None:
 		description = ""
-	if thumbnailURL == None:
-		thumbnailURL = ""
 	embed = discord.Embed(title = title, description = description, color = embedColor)
-	embed.set_thumbnail(url = thumbnailURL)
 	await ctx.message.reply(embed = embed)
-
-@client.command()
-@commands.cooldown(1, 5, commands.BucketType.user)
-async def editembed(ctx, Id, title):
-	await ctx.trigger_typing()
-	msg = await ctx.channel.fetch_message(int(Id))
-	newEmbed = discord.Embed(title = title, color = embedColor)
-	await msg.edit(embed = newEmbed)
 
 @client.command()
 @commands.is_owner()

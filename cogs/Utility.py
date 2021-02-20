@@ -17,6 +17,49 @@ class Utility(commands.Cog):
 		self.bot = bot
 
 	@commands.command()
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def repeatreminder(self, ctx, time,*, reason = None):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		memberID = str(ctx.author.id)
+		m = search(r"([\d.]+)([smhdwy]?)", time)
+		time = float(m.group(1))
+		length = m.group(2)
+		await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
+		if length == "":
+			length = "m"
+		if length == "s":
+			finaltime = time
+		elif length == "h":
+			finaltime = time * 3600
+		elif length == "d":
+			finaltime = time * 86400
+		elif length == "w":
+			finaltime = time * 604800
+		elif length == "y":
+			finaltime = time * 31536000
+		else:
+			finaltime = time * 60
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Users = cluster["bot"]["Users"]
+		doc = await Users.find_one({"_id": memberID})
+		if not doc:
+			await Users.insert_one({
+				"_id": memberID,
+				"reminders": []
+				})
+		await Users.find_one_and_update({"_id": memberID},{
+			"$addToSet":{
+				"reminders":{
+					"time": str(datetime.now()  + timedelta(seconds = finaltime)).split(".")[0],
+					"channelID": ctx.channel.id,
+					"reason": reason,
+					"finaltime": finaltime
+			}}})	
+		updated = await Users.find_one({"_id": memberID})
+		await remindLoopStart()
+
+	@commands.command()
 	@commands.has_permissions(manage_guild = True)
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def customcolor(self, ctx, color):
@@ -63,58 +106,6 @@ class Utility(commands.Cog):
 			await sendMessage(ctx, f"The current set color is #{data[guildID]['color']}")
 		else:
 			await sendMessage(ctx, "You don't have a color set!")
-
-	#@commands.command()
-	#@commands.has_permissions(manage_guild = True)
-	#@commands.cooldown(1, 5, commands.BucketType.user)
-	#async def vcstats(self, ctx, Type, stat, nameOfChannel):
-	#	await ctx.trigger_typing()
-	#	guildID = str(ctx.guild.id)
-	#	if not str(Type) in ["add", "rem", "remove"]:
-	#		await sendMessage(ctx, "You must specify if you want to add or remove a VC stat.")
-	#		return
-	#	try:
-	#		if int(nameOfChannel):
-	#			await sendMessage(ctx, "You cannot make the name a number!")
-	#			return
-	#	except:
-	#		pass
-	#	data = await openFile("files/voice_stats")
-	#	if stat in data["categories"]:
-	#		if str(Type) == "add":
-	#			if not guildID in data:
-	#				data[guildID] = {}
-	#			if not "stats" in data[guildID]:
-	#				data[guildID]["stats"] = []
-	#			print(data)
-	#			if len(data[guildID]["stats"]) >= 1:
-	#				for s in data[guildID]["stats"]:
-	#					s = str(s).split("'")[1]
-	#					print(s)
-	#					print(stat)
-	#					if str(stat) == str(s):
-	#						await sendMessage(ctx, "You already have that stat!")
-	#						return
-	#			if stat == "botCount":
-	#				vcStat = 0
-	#				for member in ctx.guild.members: 
-	#					if member.bot:	
-	#						vcStat += 1
-	#			elif stat == "channelCount":
-	#				vcStat = len(ctx.guild.channels)
-	#			elif stat == "roleCount":
-	#				vcStat = len(ctx.guild.roles) - 1
-	#			elif stat == "memberCount":
-	#				vcStat = len(ctx.guild.members)
-	#			vc = await ctx.guild.create_voice_channel(name = f"{nameOfChannel} {str(vcStat)}", overrides = {ctx.guild.default_role: discord.PermissionOverwrite(connect=False)})
-	#			data[guildID]["stats"].append({
-	#				stat: str(vc.id)
-	#				})
-	#			outfile = await writeFile("files/voice_stats", data)
-	#	else:
-	#		message = "\n".join(data["categories"])
-	#		await sendMessage(ctx, "Please enter a valid stat!", f"**Available cateogories:**\n{message}")
-	#		return
 
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
