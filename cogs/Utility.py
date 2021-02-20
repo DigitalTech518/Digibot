@@ -371,6 +371,8 @@ class Utility(commands.Cog):
 			if not len(item) < 1:
 				reminders.append(f'**Reminder:** {item["reason"]}')
 				reminders.append(f'**Time of reminder:** {item["time"]}')
+				if "finaltime" in item:
+					reminders.append(f"**Repeating:** Yes")
 				reminders.append("- - - - - - - - - - - - - - - - - - - -")
 		if len(reminders) < 1:
 			await sendMessage(ctx, "*Error.* This user most likely has no reminders")
