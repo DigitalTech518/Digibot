@@ -360,12 +360,15 @@ async def writeFile(file, fileData):
 async def on_ready():
 	print('Digibot Ready')
 	await client.change_presence(activity = discord.Activity(name = f"to {len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
-	#await removeMutes()
-	#await muteLoop()
 	await remindLoopStart()
-	#await removeRemind()
-	#await remindLoop()
 	await muteLoopStart()
+	client.statusRefreash.start()
+	client.statusRefreash.add_exception_type(asyncpg.PostgresConnectionError)
+
+@tasks.loop(minutes = 30)
+async def statusRefreash():
+	await client.wait_until_ready()
+	await client.change_presence(activity = discord.Activity(name = f"to {len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
 
 partial_run = partial(app.run, host="0.0.0.0", debug=False, use_reloader=False)
 @app.route("/")
@@ -764,6 +767,10 @@ async def on_voice_state_update(member, before, after):
 					pass
 				try:
 					del client.songQueue[str(member.guild.id)]
+				except:
+					pass
+				try:
+					del client.Playloop[guildID]
 				except:
 					pass
 

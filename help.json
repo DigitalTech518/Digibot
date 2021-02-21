@@ -21,7 +21,8 @@
 				"resume              [N/A]",
 				"queue               [N/A]",
 				"clearqueue          [N/A]",
-				"forceskip           [N/A]"
+				"forceskip           [N/A]",
+				"loop                [N/A]"
 			]
 		},
 		"utility":{
@@ -89,7 +90,10 @@
 				"support             [message]",
 				"stats               [command]",
 				"privacy             [N/A]",
-				"github              [N/A]"
+				"github              [N/A]",
+				"suggestion          [suggestion]",
+				"approvesuggestion   <suggestion message>",
+				"denysuggestion      <suggestion message>"
 			]
 		},
 		"restricted": {
@@ -128,6 +132,25 @@
 		}
 	},
 	"commands":{
+		"loop": {
+			"Description:": "Loop the queue (or stop looping the queue)!",
+			"Permission:": "None",
+			"Usage:": "loop"
+		},
+		"suggestion":{
+			"Description:": "Suggestion a feature for Digibot!",
+			"Permission:": "None",
+			"Usage:": "suggestion [suggestion]",
+			"Aliases:": "suggest"
+		},
+		"approvesuggestion":{
+			"Description:": "Approve a suggestion",
+			"Usage:": "approvesuggestion <suggestion message>"
+		},
+		"denysuggestion":{
+			"Description:": "Deny a suggestion",
+			"Usage:": "denysuggestion <suggestion message>"
+		},
 		"repeatreminder":{
 			"Description:": "Set a repeating reminder, just like a reminder!",
 			"Permission:": "None",

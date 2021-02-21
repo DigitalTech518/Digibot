@@ -23,7 +23,44 @@ class BOT(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command()
+	@commands.is_owner()
+	async def denysuggestion(self, ctx, suggestion):
+		channel = self.bot.get_channel(812856404595310673)
+		suggestion = await channel.fetch_message(suggestion)
+		x = 0
+		for e in suggestion.embeds:
+			if len(e.fields) >= 1:
+				e.set_field_at(index = 0, name = "Denied", value = f"*Denied by:* {ctx.author.name}")
+			else:
+				e.add_field(name = "Denied", value = f"*Denied by:* {ctx.author.name}")
+			await suggestion.edit(embed = e)
+		await ctx.message.reply("Suggestion Denied!", mention_author = False)
+
+	@commands.command()
+	@commands.is_owner()
+	async def approvesuggestion(self, ctx, suggestion):
+		channel = self.bot.get_channel(812856404595310673)
+		suggestion = await channel.fetch_message(suggestion)
+		x = 0
+		for e in suggestion.embeds:
+			if len(e.fields) >= 1:
+				e.set_field_at(index = 0, name = "Approved", value = f"*Approved by:* {ctx.author.name}")
+			else:
+				e.add_field(name = "Approved", value = f"*Approved by:* {ctx.author.name}")
+			await suggestion.edit(embed = e)
+		await ctx.message.reply("Suggestion approved!", mention_author = False)
+
 	@commands.command(aliases = ["suggest"])
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def suggestion(self, ctx, *, suggestion):
+		channel = self.bot.get_channel(812856404595310673)
+		embed = discord.Embed(title = "Suggestion!", description = suggestion, color = self.bot.embedColor)
+		embed.set_author(name = ctx.author.name, icon_url = str(ctx.author.avatar_url_as(format=("gif" if ctx.author.is_avatar_animated() else "png"))))
+		await channel.send(embed = embed)
+		await sendMessage(ctx, "Suggestion has been sent!")
+
+	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def github(self, ctx):
 		await ctx.trigger_typing()

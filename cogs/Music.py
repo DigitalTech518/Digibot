@@ -20,8 +20,35 @@ def playNext(ctx):
 	if len(ctx.bot.songQueue[guildID]) == 1:
 		del ctx.bot.songQueue[guildID]
 	elif len(ctx.bot.songQueue[guildID]) > 1:
-		del ctx.bot.songQueue[guildID][0]
+		if "Loop" in ctx.bot.songQueue[guildID]:
+			if len(ctx.bot.songQueue[guildID]) == 2:
+				if not guildID in ctx.bot.Playloop:
+					ctx.bot.Playloop[guildID] = []
+				if ctx.bot.songQueue[guildID][0] == "Loop":
+					ctx.bot.Playloop[guildID].append(ctx.bot.songQueue[guildID][1])
+				else:
+					ctx.bot.Playloop[guildID].append(ctx.bot.songQueue[guildID][0])
+				del ctx.bot.songQueue[guildID]
+				ctx.bot.songQueue[guildID] = ctx.bot.Playloop[guildID]
+				ctx.bot.songQueue[guildID].append("Loop")
+				del ctx.bot.Playloop[guildID]
+			else:
+				if not guildID in ctx.bot.Playloop:
+					ctx.bot.Playloop[guildID] = []
+				if ctx.bot.songQueue[guildID][0] == "Loop":
+					ctx.bot.Playloop[guildID].append(ctx.bot.songQueue[guildID][1])
+				else:
+					ctx.bot.Playloop[guildID].append(ctx.bot.songQueue[guildID][0])
+				if ctx.bot.songQueue[guildID][0] == "Loop":
+					del ctx.bot.songQueue[guildID][1]
+				else:
+					del ctx.bot.songQueue[guildID][0]
+		else:
+			del ctx.bot.songQueue[guildID][0]
 		info = ctx.bot.songQueue[guildID][0]
+		if info == "Loop":
+			if len(ctx.bot.songQueue[guildID]) > 1:
+				info = ctx.bot.songQueue[guildID][1]
 		beforeArgs = "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
 		try:
 			with open(f"files/colors.json") as jsonFile:
@@ -115,6 +142,70 @@ class Music(commands.Cog):
 			embed.set_author(name = "Click here to open online", url = url)
 			await ctx.message.reply(mention_author = False, embed = embed)	
 
+	@commands.command()
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def loop(self, ctx):
+		guildID = str(ctx.guild.id)
+		global voteCount
+		vc = ctx.guild.voice_client
+		moderator = False
+		if ctx.author.guild_permissions.manage_messages == True:
+			moderator = True
+		if ctx.message.author.voice == None:
+			await sendMessage(ctx, "You are not in a voice channel!")
+			return
+		voice_channel = discord.utils.get(ctx.message.guild.channels, id = vc.channel.id)
+		if vc:
+			members = []
+			for member in voice_channel.members:
+				if not member.bot:
+					members.append(member.id)
+			if len(members) > 1 and moderator == False:
+				if not "mVoting" in data[guildID]["commands"]: 
+					await ctx.trigger_typing()
+					voteCount = 0
+					y = len(members)
+					vote = y//2
+					if len(members) == 2:
+						vote = 2
+					try:
+						data = await openFile("files/colors")
+						if str(ctx.guild.id) in data:
+							color = data[str(ctx.guild.id)]["color"]
+						else:
+							color = ctx.bot.embedColor
+					except:
+						color = ctx.bot.embedColor
+					embed = discord.Embed(title = f"Needs {vote} votes to loop!", color = color)
+					embed.set_footer(text = "If you do not want voting, use `d!disablecommand mVoting`")
+					voteMessage = await ctx.send(embed = embed)
+					await voteMessage.add_reaction("⬆️")
+					def check(reaction, user):
+						global voteCount
+						if user.id in members and reaction.message.id == voteMessage.id and str(reaction) == "⬆️":
+							voteCount += 1
+							return voteCount == vote
+					try:
+						await self.bot.wait_for("reaction_add", check = check, timeout = 60)
+						queue = ctx.bot.songQueue
+						if not "Loop" in queue:
+							queue[guildID].append("Loop")
+							await ctx.message.add_reaction("🔁")
+						else:
+							queue[guildID].remove("Loop")
+							await ctx.message.add_reaction("🔄")
+					except:
+						await sendMessage(ctx, "Vote has timed out")
+						return
+			else:
+				queue = ctx.bot.songQueue
+				if not "Loop" in queue[guildID]:
+					queue[guildID].append("Loop")
+					await ctx.message.add_reaction("🔁")
+				else:
+					queue[guildID].remove("Loop")
+					await ctx.message.add_reaction("🔄")
+
 	@commands.command(aliases = ["fuckoff"])
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def leave(self, ctx):
@@ -166,15 +257,23 @@ class Music(commands.Cog):
 						return
 					await vc.disconnect()
 					await ctx.message.add_reaction("👋")
+					del ctx.bot.Playloop[guildID]
+					del ctx.bot.songQueue[guildID]
 					await voteMessage.delete()
 				else:
 					try:
+						if guildID in ctx.bot.Playloop:
+							del ctx.bot.Playloop[guildID]
+						del ctx.bot.songQueue[guildID]
 						await vc.disconnect()
 						await ctx.message.add_reaction("👋")
 					except:
 						await sendMessage(ctx, "Cannot leave voice channel.")
 			else:
 				try:
+					if guildID in ctx.bot.Playloop:
+						del ctx.bot.Playloop[guildID]
+					del ctx.bot.songQueue[guildID]
 					await vc.disconnect()
 					await ctx.message.add_reaction("👋")
 				except:
@@ -457,16 +556,17 @@ class Music(commands.Cog):
 			await sendMessage(ctx, "There is nothing in your queue!")
 			return
 		for song in ctx.bot.songQueue[guildID]:
-			x = x + 1
-			seconds = song['duration']%60
-			if len(str(seconds)) == 1:
-				seconds = f"0{seconds}"
-			time = f"{song['duration']//60}:{seconds}"
-			if len(song['title']) > 25:
-				Test = str(song['title'])[0:25]
-				test.append(f"**{x}:** {Test}...   ~   {time}")
-			else:
-				test.append(f"**{x}** {song['title']}   ~   {time}")
+			if not song == "Loop":
+				x = x + 1
+				seconds = song['duration']%60
+				if len(str(seconds)) == 1:
+					seconds = f"0{seconds}"
+				time = f"{song['duration']//60}:{seconds}"
+				if len(song['title']) > 25:
+					Test = str(song['title'])[0:25]
+					test.append(f"**{x}:** {Test}...   ~   {time}")
+				else:
+					test.append(f"**{x}** {song['title']}   ~   {time}")
 		testList = "\n".join(test)
 		if len(testList) <= 0:
 			await sendMessage(ctx, "There is nothing in your queue!")
