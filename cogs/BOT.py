@@ -57,7 +57,9 @@ class BOT(commands.Cog):
 		channel = self.bot.get_channel(812856404595310673)
 		embed = discord.Embed(title = "Suggestion!", description = suggestion, color = self.bot.embedColor)
 		embed.set_author(name = ctx.author.name, icon_url = str(ctx.author.avatar_url_as(format=("gif" if ctx.author.is_avatar_animated() else "png"))))
-		await channel.send(embed = embed)
+		sugMes = await channel.send(embed = embed)
+		await sugMes.add_reaction("✅")
+		await sugMes.add_reaction("❌")
 		await sendMessage(ctx, "Suggestion has been sent!")
 
 	@commands.command()
