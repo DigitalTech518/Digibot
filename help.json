@@ -93,7 +93,8 @@
 				"github              [N/A]",
 				"suggestion          [suggestion]",
 				"approvesuggestion   <suggestion message>",
-				"denysuggestion      <suggestion message>"
+				"denysuggestion      <suggestion message>",
+				"vote                [N/A]"
 			]
 		},
 		"restricted": {
@@ -132,6 +133,11 @@
 		}
 	},
 	"commands":{
+		"vote":{
+			"Description:": "Vote for Digibot if you like using it!",
+			"Permission:": "None",
+			"Usage:": "vote"
+		},
 		"loop": {
 			"Description:": "Loop the queue (or stop looping the queue)!",
 			"Permission:": "None",
