@@ -38,6 +38,7 @@ statKey = data["tokens"]["statKey"]
 botPrefix = data["prefix"]
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = commands.when_mentioned_or(botPrefix), intents = intents)
+client.statKey = statKey
 client.token = data["tokens"]["botToken"]
 client.voidToken = data["tokens"]["voidToken"]
 client.spaceToken = spaceToken
