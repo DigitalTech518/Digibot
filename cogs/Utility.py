@@ -153,8 +153,7 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def removenote(self, ctx, name, entry = None):
-		if member == None:
-			member = ctx.author
+		member = ctx.author
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
 				data = await r.json()
@@ -225,8 +224,7 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def notes(self, ctx, name = None):
-		if member == None:
-			member = ctx.author
+		member = ctx.author
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
 				data = await r.json()
@@ -275,8 +273,7 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def notepad(self, ctx, name, *, entry):
-		if member == None:
-			member = ctx.author
+		member = ctx.author
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
 				data = await r.json()
