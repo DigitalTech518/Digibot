@@ -2,6 +2,8 @@ from datetime import datetime, timedelta, time
 from discord.ext import commands
 from json import load, dumps
 from asyncio import sleep
+import aiohttp
+import asyncpg
 from re import search
 import discord
 from discord.utils import get
@@ -20,6 +22,14 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def repeatreminder(self, ctx, time,*, reason = None):
 		await ctx.trigger_typing()
+		if member == None:
+			member = ctx.author
+		async with aiohttp.ClientSession() as session:
+			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
+				data = await r.json()
+				if data["voted"] == False:
+					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
+					return
 		guildID = str(ctx.guild.id)
 		memberID = str(ctx.author.id)
 		m = search(r"([\d.]+)([smhdwy]?)", time)
@@ -143,6 +153,14 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def removenote(self, ctx, name, entry = None):
+		if member == None:
+			member = ctx.author
+		async with aiohttp.ClientSession() as session:
+			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
+				data = await r.json()
+				if data["voted"] == False:
+					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
+					return
 		if not entry == None:
 			try:
 				int(entry)
@@ -207,6 +225,14 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def notes(self, ctx, name = None):
+		if member == None:
+			member = ctx.author
+		async with aiohttp.ClientSession() as session:
+			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
+				data = await r.json()
+				if data["voted"] == False:
+					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
+					return
 		memberID = str(ctx.author.id)
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
 		Users = cluster["bot"]["Users"]
@@ -249,6 +275,14 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def notepad(self, ctx, name, *, entry):
+		if member == None:
+			member = ctx.author
+		async with aiohttp.ClientSession() as session:
+			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
+				data = await r.json()
+				if data["voted"] == False:
+					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
+					return
 		memberID = str(ctx.author.id)
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
 		Users = cluster["bot"]["Users"]
@@ -437,9 +471,6 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def settime(self, ctx, offset):
 		await ctx.trigger_typing()
-		if offset == None:
-			await sendMessage(ctx, "Enter in an UTC offset!")
-			return
 		data = await openFile("files/times")
 		data[str(ctx.author.id)] = (int(offset))
 		outFile = await writeFile("files/times", data)
@@ -466,7 +497,7 @@ class Utility(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(manage_roles = True)
 	@commands.cooldown(1, 5, commands.BucketType.user)
-	async def addreactionrole(self, ctx, message: discord.Message, emoji, role: discord.Role):
+	async def addreactionrole(self, ctx, message: discord.Message, emoji, *, role: discord.Role):
 		await ctx.trigger_typing()
 		messageID = str(message.id)
 		try:

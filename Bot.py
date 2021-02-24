@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta, time
+import aiohttp
+import asyncpg
 from discord.ext import commands, tasks
 from json import load, dumps
 from asyncio import sleep, get_event_loop, TimeoutError
@@ -32,6 +34,7 @@ with open("config.json") as jsonFile:
 token = data["tokens"]["botToken"]
 voidToken = data["tokens"]["voidToken"]
 spaceToken = data["tokens"]["spaceToken"]
+statKey = data["tokens"]["statKey"]
 botPrefix = data["prefix"]
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = commands.when_mentioned_or(botPrefix), intents = intents)
@@ -770,7 +773,7 @@ async def on_voice_state_update(member, before, after):
 				except:
 					pass
 				try:
-					del client.Playloop[guildID]
+					del client.Playloop[str(member.guild.id)]
 				except:
 					pass
 
