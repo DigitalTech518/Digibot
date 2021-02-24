@@ -357,7 +357,6 @@ async def openFile(file):
 async def writeFile(file, fileData):
 	with open(f"{file}.json", "w") as outFile:
 		outFile.write(dumps(fileData, indent = 2))
-
 #########################################################################################################################
 
 @client.event
