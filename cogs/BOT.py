@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta, time
 import time as theRealTime
+import aiohttp
+import asyncpg
 from discord.ext import commands
 from json import load, dumps
 from asyncio import sleep
@@ -25,29 +27,70 @@ class BOT(commands.Cog):
 
 	@commands.command()
 	@commands.is_owner()
-	async def denysuggestion(self, ctx, suggestion):
+	async def voted(self, ctx, member: discord.Member = None):
+		if member == None:
+			member = ctx.author
+		async with aiohttp.ClientSession() as session:
+			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
+				data = await r.json()
+				if data["voted"] == False:
+					embed = discord.Embed(title = f"{member.name} HASN'T VOTED! REEEEEEE", description = f"Please vote [here](https://voidbots.net/bot/781296717244399617/vote) {member.mention}", color = self.bot.embedColor)
+					message = await ctx.message.reply(mention_author = False, embed = embed)
+					await message.add_reaction("😢")
+					return
+				else:
+					embed = discord.Embed(title = "YAY, you have voted!", description = "Thank you for voting! :P", color = self.bot.embedColor)
+					votedAtDate = str(data["votedAt"]).split("T")[0]
+					votedAt = str(data["votedAt"]).split("T")[1].split(".")[0]
+					embed.add_field(name = "Voted at:", value = f"{votedAtDate} {votedAt}")
+					nextVoteDate = str(data["nextVote"]["date"]).split("T")[0]
+					nextVote = str(data["nextVote"]["date"]).split("T")[1].split(".")[0]
+					embed.add_field(name = "Next vote time:", value = f"{nextVoteDate} {nextVote}")
+					embed.set_footer(text = "Times are in UTC")
+					message = await ctx.message.reply(mention_author = False, embed = embed)
+					await message.add_reaction("<a:doge_xD:809613234818646017>")
+
+	@commands.command()
+	@commands.is_owner()
+	async def denysuggestion(self, ctx, suggestion, *, reason = None):
 		channel = self.bot.get_channel(812856404595310673)
 		suggestion = await channel.fetch_message(suggestion)
 		x = 0
 		for e in suggestion.embeds:
-			if len(e.fields) >= 1:
+			if len(e.fields) == 1:
 				e.set_field_at(index = 0, name = "Denied", value = f"*Denied by:* {ctx.author.name}")
+				try:
+					e.set_field_at(index = 1, name = "Reason:", value = reason)
+				except:
+					pass
+			if len(e.fields) == 2:
+				e.set_field_at(index = 0, name = "Denied", value = f"*Denied by:* {ctx.author.name}")
+				e.set_field_at(index = 1, name = "Reason:", value = reason)
 			else:
 				e.add_field(name = "Denied", value = f"*Denied by:* {ctx.author.name}")
+				e.add_field(name = "Reason:", value = reason)
 			await suggestion.edit(embed = e)
 		await ctx.message.reply("Suggestion Denied!", mention_author = False)
 
 	@commands.command()
 	@commands.is_owner()
-	async def approvesuggestion(self, ctx, suggestion):
+	async def approvesuggestion(self, ctx, suggestion, *, reason = None):
 		channel = self.bot.get_channel(812856404595310673)
 		suggestion = await channel.fetch_message(suggestion)
 		x = 0
 		for e in suggestion.embeds:
 			if len(e.fields) >= 1:
 				e.set_field_at(index = 0, name = "Approved", value = f"*Approved by:* {ctx.author.name}")
+				try:
+					e.set_field_at(index = 1, name = "Reason:", value = reason)
+				except:
+					pass
+			elif len(e.fields) == 2:
+				e.set_field_at(index = 0, name = "Approved", value = f"*Approved by:* {ctx.author.name}")
+				e.set_field_at(index = 1, name = "Reason:", value = reason)
 			else:
 				e.add_field(name = "Approved", value = f"*Approved by:* {ctx.author.name}")
+				e.add_field(name = "Reason:", value = reason)
 			await suggestion.edit(embed = e)
 		await ctx.message.reply("Suggestion approved!", mention_author = False)
 
@@ -72,7 +115,7 @@ class BOT(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def vote(self, ctx):
 		await ctx.trigger_typing()
-		await sendMessage(ctx, "Vote if you like Digibot!", "Click [here](https://voidbots.net/bot/781296717244399617/) or [here](https://top.gg/bot/781296717244399617#/) if you like Digibot and want to vote for it!")
+		await sendMessage(ctx, "Vote if you like Digibot!", "Click [here](https://voidbots.net/bot/781296717244399617/vote) or [here](https://top.gg/bot/781296717244399617#/) if you like Digibot and want to vote for it!")
 
 	@commands.command()
 	@commands.guild_only()
