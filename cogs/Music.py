@@ -161,6 +161,7 @@ class Music(commands.Cog):
 				if not member.bot:
 					members.append(member.id)
 			if len(members) > 1 and moderator == False:
+				data = await openFile("files/disabledCommands")
 				if not "mVoting" in data[guildID]["commands"]: 
 					await ctx.trigger_typing()
 					voteCount = 0
