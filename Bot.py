@@ -3,7 +3,7 @@ import aiohttp
 import asyncpg
 from discord.ext import commands, tasks
 from json import load, dumps
-from asyncio import sleep, get_event_loop, TimeoutError
+from asyncio import sleep, get_event_loop, TimeoutError, create_task
 import requests
 from re import search
 import discord
@@ -38,8 +38,8 @@ statKey = data["tokens"]["statKey"]
 botPrefix = data["prefix"]
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = commands.when_mentioned_or(botPrefix), intents = intents)
-client.statKey = statKey
 client.token = data["tokens"]["botToken"]
+client.statKey = statKey
 client.voidToken = data["tokens"]["voidToken"]
 client.spaceToken = spaceToken
 client.botPrefix = data["prefix"]
@@ -58,6 +58,7 @@ client.playedSongs = {}
 client.eventLoop = get_event_loop()
 client.test = {}
 client.Playloop = {}
+client.roulette = {}
 with open("config.json", "w") as outFile:
 	outFile.write(dumps(data, indent = 2))
 
@@ -221,12 +222,12 @@ async def removeMutes():
 							await member.remove_roles(muteRole)
 							doc["Mutes"]["activeMutes"][memberID] = {}
 							await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
-				if "acitveMutes" in doc["Mutes"]:
-					if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
-						doc["Mutes"]["activeMutes"].pop(memberID)
-					if len(doc["Mutes"]["activeMutes"]) < 1:
-						doc["Mutes"].pop("activeMutes")
-				await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+		if "activeMutes" in doc["Mutes"]:
+			if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+				doc["Mutes"]["activeMutes"].pop(memberID)
+			if len(doc["Mutes"]["activeMutes"]) < 1:
+				doc["Mutes"].pop("activeMutes")
+		await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 
 async def muteLoopStart():
 	global muteLoopRunning
@@ -363,10 +364,9 @@ async def writeFile(file, fileData):
 async def on_ready():
 	print('Digibot Ready')
 	await client.change_presence(activity = discord.Activity(name = f"to {len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
-	await remindLoopStart()
-	await muteLoopStart()
-	client.statusRefreash.start()
-	client.statusRefreash.add_exception_type(asyncpg.PostgresConnectionError)
+	create_task(remindLoopStart())
+	create_task(muteLoopStart())
+	await statusRefreash()
 
 @tasks.loop(minutes = 30)
 async def statusRefreash():

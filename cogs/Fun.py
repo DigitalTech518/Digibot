@@ -10,15 +10,92 @@ from discord.utils import get
 from os import listdir
 from platform import system
 import ibl
+import motor.motor_asyncio
 try:
-	from Bot import sendMessage
+	from Bot import sendMessage, muteLoopStart
 except:
-	from Bot1 import sendMessage
+	from Bot1 import sendMessage, muteLoopStart
 
 class fun(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
+
+	@commands.command()
+	@commands.cooldown(1, 1800, commands.BucketType.guild)
+	async def roulette(self, ctx):
+		await ctx.trigger_typing()
+		guildID = str(ctx.guild.id)
+		embed = discord.Embed(title = "Who shall get muted?!", description = "Each round lasts 30 minutes. React with <:sus:814323979762139167> to enter the roulette match (could be muted anywhere from 1 minute to 1 hour) >:3", color = self.bot.embedColor)
+		message = await ctx.message.reply(mention_author = False, embed = embed)
+		await message.add_reaction("<:sus:814323979762139167>")
+		await sleep(1800)
+		message = await ctx.channel.fetch_message(message.id)
+		users = []
+		for reaction in message.reactions:
+			if str(reaction.emoji) == "<:sus:814323979762139167>":
+				async for user in reaction.users():
+					if not user.bot:
+						users.append(user.id)
+						print(users)
+		finaltime = random.randint(1, 60) * 60
+		member = ctx.guild.get_member(user_id = random.choice(users))
+		role = get(ctx.guild.roles, name = "Muted")
+		await member.add_roles(role)
+		memberID = str(member.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await Guilds.insert_one({
+				":_id": guildID,
+				"Mutes": {}
+				})
+			doc = await Guilds.find_one({"_id": guildID})
+		if not "Mutes" in doc:
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": {
+				"Mutes": {}
+				}})
+			doc = await Guilds.find_one({"_id": guildID})
+		if not "activeMutes" in doc["Mutes"]:
+			doc["Mutes"]["activeMutes"] = {
+						memberID: {
+							"time": str(datetime.now()  + timedelta(seconds = finaltime)).split(".")[0],
+							"channelID": ctx.channel.id
+				}}
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+			doc = await Guilds.find_one({"_id": guildID})
+		if "activeMutes" in doc["Mutes"]:
+			doc["Mutes"]["activeMutes"] = {
+						memberID: {
+							"time": str(datetime.now()  + timedelta(seconds = finaltime)).split(".")[0],
+							"channelID": ctx.channel.id
+				}}
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+			doc = await Guilds.find_one({"_id": guildID})
+		for user in users:
+			cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+			Users = cluster["bot"]["Users"]
+			doc = await Users.find_one({"_id": str(user)})
+			if not user == member.id:
+				if not doc:
+					await Users.insert_one({
+						"_id": str(user)
+						})
+					doc = await Users.find_one({"_id": str(user)})
+				if not "rouletteWins" in doc:
+					doc["rouletteWins"] = 0
+				if not "rouletteLooses" in doc:
+					doc["rouletteLooses"] = 0
+				if "rouletteWins" in doc:
+					doc["rouletteWins"] += 1
+				await Users.find_one_and_update({"_id": str(user)}, {"$set": doc})
+			if user == member.id:
+				if "rouletteLooses" in doc:
+					doc["rouletteLooses"] += 1
+				await Users.find_one_and_update({"_id": str(user)}, {"$set": doc})
+		await sendMessage(ctx, f"{member.name} has been muted for {round(finaltime/60)} minutes >:3")
+		await muteLoopStart()
 
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)

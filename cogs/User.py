@@ -2,6 +2,7 @@ from discord.ext import commands
 import requests
 import discord
 from datetime import datetime, timedelta, time
+import motor.motor_asyncio
 try:
 	from Bot import sendMessage, sendLog, writeFile, openFile, pagination
 except:
@@ -37,6 +38,16 @@ class User(commands.Cog):
 		await ctx.trigger_typing()
 		if member == None:
 			member = ctx.message.author
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Users = cluster["bot"]["Users"]
+		doc = await Users.find_one({"_id": str(member.id)})
+		wins = None
+		looses = None
+		if doc:
+			if "rouletteWins" in doc:
+				wins = doc["rouletteWins"]
+			if "rouletteLooses" in doc:
+				looses = doc["rouletteLooses"]
 		if len(member.roles) == 1:
 			memberRole = "No Roles"
 		else:
@@ -44,6 +55,14 @@ class User(commands.Cog):
 		embed = discord.Embed(title = f"{member.name}#{member.discriminator}", color = ctx.bot.embedColor)
 		embed.add_field(name = "Nickname", value = member.nick)
 		embed.add_field(name = "Join Date", value = str(member.joined_at).split(' ')[0])
+		if not wins == None:
+			embed.add_field(name = "Roulette Wins", value = wins)
+		if wins == None:
+			embed.add_field(name = "Roulette Wins", value = 0)
+		if not looses == None:
+			embed.add_field(name = "Roulette Losses", value = looses)
+		if looses == None:
+			embed.add_field(name = "Roulette Losses", value = 0)
 		embed.add_field(name = "Account Creation", value = str(member.created_at).split(' ')[0])
 		embed.add_field(name = "Highest Role", value = memberRole)
 		time = str(datetime.now()).split(".")[0]
