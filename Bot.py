@@ -5,7 +5,7 @@ from discord.ext import commands, tasks
 from json import load, dumps
 from asyncio import sleep, get_event_loop, TimeoutError, create_task
 import requests
-from re import search
+from re import search, findall
 import discord
 import random
 from discord.utils import get
@@ -18,8 +18,8 @@ from threading import Thread
 from functools import partial
 from flask import Flask, render_template
 app = Flask( 
-    __name__,
-    template_folder='templates'
+	__name__,
+	template_folder='templates'
 )
 
 global muteLoopRunning
@@ -222,12 +222,12 @@ async def removeMutes():
 							await member.remove_roles(muteRole)
 							doc["Mutes"]["activeMutes"][memberID] = {}
 							await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
-		if "activeMutes" in doc["Mutes"]:
-			if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
-				doc["Mutes"]["activeMutes"].pop(memberID)
-			if len(doc["Mutes"]["activeMutes"]) < 1:
-				doc["Mutes"].pop("activeMutes")
-		await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+			if "activeMutes" in doc["Mutes"]:
+				if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+					doc["Mutes"]["activeMutes"].pop(memberID)
+				if len(doc["Mutes"]["activeMutes"]) < 1:
+					doc["Mutes"].pop("activeMutes")
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 
 async def muteLoopStart():
 	global muteLoopRunning

@@ -4,7 +4,7 @@ from json import load, dumps
 from asyncio import sleep
 import aiohttp
 import asyncpg
-from re import search
+from re import search, findall
 import discord
 from discord.utils import get
 from platform import system
@@ -22,20 +22,29 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def repeatreminder(self, ctx, time,*, reason = None):
 		await ctx.trigger_typing()
-		if member == None:
-			member = ctx.author
+		member = ctx.author
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
 				data = await r.json()
 				if data["voted"] == False:
 					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
 					return
-		guildID = str(ctx.guild.id)
 		memberID = str(ctx.author.id)
-		m = search(r"([\d.]+)([smhdwy]?)", time)
-		time = float(m.group(1))
-		length = m.group(2)
-		await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
+		m = findall(r"([\d.]+)([smhdwy]?)", time)
+		time = float(m[0][0])
+		length = m[0][1]
+		time2 = None
+		length2 = None
+		try:
+			time2 = float(m[1][0])
+			length2 = m[1][1]
+		except:
+			pass
+		if time2 != None and length2 != None:
+			messageTime = f"{time}{length}{time2}{length2}"
+			await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length}{int(time2)}{length2}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
+		else:
+			await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 		if length == "":
 			length = "m"
 		if length == "s":
@@ -50,6 +59,23 @@ class Utility(commands.Cog):
 			finaltime = time * 31536000
 		else:
 			finaltime = time * 60
+		finaltime2 = 0
+		if not time2 == None and not length2 == None:
+			if length2 == "":
+				length2 = "m"
+			if length2 == "s":
+				finaltime2 = time2
+			elif length2 == "h":
+				finaltime2 = time2 * 3600
+			elif length2 == "d":
+				finaltime2 = time2 * 86400
+			elif length2 == "w":
+				finaltime2 = time2 * 604800
+			elif length2 == "y":
+				finaltime2 = time2 * 31536000
+			else:
+				finaltime2 = time2 * 60
+		finaltime = finaltime + finaltime2
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
 		Users = cluster["bot"]["Users"]
 		doc = await Users.find_one({"_id": memberID})
@@ -71,6 +97,7 @@ class Utility(commands.Cog):
 
 	@commands.command()
 	@commands.has_permissions(manage_guild = True)
+	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def customcolor(self, ctx, color):
 		await ctx.trigger_typing()
@@ -94,6 +121,7 @@ class Utility(commands.Cog):
 
 	@commands.command()
 	@commands.has_permissions(manage_guild = True)
+	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def removecolor(self, ctx):
 		await ctx.trigger_typing()
@@ -107,6 +135,7 @@ class Utility(commands.Cog):
 		await sendMessage(ctx, f"Color has been reset!")
 
 	@commands.command()
+	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def viewcolor(self, ctx):
 		await ctx.trigger_typing()
@@ -225,9 +254,11 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def notes(self, ctx, name = None):
 		member = ctx.author
+		print(member.id)
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
 				data = await r.json()
+				print(data)
 				if data["voted"] == False:
 					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
 					return
@@ -351,12 +382,22 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def remindme(self, ctx, time,*, reason = None):
 		await ctx.trigger_typing()
-		guildID = str(ctx.guild.id)
 		memberID = str(ctx.author.id)
-		m = search(r"([\d.]+)([smhdwy]?)", time)
-		time = float(m.group(1))
-		length = m.group(2)
-		await sendMessage(ctx, "Reminder", f"Reminding you in {int(time)}{length} to {reason}.")
+		m = findall(r"([\d.]+)([smhdwy]?)", time)
+		time = float(m[0][0])
+		length = m[0][1]
+		time2 = None
+		length2 = None
+		try:
+			time2 = float(m[1][0])
+			length2 = m[1][1]
+		except:
+			pass
+		if time2 != None and length2 != None:
+			messageTime = f"{time}{length}{time2}{length2}"
+			await sendMessage(ctx, "Reminder", f"Reminding you in {int(time)}{length}{int(time2)}{length2}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
+		else:
+			await sendMessage(ctx, "Reminder", f"Reminding you in {int(time)}{length} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 		if length == "":
 			length = "m"
 		if length == "s":
@@ -371,6 +412,23 @@ class Utility(commands.Cog):
 			finaltime = time * 31536000
 		else:
 			finaltime = time * 60
+		finaltime2 = 0
+		if not time2 == None and not length2 == None:
+			if length2 == "":
+				length2 = "m"
+			if length2 == "s":
+				finaltime2 = time2
+			elif length2 == "h":
+				finaltime2 = time2 * 3600
+			elif length2 == "d":
+				finaltime2 = time2 * 86400
+			elif length2 == "w":
+				finaltime2 = time2 * 604800
+			elif length2 == "y":
+				finaltime2 = time2 * 31536000
+			else:
+				finaltime2 = time2 * 60
+		finaltime = finaltime + finaltime2
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
 		Users = cluster["bot"]["Users"]
 		doc = await Users.find_one({"_id": memberID})

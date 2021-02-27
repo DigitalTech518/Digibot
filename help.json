@@ -270,7 +270,7 @@
 			"Usage:": "queue"
 		},
 		"clearqueue":{
-			"Description": "Clear the current queue.",
+			"Description:": "Clear the current queue.",
 			"Permission:": "Manage_messages",
 			"Usage:": "clearqueue"
 		},

@@ -6,7 +6,7 @@ import requests
 import random
 import discord
 from discord.utils import get
-from re import search
+from re import search, findall
 import motor.motor_asyncio
 try:
 	from Bot import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop
@@ -280,17 +280,16 @@ class Moderation(commands.Cog):
 	@commands.guild_only()
 	async def mute(self, ctx, member: discord.Member, mute_time = "5", *, reason = "no reason"):
 		await ctx.trigger_typing()
-		m = search(r"([\d.]+)([smhdw]?)", mute_time)
+		m = findall(r"([\d.]+)([smhdwy]?)", mute_time)
+		time = float(m[0][0])
+		length = m[0][1]
+		time2 = None
+		length2 = None
 		try:
-			time = float(m.group(1))
-			length = m.group(2)
+			time2 = float(m[1][0])
+			length2 = m[1][1]
 		except:
-			if reason == "no reason":
-				reason = mute_time
-			else:
-				reason = f"{mute_time} {reason}"
-			time = 5
-			length = "m"
+			pass
 		if length == "":
 			length = "m"
 		if length == "s":
@@ -301,9 +300,29 @@ class Moderation(commands.Cog):
 			finaltime = time * 86400
 		elif length == "w":
 			finaltime = time * 604800
+		elif length == "y":
+			finaltime = time * 31536000
 		else:
 			finaltime = time * 60
-		timeA = f"{time}{length}"
+		finaltime2 = 0
+		timeA = f"{int(time)}{length}"
+		if not time2 == None and not length2 == None:
+			if length2 == "":
+				length2 = "m"
+			if length2 == "s":
+				finaltime2 = time2
+			elif length2 == "h":
+				finaltime2 = time2 * 3600
+			elif length2 == "d":
+				finaltime2 = time2 * 86400
+			elif length2 == "w":
+				finaltime2 = time2 * 604800
+			elif length2 == "y":
+				finaltime2 = time2 * 31536000
+			else:
+				finaltime2 = time2 * 60
+			timeA = f"{int(time)}{length}{int(time2)}{length2}"
+		finaltime = finaltime + finaltime2
 		role = discord.utils.get(ctx.guild.roles, name="Muted")
 		guildID = str(ctx.guild.id)
 		memberID = str(member.id)
@@ -349,7 +368,7 @@ class Moderation(commands.Cog):
 			})
 		await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 		await member.add_roles(role)
-		await sendMessage(ctx, "Member was muted.", f"{member.mention} was muted for {int(time)}{length}. ({reason})")
+		await sendMessage(ctx, "Member was muted.", f"{member.mention} was muted for {timeA}. ({reason})")
 		try:
 			await sendMessage(await getLog(ctx.guild.id, "moderation"), "Member was muted", f"{member.mention} was muted. ({reason})", None, f"Moderator Responsible: {ctx.author.id}")
 		except:
