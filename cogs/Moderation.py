@@ -281,8 +281,12 @@ class Moderation(commands.Cog):
 	async def mute(self, ctx, member: discord.Member, mute_time = "5", *, reason = "no reason"):
 		await ctx.trigger_typing()
 		m = findall(r"([\d.]+)([smhdwy]?)", mute_time)
-		time = float(m[0][0])
-		length = m[0][1]
+		try:
+			time = float(m[0][0])
+			length = m[0][1]
+		except:
+			time = 5
+			length = "m"
 		time2 = None
 		length2 = None
 		try:
@@ -483,10 +487,13 @@ class Moderation(commands.Cog):
 			await sendMessage(ctx, "You all ready have a muted role!")
 			return
 		elif "Muted" not in roles:
-			role = await ctx.guild.create_role(name = "Muted", permissions = discord.Permissions(send_messages = False, add_reactions = False, speak = False), color = discord.Color(ctx.bot.mutedColor))
+			role = await ctx.guild.create_role(name = "Muted", permissions = discord.Permissions(send_messages = False), color = discord.Color(ctx.bot.mutedColor))
 			channels = ctx.guild.text_channels
 			for channels in channels:
 				await channels.set_permissions(role, send_messages=False, add_reactions = False)
+			vChannels = ctx.guild.voice_channels
+			for channels in vChannels:
+				await channels.set_permissions(role, speak = False)
 			for x in reversed(range(len(ctx.guild.roles))):
 				try:
 					await role.edit(position = x)
