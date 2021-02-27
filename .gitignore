@@ -1,0 +1,12 @@
+
+*.pyc
+*.css
+files/times.json
+files/stats.json
+files/reactionRoles.json
+files/joinroles.json
+files/disabledCommands.json
+files/customprefix.json
+files/auditlog.json
+files/colors.json
+config.json
