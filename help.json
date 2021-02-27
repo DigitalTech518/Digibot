@@ -508,7 +508,7 @@
         	"Description:": "Good luck with trying this >:)"
         },
         "stats": {
-        	"Description": "See the stats of a command, or just see top commands used.",
+        	"Description:": "See the stats of a command, or just see top commands used.",
         	"Permission Required:": "None",
         	"Usage:": "stats [command name]"
         },
