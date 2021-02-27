@@ -763,19 +763,22 @@ async def on_voice_state_update(member, before, after):
 		if len(oldChannel.members) == 1:
 			if client.user in oldChannel.members:
 				vc = member.guild.voice_client
-				await vc.disconnect()
-				try:
-					del client.playedSongs[str(member.guild.id)]
-				except:
-					pass
-				try:
-					del client.songQueue[str(member.guild.id)]
-				except:
-					pass
-				try:
-					del client.Playloop[str(member.guild.id)]
-				except:
-					pass
+				await sleep(30)
+				oldChannel = client.get_channel(before.channel.id)
+				if len(oldChannel.members) == 1:
+					await vc.disconnect()
+					try:
+						del client.playedSongs[str(member.guild.id)]
+					except:
+						pass
+					try:
+						del client.songQueue[str(member.guild.id)]
+					except:
+						pass
+					try:
+						del client.Playloop[str(member.guild.id)]
+					except:
+						pass
 
 @client.event
 async def on_member_ban(guild, user):

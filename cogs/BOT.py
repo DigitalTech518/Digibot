@@ -70,6 +70,7 @@ class BOT(commands.Cog):
 				e.add_field(name = "Denied", value = f"*Denied by:* {ctx.author.name}")
 				e.add_field(name = "Reason:", value = reason)
 			await suggestion.edit(embed = e)
+			await suggestion.clear_reactions()
 		await ctx.message.reply("Suggestion Denied!", mention_author = False)
 
 	@commands.command()
