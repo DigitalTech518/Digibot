@@ -483,7 +483,7 @@ class Moderation(commands.Cog):
 			await sendMessage(ctx, "You all ready have a muted role!")
 			return
 		elif "Muted" not in roles:
-			role = await ctx.guild.create_role(name = "Muted", permissions = discord.Permissions(send_messages = False), color = discord.Color(ctx.bot.mutedColor))
+			role = await ctx.guild.create_role(name = "Muted", permissions = discord.Permissions(send_messages = False, add_reactions = False, speak = False), color = discord.Color(ctx.bot.mutedColor))
 			channels = ctx.guild.text_channels
 			for channels in channels:
 				await channels.set_permissions(role, send_messages=False, add_reactions = False)
