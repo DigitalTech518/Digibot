@@ -22,7 +22,8 @@
 				"queue               [N/A]",
 				"clearqueue          [N/A]",
 				"forceskip           [N/A]",
-				"loop                [N/A]"
+				"loop                [N/A]",
+				"nowplaying          [N/A]"
 			]
 		},
 		"utility":{
@@ -75,7 +76,9 @@
 				"slowmode            [time (s,m,h)]",
 				"setjoinrole         [role]",
 				"viewjoinroles       [N/A]",
-				"removejoinrole      [role number (see order on list)]"
+				"removejoinrole      [role number (see order on list)]",
+				"addroles            <Role to add><Role that member already has>",
+				"removeroles         <Role to remove><Role that member already has>"
 			]
 		},
 		"bot": {
@@ -134,6 +137,24 @@
 		}
 	},
 	"commands":{
+		"addroles":{
+			"Description:": "Add roles to users, that have a specific role already",
+			"Permission:": "manage_roles",
+			"Usage:": "addroles <role to add> <role that member already has>",
+			"Aliases:": "aroles"
+		},
+		"removeroles": {
+			"Description:": "Remove roles from all members, or from members that already have a specific role.",
+			"Permission": "manage_roles",
+			"Usage:": "removeroles <role to remove> <role that member already has>",
+			"Aliases:": "rroles"
+		},
+		"nowplaying":{
+			"Description:": "See what song is currently playing.",
+			"Permission:": "None",
+			"Usage:": "nowplaying",
+			"Aliases:": "np"
+		},
 		"roulette": {
 			"Description:": "Start a round of roulette, whoever looses gets muted >:3",
 			"Permission:": "None",

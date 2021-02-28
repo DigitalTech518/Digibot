@@ -18,6 +18,35 @@ class Server(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command(aliases = ["aroles"])
+	@commands.guild_only()
+	@commands.has_permissions(manage_roles = True)
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def addroles(self, ctx, addRole: discord.Role, memberRole: discord.Role):
+		await ctx.trigger_typing()
+		for member in ctx.guild.members:
+			if memberRole in member.roles:
+				await member.add_roles(addRole)
+		await sendMessage(ctx, f"{addRole.name} has been added to members with {memberRole.name} role!")
+
+	@commands.command(aliases = ["rroles"])
+	@commands.guild_only()
+	@commands.has_permissions(manage_roles = True)
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def removeroles(self, ctx, removedRole: discord.Role, memberRole: discord.Role = None):
+		await ctx.trigger_typing()
+		for member in ctx.guild.members:
+			if removedRole in member.roles:
+				if not memberRole == None:
+					if memberRole in member.roles:
+						await member.remove_roles(removedRole)
+				else:
+					await member.remove_roles(removedRole)
+		if memberRole == None:
+			await sendMessage(ctx, f"{removedRole.name} has been removed from members with {memberRole.name} role.")
+		else:
+			await sendMessage(ctx, f"{removedRole.name} has been removed from all members!")
+
 	@commands.command()
 	@commands.guild_only()
 	@commands.has_permissions(manage_roles = True)

@@ -69,6 +69,25 @@ class Music(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command(aliases = ["np", "whatthefuckareyouplaying"])
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def nowplaying(self, ctx):
+		await ctx.trigger_typing()
+		if not str(ctx.guild.id) in ctx.bot.songQueue:
+			await sendMessage(ctx, "There is no music playing right now! (or `d!clearqueue` was just used.)")
+			return
+		songQueue = ctx.bot.songQueue[str(ctx.guild.id)][0]
+		seconds = songQueue["duration"]%60
+		if len(str(seconds)) == 1:
+			seconds = f"0{seconds}"
+		embed = discord.Embed(title = "Now playing...", color = ctx.bot.embedColor)
+		embed.add_field(name = "Song Name", value = songQueue["title"])
+		embed.add_field(name = "Url", value = f"[link]({songQueue['url']})")
+		embed.add_field(name = "Duration", value = f"{songQueue['duration']//60}:{seconds}")
+		embed.set_thumbnail(url = f"https://img.youtube.com/vi/{songQueue['id']}/maxresdefault.jpg")
+		await ctx.message.reply(mention_author = False, embed = embed)
+
+
 	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def play(self, ctx, *, song):
