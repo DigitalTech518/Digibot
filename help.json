@@ -141,40 +141,47 @@
 			"Description:": "Add roles to users, that have a specific role already",
 			"Permission:": "manage_roles",
 			"Usage:": "addroles <role to add> <role that member already has>",
-			"Aliases:": "aroles"
+			"Aliases:": "aroles",
+			"Cooldown:": "5 seconds"
 		},
 		"removeroles": {
 			"Description:": "Remove roles from all members, or from members that already have a specific role.",
 			"Permission": "manage_roles",
 			"Usage:": "removeroles <role to remove> <role that member already has>",
-			"Aliases:": "rroles"
+			"Aliases:": "rroles",
+			"Cooldown:": "5 seconds"
 		},
 		"nowplaying":{
 			"Description:": "See what song is currently playing.",
 			"Permission:": "None",
 			"Usage:": "nowplaying",
-			"Aliases:": "np"
+			"Aliases:": "np",
+			"Cooldown:": "5 seconds"
 		},
 		"roulette": {
 			"Description:": "Start a round of roulette, whoever looses gets muted >:3",
 			"Permission:": "None",
-			"Usage:": "roulette"
+			"Usage:": "roulette",
+			"Cooldown:": "30 minutes"
 		},
 		"vote":{
 			"Description:": "Vote for Digibot if you like using it!",
 			"Permission:": "None",
-			"Usage:": "vote"
+			"Usage:": "vote",
+			"Cooldown:": "5 seconds"
 		},
 		"loop": {
 			"Description:": "Loop the queue (or stop looping the queue)!",
 			"Permission:": "None",
-			"Usage:": "loop"
+			"Usage:": "loop",
+			"Cooldown:": "5 seconds"
 		},
 		"suggestion":{
 			"Description:": "Suggestion a feature for Digibot!",
 			"Permission:": "None",
 			"Usage:": "suggestion [suggestion]",
-			"Aliases:": "suggest"
+			"Aliases:": "suggest",
+			"Cooldown:": "5 seconds"
 		},
 		"approvesuggestion":{
 			"Description:": "Approve a suggestion",
@@ -187,22 +194,26 @@
 		"repeatreminder":{
 			"Description:": "Set a repeating reminder, just like a reminder!",
 			"Permission:": "None",
-			"Usage:": "repeatreminder [time] [reminder]"
+			"Usage:": "repeatreminder [time] [reminder]",
+			"Cooldown:": "5 seconds"
 		},
 		"customcolor":{
 			"Description:": "Set a custom hex color for embeds!",
 			"Permission:": "manage_guild",
-			"Usage:": "customcolor [hex color]"
+			"Usage:": "customcolor [hex color]",
+			"Cooldown:": "5 seconds"
 		},
 		"viewcolor":{
 			"Description:": "View the current set custom color.",
 			"Permission:": "None",
-			"Usage:": "viewcolor"
+			"Usage:": "viewcolor",
+			"Cooldown:": "5 seconds"
 		},
 		"removecolor":{
 			"Description:": "Remove the currently set custom color",
 			"Permission:": "manage_guild",
-			"Usage:": "removecolor"
+			"Usage:": "removecolor",
+			"Cooldown:": "5 seconds"
 		},
 		"blacklist":{
 			"Description:": "Ban a user from usage of the bot.",
@@ -216,358 +227,427 @@
 		"setmodrole":{
 			"Description:": "Set what role is your moderation role.",
 			"Permission:": "ban_members",
-			"Usage:": "setmodrole <role>"
+			"Usage:": "setmodrole <role>",
+			"Cooldown:": "5 seconds"
 		},
 		"viewmodrole":{
 			"Description:": "View what roles are currently set up to be moderation roles.",
 			"Permission:": "ban_members",
-			"Usage:": "viewmodrole"
+			"Usage:": "viewmodrole",
+			"Cooldown:": "5 seconds"
 		},
 		"removemodroles":{
 			"Description:": "remove currently set mod roles.",
 			"Permission:": "ban_members",
-			"Usage:": "removemodroles"
+			"Usage:": "removemodroles",
+			"Cooldown:": "5 seconds"
 		},
 		"modping":{
 			"Description:": "Ping a moderation for help or to report someone breaking the rules! (Servers may have diffrent rules for the usage of this command, follow those rules!",
 			"Permission:": "None",
-			"Usage:": "modping"
+			"Usage:": "modping",
+			"Cooldown:": "5 seconds"
 		},
 		"github":{
 			"Description:": "Make a suggestion, report an error, or just see the code that runs Digibot!",
 			"Permission:": "None",
 			"Usage:": "github",
-			"Aliases:": "suggest"
+			"Aliases:": "suggest",
+			"Cooldown:": "5 seconds"
 		},
 		"notepad":{
 			"Description:": "Make a note on an existing or new note!",
 			"Permission:": "None",
-			"Usage:": "notepad [note name] [entry]"
+			"Usage:": "notepad [note name] [entry]",
+			"Cooldown:": "5 seconds"
 		},
 		"notes":{
 			"Description:": "View your notes!",
 			"Permission:": "None",
-			"Usage:": "notes [name]"
+			"Usage:": "notes [name]",
+			"Cooldown:": "5 seconds"
 		},
 		"removenote":{
 			"Description:": "Remove an entire note, or a specific entry in a existing note.",
 			"Permission:": "None",
-			"Usage:": "removenote [note name] [entry number]"
+			"Usage:": "removenote [note name] [entry number]",
+			"Cooldown:": "5 seconds"
 		},
 		"play":{
 			"Description:": "Play a song from youtube!",
 			"Permission:": "None",
-			"Usage:": "play [song name]"
+			"Usage:": "play [song name]",
+			"Cooldown:": "5 seconds"
 		},
 		"leave":{
 			"Description:": "Have the bot leave the voice channel.",
 			"Permission:": "None",
 			"Usage:": "leave",
-			"Aliases:": "||f*ckoff||"
+			"Aliases:": "||f*ckoff||",
+			"Cooldown:": "5 seconds"
 		},
 		"skip":{
 			"Description:": "Skip to the next song!",
 			"Permission:": "None",
-			"Usage:": "skip"
+			"Usage:": "skip",
+			"Cooldown:": "5 seconds"
 		},
 		"stop":{
 			"Description:": "Stop the music.",
 			"Permission:": "None",
-			"Usage:": "stop"
+			"Usage:": "stop",
+			"Cooldown:": "5 seconds"
 		},
 		"pause":{
 			"Description:": "Pause the current song!",
 			"Permission:": "None",
-			"Usage:": "pause"
+			"Usage:": "pause",
+			"Cooldown:": "5 seconds"
 		},
 		"resume":{
 			"Description:": "Resume a previously paused song!",
 			"Permission:": "None",
-			"Usage:": "resume"
+			"Usage:": "resume",
+			"Cooldown:": "5 seconds"
 		},
 		"queue":{
 			"Description:": "See the songs currently in the queue",
 			"Permission:": "None",
-			"Usage:": "queue"
+			"Usage:": "queue",
+			"Cooldown:": "5 seconds"
 		},
 		"clearqueue":{
 			"Description:": "Clear the current queue.",
 			"Permission:": "Manage_messages",
-			"Usage:": "clearqueue"
+			"Usage:": "clearqueue",
+			"Cooldown:": "5 seconds"
 		},
 		"forceskip":{
 			"Description:": "Skip the current song without vote.",
 			"Permission:": "Manage_messages",
-			"Usage:": "forceskip"
+			"Usage:": "forceskip",
+			"Cooldown:": "5 seconds"
 		},
 		"google":{
 			"Description:": "Google be like.",
 			"Permission:": "None",
-			"Usage:": "google"
+			"Usage:": "google",
+			"Cooldown:": "5 seconds"
 		},
 		"removereactionrole":{
 			"Description:": "Remove a previously set reaction role message.",
 			"Permission:": "manage_roles",
-			"Usage:": "removereactionrole <message>"
+			"Usage:": "removereactionrole <message>",
+			"Cooldown:": "5 seconds"
 		},
 		"addreactionrole":{
 			"Description:": "Add a reaction roles to a message!",
 			"Permission:": "manage_roles",
-			"Usage:": "addreactionrole <message> <emoji> [role name]"
+			"Usage:": "addreactionrole <message> <emoji> [role name]",
+			"Cooldown:": "5 seconds"
 		},
 		"help":{
 			"Description:": "Get help about a category or command!",
 			"Permission:": "None",
 			"Usage:": "help [category/command]",
-			"Aliases:": "list"
+			"Aliases:": "list",
+			"Cooldown:": "1.5 seconds"
 		},
 		"reminders":{
 			"Description:": "View your current reminders!",
 			"Permission Required:": "None",
-			"Usage:": "reminders"
+			"Usage:": "reminders",
+			"Cooldown:": "5 seconds"
 		},
 		"records":{
 			"Description:": "Look at the warns, mutes, and notes of a user.",
 			"Permission Required:": "manage_messages",
-			"Usage:": "records <user>"
+			"Usage:": "records <user>",
+			"Cooldown:": "5 seconds"
 		},
 		"setjoinrole":{
 			"Description:": "Set a role for when a member joins the server!",
 			"Permission Required:": "manage_roles",
-			"Usage:": "setjoinrole [role]"
+			"Usage:": "setjoinrole [role]",
+			"Cooldown:": "5 seconds"
 		},
 		"viewjoinroles":{
 			"Description:": "View your currently set join roles for your guild!",
 			"Permission Required:": "manage_roles",
-			"Usage:": "viewjoinroles"
+			"Usage:": "viewjoinroles",
+			"Cooldown:": "5 seconds"
 		},
 		"removejoinrole":{
 			"Description:": "Remove a join role from your guild.",
 			"Permission Required:": "manage_roles",
-			"Usage:": "removejoinrole [role number (see order on list)]"
+			"Usage:": "removejoinrole [role number (see order on list)]",
+			"Cooldown:": "5 seconds"
 		},
 		"modnote":{
 			"Description:": "Add a note to any user, for any reason!",
 			"Permission Required:": "manage_messages",
-			"Usage:": "modnote <user> [note]" 
+			"Usage:": "modnote <user> [note]",
+			"Cooldown:": "5 seconds"
 		},
 		"pardonnote":{
 			"Description:": "Pardon a set note for a user.",
 			"Permission Required:": "manage_messages",
-			"Usage:": "pardonnote <user> [note number (see order on records command)]"
+			"Usage:": "pardonnote <user> [note number (see order on records command)]",
+			"Cooldown:": "5 seconds"
 		},
 		"privacy":{
 			"Description:": "Look at my privacy policy",
 			"Permission Required:": "None",
-			"Usage:": "privacy"
+			"Usage:": "privacy",
+			"Cooldown:": "5 seconds"
 		},
 		"kick":{
 			"Description:": "Kicks a user out of the server.",
 			"Permission Required:": "Permission: Ban Member",
-			"Usage:": "kick <@user> [reason]"
+			"Usage:": "kick <@user> [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"ban":{
 			"Description:": "Bans a user from the server.",
 			"Permission Required:": "Permission: Ban Member",
-			"Usage:": "ban <@user> [reason]"
+			"Usage:": "ban <@user> [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"permamute":{
 			"Description:": "Permanently mute a user until manually unmuted.",
 			"Permission Required:": "Permission: Ban Member",
-			"Usage:": "permamute <@user> [reason]"
+			"Usage:": "permamute <@user> [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"unmute":{
 			"Description:": "Unmute a user that is muted.",
 			"Permission Required:": "Permission: Ban Member",
-			"Usage:": "unmute <@user> [reason]"
+			"Usage:": "unmute <@user> [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"mute":{
 			"Description:": "Mute a user for a specified amount of time.",
 			"Permission Required:": "Permission: Ban Member",
-			"Usage:": "mute <@user> [time (s,m,h,d,w)] [reason]"
+			"Usage:": "mute <@user> [time (s,m,h,d,w)] [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"pfp":{
 			"Description:": "Pull up the profile picture of yourself or another user",
 			"Permission Required:": "None",
 			"Usage:": "pfp <@user>",
-			"Aliases:": "avatar, profile_picture"
+			"Aliases:": "avatar, profile_picture",
+			"Cooldown:": "5 seconds"
 		},
 		"profile":{
 			"Description:": "Look up your own profile or another's profile.",
 			"Permission Required:": "None",
-			"Usage:": "profile <@user>"
+			"Usage:": "profile <@user>",
+			"Cooldown:": "5 seconds"
 		},
 		"warn":{
 			"Description:": "Warn a user for breaking rules.",
 			"Permission Required:": "manage_messages",
-			"Usage:": "warn <@user> [reason]"
+			"Usage:": "warn <@user> [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"ping":{
 			"Description:": "Find out the latency.",
 			"Permission Required:": "None",
 			"Usage:": "ping",
-			"Aliases:": "latency"
+			"Aliases:": "latency",
+			"Cooldown:": "5 seconds"
 		},
 		"prefix":{
 			"Description:": "Change the prefix of the bot for your server.",
 			"Permission Required:": "administrator",
-			"Usage:": "prefix [prefix]"
+			"Usage:": "prefix [prefix]",
+			"Cooldown:": "5 seconds"
 		},
 		"purge":{
 			"Description:": "Delete a mass amount of messages",
 			"Permission Required:": "manage_messages",
 			"Usage:": "purge [number of messages]",
-			"Aliases:": "delete, begone"
+			"Aliases:": "delete, begone",
+			"Cooldown:": "5 seconds"
 		},
 		"remindme":{
 			"Description:": "Set a dm reminder (or in channel of command if dms are off)",
 			"Permission Required:": "None",
 			"Usage:": "remindme [time(s,m,h,d,w, y)] [reminder]",
-			"Aliases:": "reminder, remind"
+			"Aliases:": "reminder, remind",
+			"Cooldown:": "5 seconds"
 		},
 		"setlogs":{
 			"Description:": "Set a channel to a certin category for audit logs. (General is a category that will get all audit categories)",
 			"Permission Required:": "administrator",
-			"Usage:": "setlogs <#channel> [general, moderation, voice, member, message, server]"
+			"Usage:": "setlogs <#channel> [general, moderation, voice, member, message, server]",
+			"Cooldown:": "5 seconds"
 		},
 		"bean":{
 			"Description:": "Bean a user to bean them!",
 			"Permission Required:": "manage_messages",
-			"Usage:": "bean <@user> [reason]"
+			"Usage:": "bean <@user> [reason]",
+			"Cooldown:": "5 seconds"
 		},
 		"goddamn":{
 			"Description:": "Goddamn.",
 			"Permission Required:": "None",
-			"Usage:": "goddamn"
+			"Usage:": "goddamn",
+			"Cooldown:": "5 seconds"
 		},
 		"eightball":{
 			"Description:": "Ask the all mighty 8 ball a yes or no question!",
 			"Permission Required:": "None",
 			"Usage:": "8ball [question]",
-			"Aliases:": "8ball"
+			"Aliases:": "8ball",
+			"Cooldown:": "5 seconds"
 		},
 		"butterdog":{
 			"Description:": "Butterdog",
 			"Permission Required:": "None",
-			"Usage:": "butterdog"
+			"Usage:": "butterdog",
+			"Cooldown:": "5 seconds"
 		},
 		"shut":{
 			"Description:": "Shut",
 			"Permission Required:": "None",
-			"Usage:": "shut"
+			"Usage:": "shut",
+			"Cooldown:": "5 seconds"
 		},
 		"yikes":{
 			"Description:": "Yikes",
 			"Permission Required:": "None",
-			"Usage:": "yikes"
+			"Usage:": "yikes",
+			"Cooldown:": "5 seconds"
 		},
 		"lock":{
 			"Description:": "Prevent anyone from typing in a channel",
 			"Permission Required:": "administrator",
-			"Usage:": "lock <channel>"
+			"Usage:": "lock <channel>",
+			"Cooldown:": "5 seconds"
 		},
 		"unlock":{
 			"Description:": "Unlocks a perviously locked channel",
 			"Permission Required:": "administrator",
-			"Usage:": "unlock <channel>"
+			"Usage:": "unlock <channel>",
+			"Cooldown:": "5 seconds"
 		},
 		"pong":{
 			"Description:": "Ping!",
 			"Permission Required:": "None",
-			"Usage:": "pong"
+			"Usage:": "pong",
+			"Cooldown:": "5 seconds"
 		},
 		"embed":{
 			"Description:": "Create an embed message with a title and a description",
 			"Permission Required:": "None",
-			"Usage:": "embed ['Title']['Description'](single quotes need to be double quotes)"
+			"Usage:": "embed ['Title']['Description'](single quotes need to be double quotes)",
+			"Cooldown:": "5 seconds"
 		},
         "info":{
         	"Description:": "Show information about the bot.",
         	"Permission Required:": "None",
         	"Usage:": "botinfo",
-        	"Aliases:": "botinfo"
+        	"Aliases:": "botinfo",
+        	"Cooldown:": "5 seconds"
         },
      	"serverinfo":{
         	"Description:": "Show information about the server.",
         	"Permission Required:": "None",
         	"Usage:": "serverinfo",
-        	"Aliases:": "sinfo"
+        	"Aliases:": "sinfo",
+        	"Cooldown:": "5 seconds"
         },
         "unfunny":{
         	"Description:": "Unfunny dude",
         	"Permission Required:": "None",
-        	"Usage:": "unfunny"
+        	"Usage:": "unfunny",
+        	"Cooldown:": "5 seconds"
         },
         "pardonwarn":{
         	"Description:": "Remove a warning from a member. Warning is the warning you see in the command d!warnlist, the numbers go up to down (the top warning is the 1st warning).",
         	"Permission Required:": "manage_messages",
-        	"Usage:": "pardonwarn <@user> [warning]"
+        	"Usage:": "pardonwarn <@user> [warning]",
+        	"Cooldown:": "5 seconds"
         },
         "slowmode":{
         	"Description:": "Set the slowmode of a channel",
         	"Permission Required:": "administrator",
         	"Usage:": "slowmode [time in s,m,or h]",
-        	"Aliases:": "slow"
+        	"Aliases:": "slow",
+        	"Cooldown:": "5 seconds"
         },
         "mutedrole":{
         	"Description:": "Make a 'Muted' role.",
         	"Permission Required:": "manage_roles",
         	"Usage:": "mutedrole",
-        	"Aliases:": "mrole"
+        	"Aliases:": "mrole",
+        	"Cooldown:": "5 seconds"
         },
         "invite":{
         	"Description:": "Invite the bot to your own server!",
         	"Permission Required:": "None",
-        	"Usage:": "invite"
+        	"Usage:": "invite",
+        	"Cooldown:": "5 seconds"
         },
         "temperature":{
         	"Description:": "Convert the temperature.",
         	"Permission Required:": "None",
-        	"Usage:": "temperature [current temp] [type of temp (f or c or k)] [convert type (f or c or k)]"
+        	"Usage:": "temperature [current temp] [type of temp (f or c or k)] [convert type (f or c or k)]",
+        	"Cooldown:": "5 seconds"
         },
         "botded":{
-        	"Description:": "Good luck with trying this >:)"
+        	"Description:": "Good luck with trying this >:)",
+        	"Cooldown:": "5 seconds"
         },
         "stats": {
         	"Description:": "See the stats of a command, or just see top commands used.",
         	"Permission Required:": "None",
-        	"Usage:": "stats [command name]"
+        	"Usage:": "stats [command name]",
+        	"Cooldown:": "5 seconds"
         },
         "removereminder":{
         	"Description:": "Remove a on-going reminder.",
         	"Permission Required:": "None",
         	"Usage:": "removereminder [which reminder (1 is the first remidner on list)]",
-        	"Aliases:": "Rreminder"
+        	"Aliases:": "Rreminder",
+        	"Cooldown:": "5 seconds"
         },
         "removelogs":{
         	"Description:": "Remove an all ready set log.",
         	"Permission Required:": "administrator",
-        	"Usage:": "removelogs <channel> [category]"
+        	"Usage:": "removelogs <channel> [category]",
+        	"Cooldown:": "5 seconds"
         },
         "disablecommand":{
         	"Description:": "Disable a command serverwide.",
         	"Permission Required:": "administrator",
-        	"Usage:": "disablecommand [command]"
+        	"Usage:": "disablecommand [command]",
+        	"Cooldown:": "5 seconds"
         },
         "enablecommand": {
         	"Description:": "Re-enable a command that was previously disabled.",
         	"Permission Required:": "administrator",
-        	"Usage:": "enablecommand [command]"
+        	"Usage:": "enablecommand [command]",
+        	"Cooldown:": "5 seconds"
         },
         "support":{
         	"Description:": "Contact the owner of the bot for support!",
         	"Permission Required:": "None",
-        	"Usage:": "support [message]"
+        	"Usage:": "support [message]",
+        	"Cooldown:": "5 seconds"
         },
         "settime":{
         	"Description:": "Set your UTC offset",
         	"Permission Required:": "None",
-        	"Usage:": "settime [UTC offset]"
+        	"Usage:": "settime [UTC offset]",
+        	"Cooldown:": "5 seconds"
         },
         "time": {
         	"Description:": "See your or another users time if they have used settime.",
         	"Permission Required:": "None",
-        	"Usage:": "time <member>"
+        	"Usage:": "time <member>",
+        	"Cooldown:": "5 seconds"
         }
 	}
 }

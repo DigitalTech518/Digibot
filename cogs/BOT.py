@@ -26,7 +26,7 @@ class BOT(commands.Cog):
 		self.bot = bot
 
 	@commands.command()
-	@commands.is_owner()
+	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def voted(self, ctx, member: discord.Member = None):
 		if member == None:
 			member = ctx.author
