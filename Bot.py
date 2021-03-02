@@ -206,28 +206,29 @@ async def removeMutes():
 	cursor = Guilds.find({})
 	async for doc in cursor:
 		guildID = doc["_id"]
-		if "Mutes" in doc:
-			if "activeMutes" in doc["Mutes"]:
-				for memberID in doc["Mutes"]["activeMutes"]:
-					if not len(doc["Mutes"]["activeMutes"][memberID]) < 1:
-						mute = doc["Mutes"]["activeMutes"][memberID]
-						endTime = datetime.strptime(mute["time"],"%Y-%m-%d %H:%M:%S")
-						if datetime.now() > endTime:
-							channelID = mute["channelID"]
-							channel = client.get_channel(int(channelID))
-							guild = client.get_guild(int(guildID))
-							muteRole = get(guild.roles, name = "Muted")
-							member = guild.get_member(int(memberID))
-							await channel.send(f"{member.mention} has been unmuted.")
-							await member.remove_roles(muteRole)
-							doc["Mutes"]["activeMutes"][memberID] = {}
-							await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
-			if "activeMutes" in doc["Mutes"]:
-				if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
-					doc["Mutes"]["activeMutes"].pop(memberID)
-				if len(doc["Mutes"]["activeMutes"]) < 1:
-					doc["Mutes"].pop("activeMutes")
-			await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+		guild = client.get_guild(int(guildID))
+		if not guild == None:	
+			if "Mutes" in doc:
+				if "activeMutes" in doc["Mutes"]:
+					for memberID in doc["Mutes"]["activeMutes"]:
+						if not len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+							mute = doc["Mutes"]["activeMutes"][memberID]
+							endTime = datetime.strptime(mute["time"],"%Y-%m-%d %H:%M:%S")
+							if datetime.now() > endTime:
+								channelID = mute["channelID"]
+								channel = client.get_channel(int(channelID))
+								muteRole = get(guild.roles, name = "Muted")
+								member = guild.get_member(int(memberID))
+								await channel.send(f"{member.mention} has been unmuted.")
+								await member.remove_roles(muteRole)
+								doc["Mutes"]["activeMutes"][memberID] = {}
+								await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
+				if "activeMutes" in doc["Mutes"]:
+					if len(doc["Mutes"]["activeMutes"][memberID]) < 1:
+						doc["Mutes"]["activeMutes"].pop(memberID)
+					if len(doc["Mutes"]["activeMutes"]) < 1:
+						doc["Mutes"].pop("activeMutes")
+				await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 
 async def muteLoopStart():
 	global muteLoopRunning
@@ -363,7 +364,7 @@ async def writeFile(file, fileData):
 @client.event
 async def on_ready():
 	print('Digibot Ready')
-	await client.change_presence(activity = discord.Activity(name = f"to {len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
+	await client.change_presence(activity = discord.Activity(name = f"{len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
 	create_task(remindLoopStart())
 	create_task(muteLoopStart())
 	await statusRefreash()
@@ -371,7 +372,7 @@ async def on_ready():
 @tasks.loop(minutes = 30)
 async def statusRefreash():
 	await client.wait_until_ready()
-	await client.change_presence(activity = discord.Activity(name = f"to {len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
+	await client.change_presence(activity = discord.Activity(name = f"{len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
 
 partial_run = partial(app.run, host="0.0.0.0", debug=False, use_reloader=False)
 @app.route("/")
