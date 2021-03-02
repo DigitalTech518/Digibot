@@ -95,8 +95,6 @@
 				"privacy             [N/A]",
 				"github              [N/A]",
 				"suggestion          [suggestion]",
-				"approvesuggestion   <suggestion message>",
-				"denysuggestion      <suggestion message>",
 				"vote                [N/A]"
 			]
 		},
@@ -106,7 +104,9 @@
 				"botded              [N/A]",
 				"say                 <channelID>[message]",
 				"blacklist           <user>[reason]",
-				"isblacklisted       <user>"
+				"isblacklisted       <user>",
+				"approvesuggestion   <suggestion message>",
+				"denysuggestion      <suggestion message>"
 			]
 		},
 		"user": {
