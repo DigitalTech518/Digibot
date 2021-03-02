@@ -125,7 +125,7 @@ class fun(commands.Cog):
 				color = ctx.bot.embedColor
 		except:
 			color = ctx.bot.embedColor
-		embed = discord.Embed(title = "ButterDog", color = ccolor)
+		embed = discord.Embed(title = "ButterDog", color = color)
 		embed.set_image(url = "https://cdn.discordapp.com/attachments/753738964216709280/787159035866382346/butterdog.gif")
 		await ctx.message.reply(embed = embed)
 	
