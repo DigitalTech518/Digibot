@@ -484,7 +484,7 @@ class Moderation(commands.Cog):
 		for i in ctx.guild.roles:
 			roles += i.name + " "
 		if "Muted" in roles:
-			await sendMessage(ctx, "You all ready have a muted role!")
+			await sendMessage(ctx, "You already have a muted role!")
 			return
 		elif "Muted" not in roles:
 			role = await ctx.guild.create_role(name = "Muted", permissions = discord.Permissions(send_messages = False), color = discord.Color(ctx.bot.mutedColor))
@@ -600,7 +600,7 @@ class Moderation(commands.Cog):
 		Warns = []
 		if "Warns" in doc:
 			if memberID in doc["Warns"]:
-				for warn in data["Warns"][memberID]:
+				for warn in doc["Warns"][memberID]:
 					Warns.append(f'**Reason:** {warn["reason"]}')
 					Warns.append(f'**Date:** {warn["date"]}')
 					Warns.append(f'**Moderator Responsible:** {warn["moderator"]}')

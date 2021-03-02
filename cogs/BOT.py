@@ -119,7 +119,6 @@ class BOT(commands.Cog):
 		await sendMessage(ctx, "Vote if you like Digibot!", "Click [here](https://voidbots.net/bot/781296717244399617/vote) or [here](https://top.gg/bot/781296717244399617#/) if you like Digibot and want to vote for it!")
 
 	@commands.command()
-	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def support(self,ctx, *, message): 
 		await ctx.trigger_typing()
@@ -148,24 +147,27 @@ class BOT(commands.Cog):
 			await sendMessage(ctx, category, f"**```{str(categoryName)}```**")
 		if not str(category) in data.json()["categories"]:
 			try:
-				category = self.bot.get_command(f"{category}")
-				category = str(category.name)
-			except:
-				category = data.json()["commands"][category]
-			try:
-				data = await openFile("files/colors")
-				if str(ctx.guild.id) in data:
-					color = int(data[str(ctx.guild.id)]["color"], 16)
-				else:
+				try:
+					category = self.bot.get_command(f"{category}")
+					category = str(category.name)
+				except:
+					category = data.json()["commands"][category]
+				try:
+					data = await openFile("files/colors")
+					if str(ctx.guild.id) in data:
+						color = int(data[str(ctx.guild.id)]["color"], 16)
+					else:
+						color = ctx.bot.embedColor
+				except:
 					color = ctx.bot.embedColor
+				data = requests.get("https://raw.githubusercontent.com/DigitalTech518/Digibot/main/help.json")
+				embed = discord.Embed(title = category, color = color)
+				for key in data.json()["commands"][category]:
+					embed.add_field(name = key, value = data.json()["commands"][category][key], inline = False)
+				embed.set_footer(text = "Do d!help [category] to look at categories or d!help [command] for more info on a command!")
+				await ctx.send(embed = embed)
 			except:
-				color = ctx.bot.embedColor
-			data = requests.get("https://raw.githubusercontent.com/DigitalTech518/Digibot/main/help.json")
-			embed = discord.Embed(title = category, color = color)
-			for key in data.json()["commands"][category]:
-				embed.add_field(name = key, value = data.json()["commands"][category][key], inline = False)
-			embed.set_footer(text = "Do d!help [category] to look at categories or d!help [command] for more info on a command!")
-			await ctx.send(embed = embed)
+				await sendMessage(ctx, "That command does not exist, or has not been added to the helpsheet!", "If the command does exist please contact Digi using `d!support`!")
 	
 	@commands.command(aliases = ["latency"])
 	@commands.cooldown(1, 5, commands.BucketType.user)
