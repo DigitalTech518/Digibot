@@ -127,11 +127,7 @@
 				"hmm                 [N/A]",
 				"google              [N/A]",
 				"bean                <user>[reason]",
-				"roulette            [N/A]"
-			]
-		},
-		"other": {
-			"commands": [
+				"roulette            [N/A]",
 				"embed               [title][description]"
 			]
 		}
