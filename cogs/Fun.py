@@ -22,6 +22,21 @@ class fun(commands.Cog):
 		self.bot = bot
 
 	@commands.command()
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def embed(self, ctx, title, *, description = None):
+		await ctx.trigger_typing()
+		if title > 256:
+			await sendMessage(ctx, "Please make your title less than 256 characters!")
+			return
+		if description > 2048:
+			await sendMessage(ctx, "Please make your description less than 2048 characters!")
+			return
+		if description == None:
+			description = ""
+		embed = discord.Embed(title = title, description = description, color = self.bot.embedColor)
+		await ctx.message.reply(embed = embed)
+
+	@commands.command()
 	@commands.cooldown(1, 1800, commands.BucketType.guild)
 	async def roulette(self, ctx):
 		await ctx.trigger_typing()

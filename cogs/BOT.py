@@ -55,7 +55,6 @@ class BOT(commands.Cog):
 	async def denysuggestion(self, ctx, suggestion, *, reason = None):
 		channel = self.bot.get_channel(812856404595310673)
 		suggestion = await channel.fetch_message(suggestion)
-		x = 0
 		for e in suggestion.embeds:
 			if len(e.fields) == 1:
 				e.set_field_at(index = 0, name = "Denied", value = f"*Denied by:* {ctx.author.name}")
@@ -78,7 +77,6 @@ class BOT(commands.Cog):
 	async def approvesuggestion(self, ctx, suggestion, *, reason = None):
 		channel = self.bot.get_channel(812856404595310673)
 		suggestion = await channel.fetch_message(suggestion)
-		x = 0
 		for e in suggestion.embeds:
 			if len(e.fields) >= 1:
 				e.set_field_at(index = 0, name = "Approved", value = f"*Approved by:* {ctx.author.name}")
@@ -191,7 +189,7 @@ class BOT(commands.Cog):
 			data.pop(guildID, None)
 		else:
 			data[guildID] = prefix
-		outFile = await writeFile("files/customprefix", data)
+		await writeFile("files/customprefix", data)
 		await sendMessage(ctx, "Prefix has been changed to:", prefix)
 		try:
 			await sendMessage(await getLog(ctx.guild.id, "server"), "Prefix was changed.", f"Prefix was changed to {prefix}", None, f"Moderator Responsible: {ctx.author.id}")
@@ -313,7 +311,7 @@ class BOT(commands.Cog):
 			await sendMessage(ctx, "Command has been disabled", f"`{command}` has been disabled for {guild.name}.")
 		except:
 			pass
-		outFile = await writeFile("files/disabledCommands", data)
+		await writeFile("files/disabledCommands", data)
 	
 	@commands.command()
 	@commands.has_permissions(manage_roles = True)
@@ -333,7 +331,7 @@ class BOT(commands.Cog):
 			return
 		data[guildID]["commands"].remove(str(command))
 		await sendMessage(ctx, f"{command} has been enabled.")
-		outFile = await writeFile("files/disabledCommands", data)
+		await writeFile("files/disabledCommands", data)
 
 
 	@commands.command()
