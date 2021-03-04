@@ -41,8 +41,7 @@ class Utility(commands.Cog):
 		except:
 			pass
 		if time2 != None and length2 != None:
-			messageTime = f"{time}{length}{time2}{length2}"
-			await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length}{int(time2)}{length2}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
+			await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length}{int(time2)}{length2} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 		else:
 			await sendMessage(ctx, "Repeating Reminder", f"Reminding you every {int(time)}{length} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 		if length == "":
@@ -92,32 +91,30 @@ class Utility(commands.Cog):
 					"reason": reason,
 					"finaltime": finaltime
 			}}})	
-		updated = await Users.find_one({"_id": memberID})
+		await Users.find_one({"_id": memberID})
 		await remindLoopStart()
 
 	@commands.command()
 	@commands.has_permissions(manage_guild = True)
 	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
-	async def customcolor(self, ctx, color):
+	async def customcolor(self, ctx, color = None):
 		await ctx.trigger_typing()
 		match = search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color)
 		if match:
-			try:
-				newColorr = color.split("#")[1]
-			except:
-				pass
-			newColor = int(newColorr, 16)
+			newColor = color.split("#")[1]
 			guildID = str(ctx.guild.id)
 			data = await openFile("files/colors")
 			if not guildID in data:
 				data[guildID] = {}
-			data[guildID]["color"] = newColorr
+			data[guildID]["color"] = newColor
 		else:
 			await sendMessage(ctx, "That isn't a valid hex color!")
 			return
-		outFile = await writeFile("files/colors", data)
-		await sendMessage(ctx, f"{newColorr} has been set as the embed color!")
+		if color == None:
+			data[guildID].remove("color")
+		await writeFile("files/colors", data)
+		await sendMessage(ctx, f"#{newColor} has been set as the embed color!")
 
 	@commands.command()
 	@commands.has_permissions(manage_guild = True)
@@ -131,7 +128,7 @@ class Utility(commands.Cog):
 			del data[guildID]
 		else:
 			await sendMessage(ctx, "You don't have a color set!")
-		outFile = await writeFile("files/colors", data)
+		await writeFile("files/colors", data)
 		await sendMessage(ctx, f"Color has been reset!")
 
 	@commands.command()
@@ -394,8 +391,7 @@ class Utility(commands.Cog):
 		except:
 			pass
 		if time2 != None and length2 != None:
-			messageTime = f"{time}{length}{time2}{length2}"
-			await sendMessage(ctx, "Reminder", f"Reminding you in {int(time)}{length}{int(time2)}{length2}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
+			await sendMessage(ctx, "Reminder", f"Reminding you in {int(time)}{length}{int(time2)}{length2} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 		else:
 			await sendMessage(ctx, "Reminder", f"Reminding you in {int(time)}{length} to {reason}", footer = "Use d!reminders to view reminder, and d!removereminder to remove it")
 		if length == "":
@@ -444,7 +440,7 @@ class Utility(commands.Cog):
 					"channelID": ctx.channel.id,
 					"reason": reason
 			}}})	
-		updated = await Users.find_one({"_id": memberID})
+		await Users.find_one({"_id": memberID})
 		await remindLoopStart()
 
 	@commands.command()
@@ -528,7 +524,7 @@ class Utility(commands.Cog):
 		await ctx.trigger_typing()
 		data = await openFile("files/times")
 		data[str(ctx.author.id)] = (int(offset))
-		outFile = await writeFile("files/times", data)
+		await writeFile("files/times", data)
 		await sendMessage(ctx, f"UTC offset has been set to {offset}")
 
 	@commands.command()
@@ -571,7 +567,7 @@ class Utility(commands.Cog):
 				emojiN : role.name
 				})
 		await message.add_reaction(emoji)
-		outFile = await writeFile("files/reactionRoles", data)
+		await writeFile("files/reactionRoles", data)
 		await sendMessage(ctx, "Reaction Roles added!")
 	
 	@commands.command()
@@ -584,7 +580,7 @@ class Utility(commands.Cog):
 			await sendMessage(ctx, "That message has no reaction roles!")
 			return
 		data.pop(str(message.id))
-		outFile = await writeFile("files/reactionRoles", data)
+		await writeFile("files/reactionRoles", data)
 		await sendMessage(ctx, "Reaction roles has been removed!")
 
 def setup(bot):

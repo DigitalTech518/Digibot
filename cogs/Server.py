@@ -159,7 +159,26 @@ class Server(commands.Cog):
 		await ctx.trigger_typing()
 		embed = discord.Embed(title = "Server Info", color = ctx.bot.embedColor, description = ctx.guild.name)
 		embed.add_field(name = "Owner", value = ctx.guild.owner)
-		embed.add_field(name = "Member Count", value = ctx.guild.member_count)
+		bot = 0
+		user = 0
+		online = 0
+		idle = 0
+		dnd = 0
+		offline = 0
+		for member in ctx.guild.members:
+			if member.bot:
+				bot += 1
+			if not member.bot:
+				user += 1
+			if str(member.status) == "online":
+				online += 1
+			if str(member.status) == "idle":
+				idle += 1
+			if str(member.status) == "dnd":
+				dnd += 1
+			if str(member.status) == "offline":
+				offline += 1
+		embed.add_field(name = "Member Count", value = f"🧍 {user}\n🤖 {bot}\n<:status_online:739946716777807903> {online}\n<:status_idle:739946717402628126> {idle}\n<:status_dnd:739946717386113084> {dnd}\n<:status_offline:739946717251764304> {offline}")
 		roles = ""
 		for i in ctx.guild.roles:
 			roles += i.mention + " "
