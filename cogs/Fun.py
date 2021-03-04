@@ -12,9 +12,9 @@ from platform import system
 import ibl
 import motor.motor_asyncio
 try:
-	from Bot import sendMessage, muteLoopStart
+	from Bot import sendMessage, muteLoopStart, openFile
 except:
-	from Bot1 import sendMessage, muteLoopStart
+	from Bot1 import sendMessage, muteLoopStart, openFile
 
 class fun(commands.Cog):
 
@@ -25,14 +25,14 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def embed(self, ctx, title, *, description = None):
 		await ctx.trigger_typing()
-		if title > 256:
+		if len(title) > 256:
 			await sendMessage(ctx, "Please make your title less than 256 characters!")
-			return
-		if description > 2048:
-			await sendMessage(ctx, "Please make your description less than 2048 characters!")
 			return
 		if description == None:
 			description = ""
+		if len(description) > 2048:
+			await sendMessage(ctx, "Please make your description less than 2048 characters!")
+			return
 		embed = discord.Embed(title = title, description = description, color = self.bot.embedColor)
 		await ctx.message.reply(embed = embed)
 
@@ -52,7 +52,6 @@ class fun(commands.Cog):
 				async for user in reaction.users():
 					if not user.bot:
 						users.append(user.id)
-						print(users)
 		finaltime = random.randint(1, 60) * 60
 		member = ctx.guild.get_member(user_id = random.choice(users))
 		role = get(ctx.guild.roles, name = "Muted")

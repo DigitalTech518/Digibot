@@ -97,7 +97,7 @@ class Music(commands.Cog):
 			if str(ctx.guild.id) in data:
 				color = int(data[str(ctx.guild.id)]["color"], 16)
 			else:
-				color = embedColor
+				color = self.bot.embedColor
 		except:
 			color = ctx.bot.embedColor
 		if ctx.message.author.voice == None:
