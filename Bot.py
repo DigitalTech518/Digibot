@@ -790,15 +790,6 @@ async def on_member_ban(guild, user):
 #########################################################################################################################
 
 @client.command()
-@commands.cooldown(1, 5, commands.BucketType.user)
-async def embed(ctx, title, *, description = None):
-	await ctx.trigger_typing()
-	if description == None:
-		description = ""
-	embed = discord.Embed(title = title, description = description, color = embedColor)
-	await ctx.message.reply(embed = embed)
-
-@client.command()
 @commands.is_owner()
 async def reload(ctx, category):
 	await ctx.trigger_typing()
