@@ -13,9 +13,9 @@ from discord.utils import get
 from os import listdir
 from platform import system 
 try:
-	from Bot import sendMessage, sendLog, writeFile, openFile, pagination
+	from Bot import sendMessage, sendLog, writeFile, openFile, pagination, getLog
 except:
-	from Bot1 import sendMessage, sendLog, writeFile, openFile, pagination
+	from Bot1 import sendMessage, sendLog, writeFile, openFile, pagination, getLog
 
 with open("config.json") as jsonFile:
 	data = load(jsonFile)
@@ -181,12 +181,17 @@ class BOT(commands.Cog):
 	@commands.has_permissions(manage_roles = True)
 	@commands.guild_only()
 	@commands.cooldown(1, 5, commands.BucketType.user)
-	async def prefix(self, ctx, *, prefix = botPrefix):
+	async def prefix(self, ctx, *, prefix = None):
 		await ctx.trigger_typing()
 		data = await openFile("files/customprefix")
 		guildID = str(ctx.guild.id)
-		if prefix == botPrefix:
-			data.pop(guildID, None)
+		if prefix == None:
+			try:
+				await sendMessage(ctx, f"The current prefix is {data[guildID]}")
+				return
+			except:
+				await sendMessage(ctx, f"The current prefix is {ctx.bot.botPrefix}")
+				return
 		else:
 			data[guildID] = prefix
 		await writeFile("files/customprefix", data)

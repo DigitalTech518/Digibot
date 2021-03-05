@@ -181,12 +181,15 @@ class Server(commands.Cog):
 		embed.add_field(name = "Member Count", value = f"🧍 {user}\n🤖 {bot}\n<:status_online:739946716777807903> {online}\n<:status_idle:739946717402628126> {idle}\n<:status_dnd:739946717386113084> {dnd}\n<:status_offline:739946717251764304> {offline}")
 		roles = ""
 		for i in ctx.guild.roles:
-			roles += i.mention + " "
+			if str(i.name) == "@everyone":
+				roles += i.name + " "
+			else:
+				roles += i.mention + " "
 		if len(roles.split(" ")) <= 35:
 			embed.add_field(name = "Server Roles", value = roles)
 		else:
 			embed.add_field(name = "Amount of Server Roles", value = len(roles.split(" ")) - 1)
-		embed.add_field(name = "Max File Size", value = ctx.guild.filesize_limit / 1e+6)
+		embed.add_field(name = "Max File Size", value = round(ctx.guild.filesize_limit / 1e+6))
 		embed.add_field(name = "Booster Level", value = ctx.guild.premium_tier)
 		embed.add_field(name = "Amount of Boosters", value = ctx.guild.premium_subscription_count)
 		time = str(datetime.now()).split(".")[0]
