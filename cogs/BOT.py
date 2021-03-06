@@ -192,8 +192,8 @@ class BOT(commands.Cog):
 			except:
 				await sendMessage(ctx, f"The current prefix is {ctx.bot.botPrefix}")
 				return
-		else:
-			data[guildID] = prefix
+		elif prefix == "z!":
+			data.pop(guildID)
 		await writeFile("files/customprefix", data)
 		await sendMessage(ctx, "Prefix has been changed to:", prefix)
 		try:
@@ -252,7 +252,8 @@ class BOT(commands.Cog):
 		await ctx.trigger_typing()
 		data = await openFile("files/stats")
 		if command != None:
-			stats = data["Commands"][command]
+			command = self.bot.get_command(command)
+			stats = data["Commands"][command.name]
 			await sendMessage(ctx, f"The number of uses for {command}:", stats)
 			return
 		commandList = []

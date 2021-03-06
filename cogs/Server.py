@@ -18,6 +18,15 @@ class Server(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command()
+	@commands.guild_only()
+	@commands.has_permissions(manage_roles = True)
+	@commands.cooldown(1, 5, commands.BucketType.user)
+	async def addrole(self, ctx, member: discord.Member, role: discord.Role, reason = None):
+		await ctx.trigger_typing()
+		await member.add_roles(role, reason = reason)
+		await sendMessage(ctx, f"{role.name} has been added to {member.name}!")
+
 	@commands.command(aliases = ["aroles"])
 	@commands.guild_only()
 	@commands.has_permissions(manage_roles = True)
@@ -66,7 +75,7 @@ class Server(commands.Cog):
 		if not guildID in data:
 			data[guildID] = []
 		data[guildID].append(role) 
-		outFile = await writeFile("files/joinroles", data)
+		await writeFile("files/joinroles", data)
 		await sendMessage(ctx, f"{role} has been set as a join role!")
 		embed = discord.Embed(title = "Join role has been set.", description = f"The join role `{role}` has been set as a join role.", color = ctx.bot.embedColor)
 		await sendLog(ctx.guild.id, "server", embed)
@@ -111,7 +120,7 @@ class Server(commands.Cog):
 			if len(data[guildID]) < 1:
 				data.pop(guildID)
 			await sendMessage(ctx, f"Join role {int(roleNum) + 1} has been removed.")
-		outFile = await writeFile("files/joinroles", data)
+		await writeFile("files/joinroles", data)
 	
 	@commands.command()
 	@commands.has_permissions(manage_channels = True)
@@ -126,7 +135,7 @@ class Server(commands.Cog):
 		del(data[category][guildID])	
 		await sendMessage(ctx, f"Audit has been removed from {channel.name}.")
 		await sendMessage(await getLog(ctx.guild.id, "server"), f"Audit has been removed from {channel.name}.")
-		outFile = await writeFile("files/auditlog", data)
+		await writeFile("files/auditlog", data)
 
 	@commands.command(aliases = ["slow"])
 	@commands.has_permissions(manage_channels = True)

@@ -209,6 +209,15 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def bean(self, ctx, member, *, reason = None):
 		await ctx.trigger_typing()
+		if str(member) == str(self.bot.user.name) or str(member) == str(self.bot.user.mention) or str(member) == f"<@!{self.bot.user.id}>" or str(member) == str(self.bot.user.id):
+			responses = [
+				">:( don't try to bean me >:3",
+				"How dare you try to bean thee almighty!",
+				f"{ctx.author.name} has been beaned for reason: bitch"
+			]
+			reason = random.choice(responses)
+			await sendMessage(ctx, "Digibot has been attempted to be beaned", reason)
+			return
 		if reason == None:
 			reason = "No reason given"
 		await sendMessage(ctx, "User has been beaned!", f"{member} was beaned for reason: {reason}")
