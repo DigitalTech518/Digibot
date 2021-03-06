@@ -26,6 +26,23 @@ class BOT(commands.Cog):
 		self.bot = bot
 
 	@commands.command()
+	@commands.is_owner()
+	async def rules(self, ctx, rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, other, invite, roles):
+		embed = discord.Embed(title = "Rules", color = self.bot.embedColor)
+		embed.add_field(name = "Rule #1", value = rule1)
+		embed.add_field(name = "Rule #2", value = rule2)
+		embed.add_field(name = "Rule #3", value = rule3)
+		embed.add_field(name = "Rule #4", value = rule4)
+		embed.add_field(name = "Rule #5", value = rule5)
+		embed.add_field(name = "Rule #6", value = rule6)
+		embed.add_field(name = "Rule #7", value = rule7)
+		embed.add_field(name = "Rule #8", value = rule8)
+		embed.add_field(name = "Other", value = other)
+		embed.add_field(name = "Invite", value = invite)
+		embed.add_field(name = "Roles", value = roles)
+		await ctx.send(embed = embed)
+
+	@commands.command()
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def voted(self, ctx, member: discord.Member = None):
 		if member == None:

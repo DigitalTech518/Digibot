@@ -53,7 +53,11 @@ class fun(commands.Cog):
 					if not user.bot:
 						users.append(user.id)
 		finaltime = random.randint(1, 60) * 60
-		member = ctx.guild.get_member(user_id = random.choice(users))
+		if len(users) > 0:
+			member = ctx.guild.get_member(user_id = random.choice(users))
+		else:
+			await sendMessage(ctx, "No one reacted in time!")
+			return
 		role = get(ctx.guild.roles, name = "Muted")
 		await member.add_roles(role)
 		memberID = str(member.id)
