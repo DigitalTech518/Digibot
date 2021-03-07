@@ -100,19 +100,28 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def customcolor(self, ctx, color = None):
 		await ctx.trigger_typing()
-		match = search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color)
+		data = await openFile("files/colors")
+		guildID = str(ctx.guild.id)
+		try:
+			match = search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color)
+		except:
+			if color == None:
+				if guildID in data:
+					data.pop(guildID)
+					await sendMessage(ctx, "Color has been reset!")
+					await writeFile("files/colors", data)
+					return
+				else:
+					await sendMessage(ctx, "Enter a color to set my embeds!")
+					return
 		if match:
 			newColor = color.split("#")[1]
-			guildID = str(ctx.guild.id)
-			data = await openFile("files/colors")
 			if not guildID in data:
 				data[guildID] = {}
 			data[guildID]["color"] = newColor
 		else:
 			await sendMessage(ctx, "That isn't a valid hex color!")
 			return
-		if color == None:
-			data[guildID].remove("color")
 		await writeFile("files/colors", data)
 		await sendMessage(ctx, f"#{newColor} has been set as the embed color!")
 
@@ -213,7 +222,6 @@ class Utility(commands.Cog):
 				if str(name) in List:
 					if a != True:
 						y = x
-						Nname = nname
 					a = True
 		if a == False:
 			await sendMessage(ctx, "You do not have a note by that name!")
@@ -251,11 +259,9 @@ class Utility(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def notes(self, ctx, name = None):
 		member = ctx.author
-		print(member.id)
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = f"https://api.voidbots.net/bot/voted/781296717244399617/{member.id}", headers = {"content-type":"application/json", "Authorization": self.bot.voidToken}) as r:
 				data = await r.json()
-				print(data)
 				if data["voted"] == False:
 					await sendMessage(ctx, "This command is voted locked!", "Please vote [here](https://voidbots.net/bot/781296717244399617/vote) for access to this command!")
 					return
@@ -283,7 +289,6 @@ class Utility(commands.Cog):
 				if str(name) in List:
 					if a != True:
 						y = x
-						Nname = nname
 					a = True
 		if name == None:
 			Message = "\n".join(List)
@@ -334,7 +339,6 @@ class Utility(commands.Cog):
 				if str(name) in List:
 					if a != True:
 						y = x
-						Nname = nname
 					a = True
 		if a == False:
 			await Users.find_one_and_update({"_id": memberID}, {"$addToSet": {

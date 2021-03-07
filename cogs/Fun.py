@@ -40,6 +40,10 @@ class fun(commands.Cog):
 	@commands.cooldown(1, 1800, commands.BucketType.guild)
 	async def roulette(self, ctx):
 		await ctx.trigger_typing()
+		role = discord.utils.get(ctx.guild.roles, name='Muted')
+		if role == None:
+			await sendMessage(ctx, "You do not have a role by the name of `Muted`!", "Please make sure you have a role by this name, if you already have a muted role! If you do not have a muted role use `d!mrole` to make one!")
+			return
 		guildID = str(ctx.guild.id)
 		embed = discord.Embed(title = "Who shall get muted?!", description = "Each round lasts 30 minutes. React with <:sus:814323979762139167> to enter the roulette match (could be muted anywhere from 1 minute to 1 hour) >:3", color = self.bot.embedColor)
 		message = await ctx.message.reply(mention_author = False, embed = embed)
@@ -58,7 +62,6 @@ class fun(commands.Cog):
 		else:
 			await sendMessage(ctx, "No one reacted in time!")
 			return
-		role = get(ctx.guild.roles, name = "Muted")
 		await member.add_roles(role)
 		memberID = str(member.id)
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)

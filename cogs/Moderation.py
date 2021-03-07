@@ -9,9 +9,9 @@ from discord.utils import get
 from re import search, findall
 import motor.motor_asyncio
 try:
-	from Bot import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop
+	from Bot import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop, getLog
 except:
-	from Bot1 import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop
+	from Bot1 import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop, getLog
 
 class Moderation(commands.Cog):
 	def __init__(self, bot):
@@ -36,7 +36,6 @@ class Moderation(commands.Cog):
 		secondModpingMods = []
 		secondTemp = []
 		thirdModpingMods = []
-		thirdTemp = []
 		allMods = []
 		modRoles = doc["modrole"]
 		###################
@@ -227,26 +226,42 @@ class Moderation(commands.Cog):
 	@commands.guild_only()
 	async def permamute(self, ctx, member: discord.Member, *, reason = "no reason"):
 		await ctx.trigger_typing()
-		data = await openFile("files/mutes")
+		role = discord.utils.get(member.guild.roles, name='Muted')
+		if role == None:
+			await sendMessage(ctx, "You do not have a role by the name of `Muted`!", "Please make sure you have a role by this name, if you already have a muted role! If you do not have a muted role use `d!mrole` to make one!")
+			return
 		guildID = str(ctx.guild.id)
 		memberID = str(member.id)
-		if not guildID in data:
-			data[guildID] = {}
-		if not memberID in data[guildID]:
-			data[guildID][memberID] = []
-		data[guildID][memberID].append({
-			"name": str(member),
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await Guilds.insert_one({"_id": guildID})
+			doc = await Guilds.find_one({"_id": guildID})
+		if not "Mutes" in doc:
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": {
+				"Mutes": {}
+				}})
+			doc = await Guilds.find_one({"_id": guildID})
+		if not memberID in doc["Mutes"]:
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": {
+				"Mutes": {
+					memberID : []
+				}
+				}})
+			doc = await Guilds.find_one({"_id": guildID})	
+		doc["Mutes"][memberID].append({
+			"moderator responsible": str(ctx.author.id),
 			"reason": reason,
 			"date": str(ctx.message.created_at).split('.')[0]
 			})
-		role = discord.utils.get(member.guild.roles, name='Muted')
+		await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})
 		await member.add_roles(role)
 		await sendMessage(ctx, "Member was muted.", f"{member.mention} was muted. ({reason})")
 		try:
 			await sendMessage(await getLog(ctx.guild.id, "moderation"), "Member was permamuted", f"{member.mention} was permamuted. ({reason})", None, f"Moderator Responsible: {ctx.author.id}")
 		except:
 			pass
-		outFile = await writeFile("files/mutes", data)
 
 	@commands.command()
 	@commands.has_permissions(manage_messages = True)
@@ -280,6 +295,10 @@ class Moderation(commands.Cog):
 	@commands.guild_only()
 	async def mute(self, ctx, member: discord.Member, mute_time = "5", *, reason = "no reason"):
 		await ctx.trigger_typing()
+		role = discord.utils.get(member.guild.roles, name='Muted')
+		if role == None:
+			await sendMessage(ctx, "You do not have a role by the name of `Muted`!", "Please make sure you have a role by this name, if you already have a muted role! If you do not have a muted role use `d!mrole` to make one!")
+			return
 		m = findall(r"([\d.]+)([smhdwy]?)", mute_time)
 		try:
 			time = float(m[0][0])
@@ -327,7 +346,6 @@ class Moderation(commands.Cog):
 				finaltime2 = time2 * 60
 			timeA = f"{int(time)}{length}{int(time2)}{length2}"
 		finaltime = finaltime + finaltime2
-		role = discord.utils.get(ctx.guild.roles, name="Muted")
 		guildID = str(ctx.guild.id)
 		memberID = str(member.id)
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
@@ -433,7 +451,6 @@ class Moderation(commands.Cog):
 	@commands.guild_only()
 	async def pardonwarn(self, ctx, member: discord.Member, number):
 		await ctx.trigger_typing()
-		data = await openFile("files/warns")
 		guildID = str(ctx.guild.id)
 		memberID = str(member.id)
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
@@ -488,8 +505,7 @@ class Moderation(commands.Cog):
 			return
 		elif "Muted" not in roles:
 			role = await ctx.guild.create_role(name = "Muted", permissions = discord.Permissions(send_messages = False), color = discord.Color(ctx.bot.mutedColor))
-			channels = ctx.guild.text_channels
-			for channels in channels:
+			for channels in ctx.guild.text_channels:
 				await channels.set_permissions(role, send_messages=False, add_reactions = False)
 			vChannels = ctx.guild.voice_channels
 			for channels in vChannels:
