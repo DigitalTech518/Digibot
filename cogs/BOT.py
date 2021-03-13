@@ -137,7 +137,7 @@ class BOT(commands.Cog):
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def support(self,ctx, *, message): 
 		await ctx.trigger_typing()
-		channel = ctx.bot.get_channel(798389844433829888)
+		channel = ctx.bot.get_channel(818669946275233852)
 		await sendMessage(channel, f"Support Requested!\n**UserID:** {ctx.message.author.id}\n**Username:** {ctx.message.author.name}#{ctx.message.author.discriminator}", f"**Message:** {str(message)}", message = "<@577640430683029514>")
 		await sendMessage(ctx, "Message has been sent!", "You'll recieve support as soon as possible.")
 	

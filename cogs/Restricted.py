@@ -84,7 +84,7 @@ class Restricted(commands.Cog):
 	@commands.is_owner()
 	async def dm(self, ctx, user: discord.User, *, message):
 		await ctx.trigger_typing()
-		await sendDM(user, "Message has been sent by Digi", f"**Message:** {message}", footer = "Use d!support to respond back!")
+		await sendDM(user, description = f"**Message:** {message}", footer = "Use d!support to respond back!")
 		await sendMessage(ctx, f"Dm has been sent to {user.name}.", f"Message: {message}")
 	
 	@commands.command()
