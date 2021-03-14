@@ -9,9 +9,9 @@ from discord.utils import get
 from re import search, findall
 import motor.motor_asyncio
 try:
-	from Bot import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop, getLog
+	from Bot import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop, getLog, pagination
 except:
-	from Bot1 import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop, getLog
+	from Bot1 import sendMessage, sendLog, writeFile, openFile, removeMutes, muteLoopStart, muteLoop, getLog, pagination
 
 class Moderation(commands.Cog):
 	def __init__(self, bot):
@@ -218,7 +218,33 @@ class Moderation(commands.Cog):
 	@commands.guild_only()
 	async def ban(self, ctx, member:discord.Member, *, reason = 'No reason given'):
 		await ctx.trigger_typing()
-		await member.ban(reason = reason)        
+		await member.ban(reason = reason)   
+		guildID = str(ctx.guild.id)
+		memberID = str(member.id)
+		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
+		Guilds = cluster["bot"]["Guilds"]
+		doc = await Guilds.find_one({"_id": guildID})
+		if not doc:
+			await Guilds.insert_one({"_id": guildID})
+			doc = await Guilds.find_one({"_id": guildID})
+		if not "Bans" in doc:
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": {
+				"Bans": {}
+				}})
+			doc = await Guilds.find_one({"_id": guildID})
+		if not memberID in doc["Bans"]:
+			await Guilds.find_one_and_update({"_id": guildID}, {"$set": {
+				"Bans": {
+					memberID : []
+				}
+				}})
+			doc = await Guilds.find_one({"_id": guildID})	
+		doc["Bans"][memberID].append({
+			"moderator responsible": str(ctx.author.id),
+			"reason": reason,
+			"date": str(ctx.message.created_at).split('.')[0]
+			})
+		await Guilds.find_one_and_update({"_id": guildID}, {"$set": doc})     
 		await sendMessage(ctx, "Member was banned", f"{member.mention} was banned from the server. ({reason})")
 
 	@commands.command()
@@ -582,6 +608,7 @@ class Moderation(commands.Cog):
 		memberID = str(user.id)
 		cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
 		Guilds = cluster["bot"]["Guilds"]
+		recordEmbeds = []
 		####################################################
 		doc = await Guilds.find_one({"_id": guildID})
 		Notes = []
@@ -593,9 +620,9 @@ class Moderation(commands.Cog):
 					Notes.append(f'**Note:** {note["Note:"]}')
 					Notes.append("- - - - - - - - - - - - - - - - - - - -")
 		if len(Notes) >= 1:
-			NoteList = "\n".join(Notes) 
-		else:
-			NoteList = "None"
+			NoteList = "\n".join(Notes)
+			embed = discord.Embed(title = "Modnotes", description = NoteList, color = ctx.bot.embedColor)
+			recordEmbeds.append(embed) 
 		####################################################
 		doc = await Guilds.find_one({"_id": guildID})
 		Mutes = []
@@ -605,12 +632,15 @@ class Moderation(commands.Cog):
 					Mutes.append(f'**Moderator Responsible:** {mute["moderator responsible"]}')
 					Mutes.append(f'**Reason:** {mute["reason"]}')
 					Mutes.append(f'**Date:** {mute["date"]}')
-					Mutes.append(f'**Length:** {mute["length"]}')
+					try:
+						Mutes.append(f'**Length:** {mute["length"]}')
+					except:
+						pass
 					Mutes.append("- - - - - - - - - - - - - - - - - - - -")
 		if len(Mutes) >= 1:
 			muteList = "\n".join(Mutes)
-		else:
-			muteList = "None"
+			embed = discord.Embed(title = "Mutes", description = muteList, color = ctx.bot.embedColor)
+			recordEmbeds.append(embed)
 		####################################################
 		doc = await Guilds.find_one({"_id": guildID})
 		Warns = []
@@ -623,10 +653,24 @@ class Moderation(commands.Cog):
 					Warns.append("- - - - - - - - - - - - - - - - - - - -")
 		if len(Warns) >= 1:
 			warnList = "\n".join(Warns)
-		else:
-			warnList = "None"
+			embed = discord.Embed(title = "Warns", description = warnList, color = ctx.bot.embedColor)
+			recordEmbeds.append(embed)
 		####################################################
-		await sendMessage(ctx,f"Records for {user.name}", f"***Notes:***\n{str(NoteList)}\n***Mutes:***\n{str(muteList)}\n***Warns:***\n{str(warnList)}")
+		doc = await Guilds.find_one({"_id": guildID})
+		bans = []
+		if "Bans" in doc:
+			if memberID in doc["Bans"]:
+				for ban in doc["Bans"][memberID]:
+					bans.append(f'**Moderator Responsible:** {ban["moderator responsible"]}')
+					bans.append(f'**Reason:** {ban["reason"]}')
+					bans.append(f'**Date:** {ban["date"]}')
+					bans.append("- - - - - - - - - - - - - - - - - - - -")
+		if len(bans) >= 1:
+			banList = "\n".join(bans)
+			embed = discord.Embed(title = "Bans", description = banList, color = ctx.bot.embedColor)
+			recordEmbeds.append(embed)
+		####################################################
+		await pagination(ctx.message, recordEmbeds, True)
 
 def setup(bot):
 	bot.add_cog(Moderation(bot))

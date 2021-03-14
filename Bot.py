@@ -9,7 +9,7 @@ from re import search, findall
 import discord
 import random
 from discord.utils import get
-from os import listdir
+from os import listdir, environ
 from platform import system
 import ibl
 import logging
@@ -34,12 +34,10 @@ with open("config.json") as jsonFile:
 token = data["tokens"]["botToken"]
 voidToken = data["tokens"]["voidToken"]
 spaceToken = data["tokens"]["spaceToken"]
-statKey = data["tokens"]["statKey"]
 botPrefix = data["prefix"]
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = commands.when_mentioned_or(botPrefix), intents = intents)
 client.token = data["tokens"]["botToken"]
-client.statKey = statKey
 client.voidToken = data["tokens"]["voidToken"]
 client.spaceToken = spaceToken
 client.botPrefix = data["prefix"]
@@ -368,11 +366,18 @@ async def on_ready():
 	create_task(remindLoopStart())
 	create_task(muteLoopStart())
 	await statusRefreash()
+	environ["JISHAKU_NO_UNDERSCORE"] = "true"
+	client.load_extension('jishaku')
 
-@tasks.loop(minutes = 30)
+@tasks.loop(minutes = 5)
 async def statusRefreash():
-	await client.wait_until_ready()
 	await client.change_presence(activity = discord.Activity(name = f"{len(client.guilds)} servers. d!help", type = discord.ActivityType.listening))
+
+@client.command()
+@commands.is_owner()
+async def test(ctx):
+	command = client.get_command("suggestion")
+	print(command.description)
 
 partial_run = partial(app.run, host="0.0.0.0", debug=False, use_reloader=False)
 @app.route("/")
@@ -505,42 +510,50 @@ async def on_message(message):
 	cluster = motor.motor_asyncio.AsyncIOMotorClient("localhost", 27017)
 	Users = cluster["bot"]["Users"]
 	for user in message.mentions:
-		memberID = str(user.id)
-		doc = await Users.find_one({"_id": memberID})
-		if doc:
-			if "afk" in doc:
-				afkReason = doc["afk"]
-				if not "pings" in doc:
-					await Users.find_one_and_update({"_id": memberID}, {"$set": {
-							"pings": []
-							}})
-					doc = await Users.find_one({"_id": memberID})
-				if not f"{message.author.name} pinged you" in str(doc["pings"]):
-					doc = await Users.find_one({"_id": memberID})
-					doc["pings"].append(f"{message.author.name} pinged you")
-					await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
-					doc = await Users.find_one({"_id": memberID})
-					if not "afkCount" in doc:
+		if message.guild:
+			memberID = str(user.id)
+			pingUser = str(message.author.id)
+			doc = await Users.find_one({"_id": memberID})
+			if doc:
+				if "afk" in doc:
+					afkReason = doc["afk"]
+					if not "pings" in doc:
 						await Users.find_one_and_update({"_id": memberID}, {"$set": {
-							"afkCount": 0
-							}})
+								"pings": {}
+								}})
 						doc = await Users.find_one({"_id": memberID})
-					if "afkCount" in doc:
-						await Users.find_one_and_update({"_id": memberID}, {"$set": {
-							"afkCount": doc["afkCount"] + 1
-							}})
+					if pingUser in doc["pings"]:
+						doc["pings"][pingUser].append(f"[message](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})")
+						await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
+					if not pingUser in doc["pings"]:
+						doc["pings"][pingUser] = []
+						doc["pings"][pingUser].append(f"{message.author.name} pinged you, [message](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})")
+						await Users.find_one_and_update({"_id": memberID}, {"$set": doc})
 						doc = await Users.find_one({"_id": memberID})
-				embed = discord.Embed(title = f"{user.name} is afk!", description = f"Reason:\n{afkReason}", color = embedColor)
-				afkMessage = await message.channel.send(embed = embed)
-				await sleep(2.5)
-				await afkMessage.delete()
+						if not "afkCount" in doc:
+							await Users.find_one_and_update({"_id": memberID}, {"$set": {
+								"afkCount": 0
+								}})
+							doc = await Users.find_one({"_id": memberID})
+						if "afkCount" in doc:
+							await Users.find_one_and_update({"_id": memberID}, {"$set": {
+								"afkCount": doc["afkCount"] + 1
+								}})
+							doc = await Users.find_one({"_id": memberID})
+					embed = discord.Embed(title = f"{user.name} is afk!", description = f"Reason:\n{afkReason}", color = embedColor)
+					afkMessage = await message.channel.send(embed = embed)
+					await sleep(2.5)
+					await afkMessage.delete()
 	memberID = str(message.author.id)
 	doc = await Users.find_one({"_id": memberID})
 	if doc:
 		if "afk" in doc:
 			doc.pop("afk")
 			try:
-				Pinglist = "\n".join(doc["pings"])
+				Pinglist = []
+				for pingUserID in doc["pings"]:
+					Pinglist.append(" ".join(doc["pings"][pingUserID]))
+				pingMessage = "\n".join(Pinglist)
 				pingCount = int(doc["afkCount"])
 				doc.pop("afkCount")
 				doc.pop("pings")
@@ -552,7 +565,7 @@ async def on_message(message):
 			if Pinglist == None:
 				await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", message = "You are no longer afk!")
 			else:
-				await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", Pinglist, message = "You are no longer afk!")
+				await sendMessage(message.channel, f"{pingCount} user(s) pinged you while you were away!", pingMessage, message = "You are no longer afk!")
 	await client.process_commands(message)
 
 #########################################################################################################################

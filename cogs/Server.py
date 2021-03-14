@@ -198,7 +198,7 @@ class Server(commands.Cog):
 			embed.add_field(name = "Server Roles", value = roles)
 		else:
 			embed.add_field(name = "Amount of Server Roles", value = len(roles.split(" ")) - 1)
-		embed.add_field(name = "Max File Size", value = round(ctx.guild.filesize_limit / 1e+6))
+		embed.add_field(name = "Max File Size", value = f"{round(ctx.guild.filesize_limit / 1e+6)}MB")
 		embed.add_field(name = "Booster Level", value = ctx.guild.premium_tier)
 		embed.add_field(name = "Amount of Boosters", value = ctx.guild.premium_subscription_count)
 		time = str(datetime.now()).split(".")[0]

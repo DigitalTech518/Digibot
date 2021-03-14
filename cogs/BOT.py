@@ -110,7 +110,7 @@ class BOT(commands.Cog):
 			await suggestion.edit(embed = e)
 		await ctx.message.reply("Suggestion approved!", mention_author = False)
 
-	@commands.command(aliases = ["suggest"])
+	@commands.command(aliases = ["suggest"], description = "ijdfoiasjodfd", usage = "fuck you bitch")
 	@commands.cooldown(1, 5, commands.BucketType.user)
 	async def suggestion(self, ctx, *, suggestion):
 		channel = self.bot.get_channel(812856404595310673)
